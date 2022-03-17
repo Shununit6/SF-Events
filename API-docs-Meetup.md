@@ -1182,6 +1182,7 @@ Creates and returns a new event for a group specified by its id
       "type": "Online",
       "capacity": 10,
       "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
       "startDate": "2021-11-19 20:00:00",
       "endDate": "2021-11-19 21:00:00",
     }
@@ -1202,6 +1203,7 @@ Creates and returns a new event for a group specified by its id
       "type": "Online",
       "capacity": 10,
       "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
       "startDate": "2021-11-19 20:00:00",
       "endDate": "2021-11-19 21:00:00",
     }
@@ -1224,8 +1226,22 @@ Creates and returns a new event for a group specified by its id
         "capacity": "Capacity must be an integer",
         "price": "Price is invalid",
         "description": "Description is required",
+        "startDate": "Start date must be in the future",
         "endDate": "End date is less than start date",
       }
+    }
+    ```
+
+* Error response: Couldn't find a Venue with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Venue couldn't be found",
+      "statusCode": 404
     }
     ```
 
@@ -1250,6 +1266,7 @@ Edit and returns an event specified by its id
       "type": "Online",
       "capacity": 10,
       "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
       "startDate": "2021-11-19 20:00:00",
       "endDate": "2021-11-19 21:00:00",
     }
@@ -1270,6 +1287,7 @@ Edit and returns an event specified by its id
       "type": "Online",
       "capacity": 10,
       "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
       "startDate": "2021-11-19 20:00:00",
       "endDate": "2021-11-19 21:00:00",
     }
@@ -1292,8 +1310,35 @@ Edit and returns an event specified by its id
         "capacity": "Capacity must be an integer",
         "price": "Price is invalid",
         "description": "Description is required",
+        "startDate": "Start date must be in the future",
         "endDate": "End date is less than start date",
       }
+    }
+    ```
+
+* Error response: Couldn't find a Venue with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Venue couldn't be found",
+      "statusCode": 404
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found",
+      "statusCode": 404
     }
     ```
 
@@ -1318,6 +1363,19 @@ Delete an event specified by its id
     ```json
     {
       "message": "Successfully deleted"
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found",
+      "statusCode": 404
     }
     ```
 
@@ -1370,9 +1428,9 @@ Returns the attendees of an event specified by its id.
     }
     ```
 
-* Successful Response: If you ARE the organizer of the group or a member of the
-  group with a status of "co-host". Shows all members that don't have a status
-  of "pending".
+* Successful Response: If you ARE NOT the organizer of the group or a member of 
+  the group with a status of "co-host". Shows all members that don't have a 
+  status of "pending".
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
@@ -1558,7 +1616,7 @@ Change the status of an attendance for an event specified by id.
 
 ## Delete attendance to an event specified by id
 
-Delete a attendance to a event specified by id.
+Delete an attendance to an event specified by id.
 
 * Require Authentication: true
 * Require proper authorization: Current User must be the host of the group, or

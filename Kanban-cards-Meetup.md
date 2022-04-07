@@ -411,7 +411,8 @@ Create and return a new image for a group specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the organizer of the group is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `itemId`, `itemType`, and `url`
+- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and 
+  `url`
 - [ ] Error response with status 404 is given when a group does not exist with 
   the provided `id`
 
@@ -423,7 +424,8 @@ Create and return a new image for an event specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only an attendee of the event is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `itemId`, `itemType`, and `url`
+- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and 
+  `url`
 - [ ] Error response with status 404 is given when an event does not exist with 
   the provided `id`
 

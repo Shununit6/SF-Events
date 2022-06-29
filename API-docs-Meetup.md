@@ -1232,7 +1232,7 @@ Creates and returns a new event for a group specified by its id
     }
     ```
 
-* Error response: Couldn't find a Venue with the specified id
+* Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1240,7 +1240,7 @@ Creates and returns a new event for a group specified by its id
 
     ```json
     {
-      "message": "Venue couldn't be found",
+      "message": "Group couldn't be found",
       "statusCode": 404
     }
     ```

@@ -191,6 +191,9 @@ Change the status of a membership for a group specified by id.
   the provided `id`
 - [ ] Error response with status 403 is given when changing the status to 
   "co-host" when the current user is not the group organizer
+- [ ] Error response with status 403 is given when changing the status to 
+  "member" when the current user is not the group organizer
+  or a co-host
 - [ ] Error response with status 400 is given when changing the status to 
   "pending"
 - [ ] Error response with status 404 is given when a membership between the user
@@ -208,6 +211,10 @@ Delete a membership to a group specified by id.
 - [ ] Success response includes a `message` indicating a successful deletion
 - [ ] Error response with status 404 is given when a group does not exist with 
   the provided `id`
+- [ ] Error response with status 404 is given when a member does not exist with 
+  the provided `id`
+- [ ] Error response with status 403 is given when a request is made to delete 
+  another user's membership when the current user is not the group organizer
 
 
 ### Get all Events
@@ -387,6 +394,8 @@ Change the status of an attendance for an event specified by id.
   the provided `id`
 - [ ] Error response with status 400 is given when changing the status to 
   "pending"
+- [ ] Error response with status 403 is given when changing the status to 
+  "member" when the current user is not the organizer or a co-host
 - [ ] Error response with status 404 is given when an attendance between the 
   user and event does not exist
 
@@ -402,6 +411,10 @@ Delete an attendance to an event specified by id.
 - [ ] Success response includes a `message` indicating a successful deletion
 - [ ] Error response with status 404 is given when a group does not exist with 
   the provided `id`
+- [ ] Error response with status 404 is given when a member does not exist with 
+  the provided `id`
+- [ ] Error response with status 403 is given when a request is made to delete 
+  another user's membership when the current user is not the group organizer
 
 
 ### Add an Image to a Group based on the Group's id

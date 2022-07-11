@@ -6,7 +6,9 @@
 
 ## API Documentation
 
-## All endpoints that require authentication
+## FEATURE 0: USER AUTHORIZATION
+
+### All endpoints that require authentication
 
 All endpoints that require a current user to be logged in.
 
@@ -24,7 +26,7 @@ All endpoints that require a current user to be logged in.
     }
     ```
 
-## All endpoints that require proper authorization
+### All endpoints that require proper authorization
 
 All endpoints that require authentication and the current user does not have the
 correct role(s) or permission(s).
@@ -43,7 +45,7 @@ correct role(s) or permission(s).
     }
     ```
 
-## Get the Current User
+### Get the Current User
 
 Returns the information about the current user that is logged in.
 
@@ -68,7 +70,7 @@ Returns the information about the current user that is logged in.
     }
     ```
 
-## Log In a User
+### Log In a User
 
 Logs in a current user with valid credentials and returns the current user's
 information.
@@ -134,7 +136,7 @@ information.
     }
     ```
 
-## Sign Up a User
+### Sign Up a User
 
 Creates a new user, logs them in as the current user, and returns the current
 user's information.
@@ -205,8 +207,9 @@ user's information.
       }
     }
     ```
+## FEATURE 1, PART 1: GROUPS FEATURE
 
-## Get all Groups
+### Get all Groups
 
 Returns all the groups.
 
@@ -243,7 +246,7 @@ Returns all the groups.
     }
     ```
 
-## Get all Groups joined or organized by the Current User
+### Get all Groups joined or organized by the Current User
 
 Returns all the groups.
 
@@ -280,7 +283,7 @@ Returns all the groups.
     }
     ```
 
-## Get details of a Group from an id
+### Get details of a Group from an id
 
 Returns the details of a group specified by its id.
 
@@ -333,7 +336,7 @@ Returns the details of a group specified by its id.
     }
     ```
 
-## Create a Group
+### Create a Group
 
 Creates and returns a new group.
 
@@ -373,7 +376,7 @@ Creates and returns a new group.
       "city": "New York",
       "state": "NY",
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36" 
+      "updatedAt": "2021-11-19 20:39:36"
     }
     ```
 
@@ -398,7 +401,7 @@ Creates and returns a new group.
     }
     ```
 
-## Edit a Group
+### Edit a Group
 
 Updates and returns an existing group.
 
@@ -439,7 +442,7 @@ Updates and returns an existing group.
       "city": "New York",
       "state": "NY",
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40" 
+      "updatedAt": "2021-11-20 10:06:40"
     }
     ```
 
@@ -477,7 +480,7 @@ Updates and returns an existing group.
     }
     ```
 
-## Delete a Group
+### Delete a Group
 
 Deletes an existing group.
 
@@ -497,7 +500,7 @@ Deletes an existing group.
     ```json
     {
       "message": "Successfully deleted",
-      "statusCode": 200 
+      "statusCode": 200
     }
     ```
 
@@ -514,7 +517,9 @@ Deletes an existing group.
     }
     ```
 
-## Get all Members of a Group specified by its id
+## FEATURE 1, PART 2: MEMBERSHIPS FEATURE
+
+### Get all Members of a Group specified by its id
 
 Returns the members of a group specified by its id.
 
@@ -605,7 +610,7 @@ Returns the members of a group specified by its id.
     }
     ```
 
-## Request a Membership for a Group based on the Group's id
+### Request a Membership for a Group based on the Group's id
 
 Request a new membership for a group specified by id.
 
@@ -671,7 +676,7 @@ Request a new membership for a group specified by id.
     }
     ```
 
-## Change the status of a membership for a group specified by id
+### Change the status of a membership for a group specified by id
 
 Change the status of a membership for a group specified by id.
 
@@ -774,7 +779,7 @@ Change the status of a membership for a group specified by id.
     }
     ```
 
-## Delete membership to a group specified by id
+### Delete membership to a group specified by id
 
 Delete a membership to a group specified by id.
 
@@ -845,205 +850,9 @@ Delete a membership to a group specified by id.
     }
     ```
 
-## Get all Events
+## FEATURE 2: VENUES FEATURE
 
-Returns all the events.
-
-* Require Authentication: false
-* Request
-  * Method: ?
-  * URL: ?
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "Events": [
-        {
-          "id": 1,
-          "groupId": 1,
-          "venueId": null,
-          "name": "Tennis Group First Meet and Greet",
-          "type": "Online",
-          "startDate": "2021-11-19 20:00:00",
-          "numAttending": 8,
-          "previewImage": "image url",
-          "Group": {
-            "id": 1,
-            "name": "Evening Tennis on the Water",
-            "city": "New York",
-            "state": "NY"
-          },
-          "Venue": null,
-        },
-        {
-          "id": 1,
-          "groupId": 1,
-          "venueId": 1,
-          "name": "Tennis Singles",
-          "type": "In Person",
-          "startDate": "2021-11-20 20:00:00",
-          "numAttending": 4,
-          "previewImage": "image url",
-          "Group": {
-            "id": 1,
-            "name": "Evening Tennis on the Water",
-            "city": "New York",
-            "state": "NY"
-          },
-          "Venue": {
-            "id": 1,
-            "city": "New York",
-            "state": "NY",
-          },
-        },
-      ]
-    }
-    ```
-
-## Get all Events of a Group specified by its id
-
-Returns all the events of a group specified by its id
-
-* Require Authentication: false
-* Request
-  * Method: ?
-  * URL: ?
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "Events": [
-        {
-          "id": 1,
-          "groupId": 1,
-          "venueId": null,
-          "name": "Tennis Group First Meet and Greet",
-          "type": "Online",
-          "startDate": "2021-11-19 20:00:00",
-          "numAttending": 8,
-          "previewImage": "image url",
-          "Group": {
-            "id": 1,
-            "name": "Evening Tennis on the Water",
-            "city": "New York",
-            "state": "NY"
-          },
-          "Venue": null,
-        },
-        {
-          "id": 1,
-          "groupId": 1,
-          "venueId": 1,
-          "name": "Tennis Singles",
-          "type": "In Person",
-          "startDate": "2021-11-20 20:00:00",
-          "numAttending": 4,
-          "previewImage": "image url",
-          "Group": {
-            "id": 1,
-            "name": "Evening Tennis on the Water",
-            "city": "New York",
-            "state": "NY"
-          },
-          "Venue": {
-            "id": 1,
-            "city": "New York",
-            "state": "NY",
-          },
-        },
-      ]
-    }
-    ```
-
-* Error response: Couldn't find a Group with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Group couldn't be found",
-      "statusCode": 404
-    }
-    ```
-
-## Get details of an Event specified by its id
-
-Returns the details of an event specified by its id.
-
-* Require Authentication: false
-* Request
-  * Method: ?
-  * URL: ?
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "id": 1,
-      "groupId": 1,
-      "venueId": 1,
-      "name": "Tennis Group First Meet and Greet",
-      "description": "First meet and greet event for the evening tennis on the water group! Join us online for happy times!",
-      "type": "Online",
-      "capacity": 10,
-      "price": 18.50,
-      "startDate": "2021-11-19 20:00:00",
-      "endDate": "2021-11-19 21:00:00",
-      "numAttending": 8,
-      "Group": {
-        "id": 1,
-        "name": "Evening Tennis on the Water",
-        "private": true,
-        "city": "New York",
-        "state": "NY"
-      },
-      "Venue": {
-        "id": 1,
-        "address": "123 Disney Lane",
-        "city": "New York",
-        "state": "NY",
-        "lat": 37.7645358,
-        "lng": -122.4730327,
-      },
-      "images": [
-        "image url"
-      ]
-    }
-    ```
-
-* Error response: Couldn't find a Event with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Event couldn't be found",
-      "statusCode": 404
-    }
-    ```
-
-## Create a new Venue for a Group specified by its id
+### Create a new Venue for a Group specified by its id
 
 Creates and returns a new venue for a group specified by its id
 
@@ -1118,7 +927,7 @@ Creates and returns a new venue for a group specified by its id
     }
     ```
 
-## Edit a Venue specified by its id
+### Edit a Venue specified by its id
 
 Edit a new venue specified by its id
 
@@ -1193,7 +1002,208 @@ Edit a new venue specified by its id
     }
     ```
 
-## Create an Event for a Group specified by its id
+## FEATURE 3, Part 1: EVENTS FEATURE
+
+### Get all Events
+
+Returns all the events.
+
+* Require Authentication: false
+* Request
+  * Method: ?
+  * URL: ?
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Events": [
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": null,
+          "name": "Tennis Group First Meet and Greet",
+          "type": "Online",
+          "startDate": "2021-11-19 20:00:00",
+          "numAttending": 8,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": null,
+        },
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": 1,
+          "name": "Tennis Singles",
+          "type": "In Person",
+          "startDate": "2021-11-20 20:00:00",
+          "numAttending": 4,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": {
+            "id": 1,
+            "city": "New York",
+            "state": "NY",
+          },
+        },
+      ]
+    }
+    ```
+
+### Get all Events of a Group specified by its id
+
+Returns all the events of a group specified by its id
+
+* Require Authentication: false
+* Request
+  * Method: ?
+  * URL: ?
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Events": [
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": null,
+          "name": "Tennis Group First Meet and Greet",
+          "type": "Online",
+          "startDate": "2021-11-19 20:00:00",
+          "numAttending": 8,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": null,
+        },
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": 1,
+          "name": "Tennis Singles",
+          "type": "In Person",
+          "startDate": "2021-11-20 20:00:00",
+          "numAttending": 4,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": {
+            "id": 1,
+            "city": "New York",
+            "state": "NY",
+          },
+        },
+      ]
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found",
+      "statusCode": 404
+    }
+    ```
+
+### Get details of an Event specified by its id
+
+Returns the details of an event specified by its id.
+
+* Require Authentication: false
+* Request
+  * Method: ?
+  * URL: ?
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "groupId": 1,
+      "venueId": 1,
+      "name": "Tennis Group First Meet and Greet",
+      "description": "First meet and greet event for the evening tennis on the water group! Join us online for happy times!",
+      "type": "Online",
+      "capacity": 10,
+      "price": 18.50,
+      "startDate": "2021-11-19 20:00:00",
+      "endDate": "2021-11-19 21:00:00",
+      "numAttending": 8,
+      "Group": {
+        "id": 1,
+        "name": "Evening Tennis on the Water",
+        "private": true,
+        "city": "New York",
+        "state": "NY"
+      },
+      "Venue": {
+        "id": 1,
+        "address": "123 Disney Lane",
+        "city": "New York",
+        "state": "NY",
+        "lat": 37.7645358,
+        "lng": -122.4730327,
+      },
+      "images": [
+        "image url"
+      ]
+    }
+    ```
+
+* Error response: Couldn't find a Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found",
+      "statusCode": 404
+    }
+    ```
+
+
+### Create an Event for a Group specified by its id
 
 Creates and returns a new event for a group specified by its id
 
@@ -1277,7 +1287,7 @@ Creates and returns a new event for a group specified by its id
     }
     ```
 
-## Edit an Event specified by its id
+### Edit an Event specified by its id
 
 Edit and returns an event specified by its id
 
@@ -1374,7 +1384,7 @@ Edit and returns an event specified by its id
     }
     ```
 
-## Delete an Event specified by its id
+### Delete an Event specified by its id
 
 Delete an event specified by its id
 
@@ -1411,7 +1421,9 @@ Delete an event specified by its id
     }
     ```
 
-## Get all Attendees of an Event specified by its id
+## FEATURE 3, PART 2: ATTENDEES FEATURE
+
+### Get all Attendees of an Event specified by its id
 
 Returns the attendees of an event specified by its id.
 
@@ -1460,8 +1472,8 @@ Returns the attendees of an event specified by its id.
     }
     ```
 
-* Successful Response: If you ARE NOT the organizer of the group or a member of 
-  the group with a status of "co-host". Shows all members that don't have a 
+* Successful Response: If you ARE NOT the organizer of the group or a member of
+  the group with a status of "co-host". Shows all members that don't have a
   status of "pending".
   * Status Code: 200
   * Headers:
@@ -1504,7 +1516,7 @@ Returns the attendees of an event specified by its id.
     }
     ```
 
-## Request to Attend an Event based on the Event's id
+### Request to Attend an Event based on the Event's id
 
 Request attendance for an event specified by id.
 
@@ -1571,7 +1583,7 @@ Request attendance for an event specified by id.
     }
     ```
 
-## Change the status of an attendance for an event specified by id
+### Change the status of an attendance for an event specified by id
 
 Change the status of an attendance for an event specified by id.
 
@@ -1646,7 +1658,7 @@ Change the status of an attendance for an event specified by id.
     }
     ```
 
-## Delete attendance to an event specified by id
+### Delete attendance to an event specified by id
 
 Delete an attendance to an event specified by id.
 
@@ -1658,7 +1670,7 @@ Delete an attendance to an event specified by id.
   * URL: ?
   * Headers:
     * Content-Type: application/json
-  * Body: 
+  * Body:
 
     ```json
     {
@@ -1717,7 +1729,9 @@ Delete an attendance to an event specified by id.
     }
     ```
 
-## Add an Image to a Group based on the Group's id
+## FEATURE 4: IMAGES FEATURE
+
+### Add an Image to a Group based on the Group's id
 
 Create and return a new image for a group specified by id.
 
@@ -1764,7 +1778,7 @@ Create and return a new image for a group specified by id.
     }
     ```
 
-## Add an Image to a Event based on the Event's id
+### Add an Image to a Event based on the Event's id
 
 Create and return a new image for an event specified by id.
 
@@ -1811,7 +1825,7 @@ Create and return a new image for an event specified by id.
     }
     ```
 
-## Delete an Image
+### Delete an Image
 
 Delete an existing image.
 
@@ -1849,7 +1863,7 @@ Delete an existing image.
     }
     ```
 
-## Add Query Filters to Get All Events
+### Add Query Filters to Get All Events
 
 Return events filtered by query parameters.
 

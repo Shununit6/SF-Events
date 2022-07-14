@@ -312,14 +312,29 @@ Returns the details of a group specified by its id.
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-19 20:39:36",
       "numMembers": 10,
-      "images": [
-        "image url"
+      "Images": [
+        {
+          "id": 1,
+          "imageableId": 1,
+          "url": "image url"
+        }
       ],
       "Organizer": {
         "id": 1,
         "firstName": "John",
         "lastName": "Smith"
-      }
+      },
+      "Venues": [
+        {
+          "id": 1,
+          "groupId": 1,
+          "address": "123 Disney Lane",
+          "city": "New York",
+          "state": "NY",
+          "lat": 37.7645358,
+          "lng": -122.4730327
+        }
+      ]
     }
     ```
 
@@ -393,7 +408,7 @@ Creates and returns a new group.
       "errors": {
         "name": "Name must be 60 characters or less",
         "about": "About must be 50 characters or more",
-        "type": "Type must be Online or In person",
+        "type": "Type must be 'Online' or 'In person'",
         "private": "Private must be a boolean",
         "city": "City is required",
         "state": "State is required",
@@ -459,7 +474,7 @@ Updates and returns an existing group.
       "errors": {
         "name": "Name must be 60 characters or less",
         "about": "About must be 50 characters or more",
-        "type": "Type must be Online or In person",
+        "type": "Type must be 'Online' or 'In person'",
         "private": "Private must be a boolean",
         "city": "City is required",
         "state": "State is required",
@@ -529,8 +544,8 @@ Returns the members of a group specified by its id.
   * URL: ?
   * Body: none
 
-* Successful Response: If you ARE the organizer of the group. Shows all
-  members, regardless of their status, and their status.
+* Successful Response: If you ARE the organizer or a co-host of the group. Shows
+  all members and their statuses.
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
@@ -567,7 +582,7 @@ Returns the members of a group specified by its id.
     }
     ```
 
-* Successful Response: If you ARE NOT the organizer of the group. Shows all
+* Successful Response: If you ARE NOT the organizer of the group. Shows only
   members that don't have a status of "pending".
   * Status Code: 200
   * Headers:
@@ -681,8 +696,12 @@ Request a new membership for a group specified by id.
 Change the status of a membership for a group specified by id.
 
 * Require Authentication: true
-* Require proper authorization: Current User must already be the organizer or
-  have a membership to the group with the status of "co-host"
+* Require proper authorization:
+  * To change the status from "pending" to "member":
+    * Current User must already be the organizer or have a membership to the
+      group with the status of "co-host"
+  * To change the status from "member" to "co-host":
+    * Current User must already be the organizer
 * Request
   * Method: ?
   * URL: ?
@@ -712,6 +731,38 @@ Change the status of a membership for a group specified by id.
     }
     ```
 
+* Error response: If changing the membership status to "pending".
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation Error",
+      "statusCode": 400,
+      "errors": {
+        "memberId": "Cannot change a membership status to 'pending'"
+      }
+    }
+    ```
+
+* Error response: Couldn't find a User with the specified memberId
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation Error",
+      "statusCode": 400,
+      "errors": {
+        "memberId": "User couldn't be found"
+      }
+    }
+    ```
+
 * Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
@@ -722,47 +773,6 @@ Change the status of a membership for a group specified by id.
     {
       "message": "Group couldn't be found",
       "statusCode": 404
-    }
-    ```
-
-* Error response: If changing the status to "co-host" and Current User is not
-  the organizer.
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Current User must be the organizer to add a co-host",
-      "statusCode": 403
-    }
-    ```
-
-* Error response: If changing the status to "member" and Current User is not the
-  organizer of the group or a member of the group with a status of "co-host".
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Current User must be the organizer or a co-host to make someone a member",
-      "statusCode": 403
-    }
-    ```
-
-* Error response: If changing the membership status to "pending".
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Cannot change a membership status to pending",
-      "statusCode": 400
     }
     ```
 
@@ -811,6 +821,22 @@ Delete a membership to a group specified by id.
     }
     ```
 
+* Error response: Couldn't find a User with the specified memberId
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation Error",
+      "statusCode": 400,
+      "errors": {
+        "memberId": "User couldn't be found"
+      }
+    }
+    ```
+
 * Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
@@ -834,19 +860,6 @@ Delete a membership to a group specified by id.
     {
       "message": "Membership does not exist for this User",
       "statusCode": 404
-    }
-    ```
-
-* Error response: Only the User or organizer may delete a Membership
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Only the User or organizer may delete a Membership",
-      "statusCode": 403
     }
     ```
 
@@ -1183,9 +1196,13 @@ Returns the details of an event specified by its id.
         "lat": 37.7645358,
         "lng": -122.4730327,
       },
-      "images": [
-        "image url"
-      ]
+      "Images": [
+        {
+          "id": 1,
+          "imageableId": 1,
+          "url": "image url"
+        }
+      ],
     }
     ```
 
@@ -1434,8 +1451,8 @@ Returns the attendees of an event specified by its id.
   * Body: none
 
 * Successful Response: If you ARE the organizer of the group or a member of the
-  group with a status of "co-host". Shows all
-  attendees, regardless of their status, and their status.
+  group with a status of "co-host". Shows only
+  attendees without a status of "pending".
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
@@ -1760,7 +1777,6 @@ Create and return a new image for a group specified by id.
     {
       "id": 1,
       "imageableId": 1,
-      "imageableType": "Group",
       "url": "image url",
     }
     ```
@@ -1807,7 +1823,6 @@ Create and return a new image for an event specified by id.
     {
       "id": 1,
       "imageableId": 1,
-      "imageableType": "Event",
       "url": "image url",
     }
     ```
@@ -1830,8 +1845,7 @@ Create and return a new image for an event specified by id.
 Delete an existing image.
 
 * Require Authentication: true
-* Require proper authorization: Image must belong to the current user through
-  the image's imageableId and imageableType
+* Require proper authorization: Image must belong to the current user
 * Request
   * Method: ?
   * URL: ?

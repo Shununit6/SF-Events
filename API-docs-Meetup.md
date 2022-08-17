@@ -1597,8 +1597,8 @@ Returns the attendees of an event specified by its id.
   * Body: none
 
 * Successful Response: If you ARE the organizer of the group or a member of the
-  group with a status of "co-host". Shows only
-  attendees without a status of "pending".
+  group with a status of "co-host". Shows all attendees including those with a
+  status of "pending".
   * Status Code: 200
   * Headers:
     * Content-Type: application/json

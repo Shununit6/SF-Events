@@ -313,10 +313,9 @@ Returns the details of a group specified by its id.
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-19 20:39:36",
       "numMembers": 10,
-      "Images": [
+      "GroupImages": [
         {
           "id": 1,
-          "imageableId": 1,
           "url": "image url"
         }
       ],
@@ -445,7 +444,6 @@ Create and return a new image for a group specified by id.
     ```json
     {
       "id": 1,
-      "imageableId": 1,
       "url": "image url",
     }
     ```
@@ -966,10 +964,9 @@ Returns the details of an event specified by its id.
         "lat": 37.7645358,
         "lng": -122.4730327,
       },
-      "Images": [
+      "EventImages": [
         {
           "id": 1,
-          "imageableId": 1,
           "url": "image url"
         }
       ],
@@ -1101,7 +1098,6 @@ Create and return a new image for an event specified by id.
     ```json
     {
       "id": 1,
-      "imageableId": 1,
       "url": "image url",
     }
     ```
@@ -1460,10 +1456,10 @@ Change the status of a membership for a group specified by id.
 
     ```json
     {
-      "message": "Validation Error",
+      "message": "Validations Error",
       "statusCode": 400,
       "errors": {
-        "memberId": "Cannot change a membership status to 'pending'"
+        "status" : "Cannot change a membership status to pending"
       }
     }
     ```
@@ -1894,12 +1890,13 @@ Delete an attendance to an event specified by id.
 
 ## IMAGES
 
-### Delete an Image
+### Delete an Image for a Group
 
-Delete an existing image.
+Delete an existing image for a Group.
 
 * Require Authentication: true
-* Require proper authorization: Image must belong to the current user
+* Require proper authorization: Current user must be the organizer or "co-host"
+  of the Group
 * Request
   * Method: ?
   * URL: ?
@@ -1926,10 +1923,50 @@ Delete an existing image.
 
     ```json
     {
-      "message": "Image couldn't be found",
+      "message": "Group Image couldn't be found",
       "statusCode": 404
     }
     ```
+
+
+### Delete an Image for an Event
+
+Delete an existing image for an Event.
+
+* Require Authentication: true
+* Require proper authorization: Current user must be the organizer or "co-host"
+  of the Group that the Event belongs to
+* Request
+  * Method: ?
+  * URL: ?
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Successfully deleted",
+      "statusCode": 200
+    }
+    ```
+
+* Error response: Couldn't find an Image with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event Image couldn't be found",
+      "statusCode": 404
+    }
+    ```
+
 
 ### Add Query Filters to Get All Events
 

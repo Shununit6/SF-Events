@@ -98,8 +98,8 @@ Returns the details of a group specified by its id.
 - [ ] Successful response includes data only for the specified group
 - [ ] Group data returned includes the `id`, `organizerId`, `name`, `about`,
   `type`, `private`, `city`, `state`, `createdAt`, `updatedAt`, and `numMembers`
-- [ ] Group data returns associated data for `Images`, an array of Images
-  including the `id`, `imageableId`, and `url`
+- [ ] Group data returns associated data for `GroupImages`, an array of image
+  data including the `id` and `url`
 - [ ] Group data returns associated data for `Organizer`, including the `id`,
   `firstName`, and `lastName`
 - [ ] Error response with status 404 is given when a group does not exist with
@@ -125,8 +125,7 @@ Create and return a new image for a group specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the organizer of the group is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `imageableId`, and
-  `url`
+- [ ] Image data returned includes the `id` and `url`
 - [ ] Error response with status 404 is given when a group does not exist with
   the provided `id`
 
@@ -243,8 +242,8 @@ Returns the details of an event specified by its id.
   `name`, `private`, `city`, and `state`
 - [ ] Event data returned includes associated `Venue` data, if any, including
   `id`, `address`, `city`, `state`, `lat`, and `lng`
-- [ ] Event data returns associated data for `Images`, an array of Images
-  including the `id`, `imageableId`, and `url`
+- [ ] Event data returns associated data for `EventImages`, an array of image
+  data including the `id` and `url`
 - [ ] Error response with status 404 is given when an event does not exist with
   the provided `id`
 
@@ -274,8 +273,7 @@ Create and return a new image for an event specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only an attendee of the event is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `imageableId`, and
-  `url`
+- [ ] Image data returned includes the `id` and `url`
 - [ ] Error response with status 404 is given when an event does not exist with
   the provided `id`
 
@@ -455,12 +453,24 @@ Delete an attendance to an event specified by id.
   another user's membership when the current user is not the group organizer
 
 
-### Delete an Image
+### Delete an Image for a Group
 
-Delete an existing image.
+Delete an existing image for a Group.
 
 - [ ] An authenticated user is required for a successful response
-- [ ] Only the owner of the image is authorized to delete
+- [ ] Only the organizer or co-host of the group is authorized to delete
+- [ ] Image record is removed from the database after request
+- [ ] Success response includes a `message` indicating a successful deletion
+- [ ] Error response with status 404 is given when a group image does not exist
+  with the provided `id`
+
+
+### Delete an Image for an Event
+
+Delete an existing image for an Event.
+
+- [ ] An authenticated user is required for a successful response
+- [ ] Only the organizer or co-host of the group is authorized to delete
 - [ ] Image record is removed from the database after request
 - [ ] Success response includes a `message` indicating a successful deletion
 - [ ] Error response with status 404 is given when an image does not exist with

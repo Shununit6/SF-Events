@@ -316,7 +316,13 @@ Returns the details of a group specified by its id.
       "GroupImages": [
         {
           "id": 1,
-          "url": "image url"
+          "url": "image url",
+          "preview": true
+        },
+        {
+          "id": 2,
+          "url": "image url",
+          "preview": false
         }
       ],
       "Organizer": {
@@ -431,7 +437,8 @@ Create and return a new image for a group specified by id.
 
     ```json
     {
-      "url": "image url"
+      "url": "image url",
+      "preview": true
     }
     ```
 
@@ -445,6 +452,7 @@ Create and return a new image for a group specified by id.
     {
       "id": 1,
       "url": "image url",
+      "preview": true
     }
     ```
 
@@ -967,7 +975,13 @@ Returns the details of an event specified by its id.
       "EventImages": [
         {
           "id": 1,
-          "url": "image url"
+          "url": "image url",
+          "preview": true
+        },
+        {
+          "id": 2,
+          "url": "image url",
+          "preview": false
         }
       ],
     }
@@ -1085,7 +1099,8 @@ Create and return a new image for an event specified by id.
 
     ```json
     {
-      "url": "image url"
+      "url": "image url",
+      "preview": false
     }
     ```
 
@@ -1099,6 +1114,7 @@ Create and return a new image for an event specified by id.
     {
       "id": 1,
       "url": "image url",
+      "preview": false
     }
     ```
 

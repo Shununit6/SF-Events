@@ -129,10 +129,10 @@ information.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "email": "Email is required",
-        "password": "Password is required"
-      }
+      "errors": [
+        "Email is required",
+        "Password is required"
+      ]
     }
     ```
 
@@ -184,9 +184,9 @@ user's information.
     {
       "message": "User already exists",
       "statusCode": 403,
-      "errors": {
-        "email": "User with that email already exists"
-      }
+      "errors": [
+        "User with that email already exists"
+      ]
     }
     ```
 
@@ -200,11 +200,11 @@ user's information.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "email": "Invalid email",
-        "firstName": "First Name is required",
-        "lastName": "Last Name is required"
-      }
+      "errors": [
+        "Invalid email",
+        "First Name is required",
+        "Last Name is required"
+      ]
     }
     ```
 
@@ -411,14 +411,14 @@ Creates and returns a new group.
     {
       "message": "Validation Error",
       "statusCode": 400,
-      "errors": {
-        "name": "Name must be 60 characters or less",
-        "about": "About must be 50 characters or more",
-        "type": "Type must be 'Online' or 'In person'",
-        "private": "Private must be a boolean",
-        "city": "City is required",
-        "state": "State is required",
-      }
+      "errors": [
+        "Name must be 60 characters or less",
+        "About must be 50 characters or more",
+        "Type must be 'Online' or 'In person'",
+        "Private must be a boolean",
+        "City is required",
+        "State is required",
+      ]
     }
     ```
 
@@ -524,14 +524,14 @@ Updates and returns an existing group.
     {
       "message": "Validation Error",
       "statusCode": 400,
-      "errors": {
-        "name": "Name must be 60 characters or less",
-        "about": "About must be 50 characters or more",
-        "type": "Type must be 'Online' or 'In person'",
-        "private": "Private must be a boolean",
-        "city": "City is required",
-        "state": "State is required",
-      }
+      "errors": [
+        "Name must be 60 characters or less",
+        "About must be 50 characters or more",
+        "Type must be 'Online' or 'In person'",
+        "Private must be a boolean",
+        "City is required",
+        "State is required",
+      ]
     }
     ```
 
@@ -702,13 +702,13 @@ Creates and returns a new venue for a group specified by its id
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "address": "Street address is required",
-        "city": "City is required",
-        "state": "State is required",
-        "lat": "Latitude is not valid",
-        "lng": "Longitude is not valid",
-      }
+      "errors": [
+        "Street address is required",
+        "City is required",
+        "State is required",
+        "Latitude is not valid",
+        "Longitude is not valid",
+      ]
     }
     ```
 
@@ -777,13 +777,13 @@ Edit a new venue specified by its id
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "address": "Street address is required",
-        "city": "City is required",
-        "state": "State is required",
-        "lat": "Latitude is not valid",
-        "lng": "Longitude is not valid",
-      }
+      "errors": [
+        "Street address is required",
+        "City is required",
+        "State is required",
+        "Latitude is not valid",
+        "Longitude is not valid",
+      ]
     }
     ```
 
@@ -1058,16 +1058,16 @@ Creates and returns a new event for a group specified by its id
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "venueId": "Venue does not exist",
-        "name": "Name must be at least 5 characters",
-        "type": "Type must be Online or In person",
-        "capacity": "Capacity must be an integer",
-        "price": "Price is invalid",
-        "description": "Description is required",
-        "startDate": "Start date must be in the future",
-        "endDate": "End date is less than start date",
-      }
+      "errors": [
+        "Venue does not exist",
+        "Name must be at least 5 characters",
+        "Type must be Online or In person",
+        "Capacity must be an integer",
+        "Price is invalid",
+        "Description is required",
+        "Start date must be in the future",
+        "End date is less than start date",
+      ]
     }
     ```
 
@@ -1189,16 +1189,16 @@ Edit and returns an event specified by its id
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "venueId": "Venue does not exist",
-        "name": "Name must be at least 5 characters",
-        "type": "Type must be Online or In person",
-        "capacity": "Capacity must be an integer",
-        "price": "Price is invalid",
-        "description": "Description is required",
-        "startDate": "Start date must be in the future",
-        "endDate": "End date is less than start date",
-      }
+      "errors": [
+        "Venue does not exist",
+        "Name must be at least 5 characters",
+        "Type must be Online or In person",
+        "Capacity must be an integer",
+        "Price is invalid",
+        "Description is required",
+        "Start date must be in the future",
+        "End date is less than start date",
+      ]
     }
     ```
 
@@ -2063,12 +2063,12 @@ Return events filtered by query parameters.
     {
       "message": "Validation Error",
       "statusCode": 400,
-      "errors": {
-        "page": "Page must be greater than or equal to 0",
-        "size": "Size must be greater than or equal to 0",
-        "name": "Name must be a string",
-        "type": "Type must be 'Online' or 'In Person'",
-        "startDate": "Start date must be a valid datetime",
-      }
+      "errors": [
+        "Page must be greater than or equal to 0",
+        "Size must be greater than or equal to 0",
+        "Name must be a string",
+        "Type must be 'Online' or 'In Person'",
+        "Start date must be a valid datetime",
+      ]
     }
     ```

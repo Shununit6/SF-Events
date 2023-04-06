@@ -6,6 +6,16 @@ Each feature's progress should be tracked by checking off requirements as they
 are met and progressing the cards from the `Backlog`, `Next Tasks`,
 `In Progress`, `In Review`, and `Accepted` columns.
 
+## Notes
+
+The first two cards, "Authentication Required" and "Authorization Required" are
+general tasks to be applied to endpoints that list these requirements. Check
+the API Documentation for whether or not an endpoint needs any kind of
+authentication or authorization
+
+Sign Up, Log In, and Get Current User endpoints are part of Authenticate Me,
+and as such should already be complete. Ensure that you've added and tested
+functionality for Users' `firstName` and `lastName` properties.
 
 ## Kanban Cards
 
@@ -40,8 +50,8 @@ user's information.
 - [ ] New user exists in the database after request
 - [ ] Successful response includes newly created `id`, `firstName`, `lastName`,
   `email`, and `token`
-- [ ] Error response with status 403 is given when the specified email already
-exists
+- [ ] Error response with status 500 is given when the specified email or username
+  already exists
 - [ ] Error response with status 400 is given when body validations for the
   `email`, `firstName`, or `lastName` are violated
 
@@ -431,7 +441,7 @@ Change the status of an attendance for an event specified by id.
 - [ ] Error response with status 400 is given when changing the status to
   "pending"
 - [ ] Error response with status 403 is given when changing the status to
-  "member" when the current user is not the organizer or a co-host
+  "attending" when the current user is not the organizer or a co-host
 - [ ] Error response with status 404 is given when an attendance between the
   user and event does not exist
 

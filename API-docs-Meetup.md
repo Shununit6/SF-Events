@@ -284,8 +284,8 @@ Returns all the groups.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /groups/currentsession
-  //(/groups/me || /groups/current)
+  * URL: /groups/current
+  //(/groups/me || /groups/currentsession)
   * Body: none
 
 * Successful Response
@@ -1443,8 +1443,7 @@ Change the status of a membership for a group specified by id.
     * Current User must already be the organizer
 * Request
   * Method: PUT
-  * URL: members/:memberId
-  //(/groups/:id/members/:memberId)
+  * URL:/groups/:id/members
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1534,7 +1533,7 @@ Delete a membership to a group specified by id.
   the user whose membership is being deleted
 * Request
   * Method: DELETE
-  * URL: members/:membersId
+  * URL: /groups/:id/members
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1762,8 +1761,7 @@ Change the status of an attendance for an event specified by id.
   have a membership to the group with the status of "co-host"
 * Request
   * Method: PUT
-  * URL: /attendees/:attendeesId
-  //(/events/:id/attendees/:attendeesId)
+  * URL: /events/:id/attendees
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1835,7 +1833,7 @@ Delete an attendance to an event specified by id.
   the user whose attendance is being deleted
 * Request
   * Method: DELETE
-  * URL: attendees/:attendeesId
+  * URL: /events/:id/attendees
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1905,7 +1903,7 @@ Delete an existing image for a Group.
   of the Group
 * Request
   * Method: DELETE
-  * URL: /groups/:id/image/:imageId
+  * URL: /groups/:id/images
   * Body: none
 
 * Successful Response
@@ -1942,7 +1940,7 @@ Delete an existing image for an Event.
   of the Group that the Event belongs to
 * Request
   * Method: DELETE
-  * URL: /events/:id/images/:imageId
+  * URL: /events/:id/images
   * Body: none
 
 * Successful Response

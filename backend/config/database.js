@@ -1,5 +1,5 @@
 // backend/config/database.js
-const config = require('./index');
+const config = require('./index.js');
 
 module.exports = {
     development:{
@@ -20,7 +20,7 @@ module.exports = {
             }
         },
         define: {
-            schema: ProcessingInstruction.env.SCHEMA
+            schema: process.env.SCHEMA
         }
     }
 };

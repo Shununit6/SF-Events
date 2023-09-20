@@ -8,7 +8,7 @@ const setTokenCookie = (res, user) => {
     const safeUser = {
         id: user.id,
         email: user.email,
-        username: user.name,
+        username: user.username,
     };
     const token = jwt.sign(
         { data: safeUser },
@@ -25,7 +25,7 @@ const setTokenCookie = (res, user) => {
     });
 
     return token;
-}
+};
 
 const restoreUser = (req, res, next)=> {
     const { token } = req.cookies;
@@ -51,15 +51,15 @@ const restoreUser = (req, res, next)=> {
 
         return next();
     });
+};
 
-    const requireAuth = function (req, _res, next) {
-        if(req.user) return next();
-        const err = new Error('Authentication required');
-        err.title = 'Authentication required';
-        err.errors = { message: 'Authentication required'};
-        err.status = 401;
-        return next(err);
-    }
+const requireAuth = function (req, _res, next) {
+    if(req.user) return next();
+    const err = new Error('Authentication required');
+    err.title = 'Authentication required';
+    err.errors = { message: 'Authentication required'};
+    err.status = 401;
+    return next(err);
 };
 
 module.exports = { setTokenCookie, restoreUser, requireAuth };

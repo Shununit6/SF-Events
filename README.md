@@ -2,7 +2,9 @@
 
 ## Database Schema Design
 
-![Alt text](SF-Events-schema.png)
+![db-schema]
+
+[db-schema]: ./images/SF-Events-schema.png
 
 ## API Documentation
 

@@ -4,4 +4,4 @@ build
 .DS_Store
 *.db
 groups.js
-session.js
+Kanban-cards-SF-Events.md

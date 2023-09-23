@@ -15,6 +15,8 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
 
+app.use(express.static("public"));
+
 if(!isProduction) {
     app.use(cors());
 }
@@ -38,14 +40,6 @@ app.use(
 const routes = require('./routes');
 app.use(routes);
 
-app.use((_req,_res,next) => {
-    const err = new Error("The requested resource couldn't be found.");
-    err.title = "Resource Not Found";
-    err.errors = { message: "The requested resource couldn't be found."};
-    err.status = 401;
-    next(err);
-});
-
 const { ValidationError } = require('sequelize');
 app.use((err, _req, _res, next)=>{
     if (err instanceof ValidationError){
@@ -56,6 +50,14 @@ app.use((err, _req, _res, next)=>{
         err.title = 'Validation error';
         err.errors = errors;
     }
+    next(err);
+});
+
+app.use((_req,_res,next) => {
+    const err = new Error("The requested resource couldn't be found.");
+    err.title = "Resource Not Found";
+    err.errors = { message: "The requested resource couldn't be found."};
+    err.status = 404;
     next(err);
 });
 

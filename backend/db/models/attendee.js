@@ -14,9 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendee.init({
-    userId: DataTypes.INTEGER,
-    eventId: DataTypes.INTEGER,
-    attendeesStatus: DataTypes.STRING
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    eventId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
     sequelize,
     modelName: 'Attendee',

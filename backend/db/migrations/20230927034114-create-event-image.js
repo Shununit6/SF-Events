@@ -13,6 +13,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      preview: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,

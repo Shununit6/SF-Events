@@ -12,10 +12,18 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+					model: "Users",
+					key: "id",
+				},
       },
       eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+					model: "Events",
+					key: "id",
+				},
       },
       status: {
         type: Sequelize.STRING,

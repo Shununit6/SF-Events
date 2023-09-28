@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Group, { foreignKey: "organizerId" });
       User.belongsToMany(
-        models.Player,
+        models.Group,
         {
           through: models.Membership,
           foreignKey: 'userId',

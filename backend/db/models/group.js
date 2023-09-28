@@ -19,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
           otherKey: 'userId'
         }
       );
+      Group.belongsToMany(
+        models.Venue,
+        {
+          through: models.Event,
+          foreignKey: 'groupId',
+          otherKey: 'venueId'
+        }
+      );
     }
   }
   Group.init({

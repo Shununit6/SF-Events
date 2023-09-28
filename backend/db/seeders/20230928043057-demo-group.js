@@ -10,6 +10,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Group.bulkCreate([
       {
+        organizerId: 1,
         name: 'groupOne',
         about: 'aboutOne',
         type: 'typeOne',
@@ -19,6 +20,7 @@ module.exports = {
         previewImage: 'previewOne'
       },
       {
+        organizerId: 2,
         name: 'groupTwo',
         about: 'aboutTwo',
         type: 'typeTwo',
@@ -28,6 +30,7 @@ module.exports = {
         previewImage: 'previewTwo'
       },
       {
+        organizerId: 3,
         name: 'groupThree',
         about: 'aboutThree',
         type: 'typeThree',
@@ -43,7 +46,7 @@ module.exports = {
     options.tableName = 'Groups';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: {[Op.in]: ['groupOne', 'groupTwo', 'groupThree']}
+      organizerId: {[Op.in]: [1, 2, 3]}
     }, {});
   }
 };

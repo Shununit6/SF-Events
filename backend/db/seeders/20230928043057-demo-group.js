@@ -10,31 +10,31 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Group.bulkCreate([
       {
-        name: "groupOne",
-        about: "aboutOne",
-        type: "typeOne",
+        name: 'groupOne',
+        about: 'aboutOne',
+        type: 'typeOne',
         private: true,
-        city: "San Jose",
-        state: "CA",
-        previewImage: "previewOne"
+        city: 'San Jose',
+        state: 'CA',
+        previewImage: 'previewOne'
       },
       {
-        name: "groupTwo",
-        about: "aboutTwo",
-        type: "typeTwo",
+        name: 'groupTwo',
+        about: 'aboutTwo',
+        type: 'typeTwo',
         private: false,
-        city: "San Francisco",
-        state: "CA",
-        previewImage: "previewTwo"
+        city: 'San Francisco',
+        state: 'CA',
+        previewImage: 'previewTwo'
       },
       {
-        name: "groupThree",
-        about: "aboutThree",
-        type: "typeThree",
+        name: 'groupThree',
+        about: 'aboutThree',
+        type: 'typeThree',
         private: true,
-        city: "Oakland",
-        state: "CA",
-        previewImage: "previewThree"
+        city: 'Oakland',
+        state: 'CA',
+        previewImage: 'previewThree'
       }
     ], { validate: true});
   },

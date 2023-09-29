@@ -11,15 +11,18 @@ module.exports = {
     await EventImage.bulkCreate([
       {
         url: 'imageurlOne',
-        preview: true
+        preview: true,
+        eventId: 1
       },
       {
         url: 'imageurlTwo',
-        preview: false
+        preview: false,
+        eventId: 2
       },
       {
         url: 'imageurlThree',
-        preview: true
+        preview: true,
+        eventId: 3
       }
     ], { validate:true});
   },

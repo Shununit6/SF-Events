@@ -11,6 +11,8 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Event.bulkCreate([
       {
+        groupId: 1,
+        venueId: 1,
         name: 'eventOne',
         type: 'typeOne',
         description: 'descriptionOne',
@@ -21,6 +23,8 @@ module.exports = {
         previewImage: 'previewOne'
       },
       {
+        groupId: 2,
+        venueId: 2,
         name: 'eventTwo',
         type: 'typeTwo',
         description: 'descriptionOne',
@@ -31,6 +35,8 @@ module.exports = {
         previewImage: 'previewTwo'
       },
       {
+        groupId: 3,
+        venueId: 3,
         name: 'eventThree',
         type: 'typeThree',
         description: 'descriptionThree',

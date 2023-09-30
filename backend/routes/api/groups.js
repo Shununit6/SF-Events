@@ -32,6 +32,39 @@ router.get("/current", async (req, res) => {
 
 });
 
+router.post("/", requireAuth, async (req, res) => {
+    const organizerId = req.user.id;
+    const { name, about, type, private, city, state } = req.body;
+    const group = await Group.create({ organizerId, name, about, type, private, city, state });
+    const safeGroup = {
+        id: group.id,
+        organizerId: group.organizerId,
+        name: group.name,
+        about: group.about,
+        type: group.type,
+        private: group.private,
+        city: group.city,
+        state: group.state,
+    };
+    return res.json(
+        safeGroup
+    );
+});
+
+router.post("/:groupId/images", async (req, res) => {
+    // res.json(group)
+    // console.log(req.user);
+    // console.log(req.user.id);
+    // console.log(res);
+    const group = await Group.findAll({
+			where: {
+				id: req.params.groupId,
+			},
+		});
+    // console.log( req.params.groupId );
+	return res.json(group);
+});
+
 module.exports = router;
 
 // const groups = await Group.findAll({

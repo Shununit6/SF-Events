@@ -22,6 +22,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
     }
+    static async signup ({ username, email}){
+      const existingUser = await User.findOne({
+        where: {
+            email
+        }
+      });
+      if(existingUser){
+        return false;
+      }
+    }
   }
   User.init({
     firstName: {
@@ -54,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         len: [3, 256],
-        isEmail: true
+        isEmail: true,
       }
     },
     username: {

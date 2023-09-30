@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const router = express.Router();
@@ -21,9 +21,20 @@ const validateSignup = [
     handleValidationErrors
 ];
 
-router.post('/', validateSignup, async (req, res) => {
+
+router.post('/', validateSignup, async (req, res, next) => {
     const { firstName, lastName, email, password, username } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
+    const signup = await User.signup({ email, username});
+    if(!signup) {
+        const err = new Error('User already exists');
+        err.title = 'User already exists';
+        err.errors = {
+            email: "User with that email already exists"
+        };
+        err.status = 500;
+        return next(err);
+    }
     const user = await User.create({ firstName, lastName, email, username, hashedPassword });
     const safeUser = {
         id: user.id,
@@ -32,9 +43,7 @@ router.post('/', validateSignup, async (req, res) => {
         email: user.email,
         username: user.username,
     };
-
     await setTokenCookie(res, safeUser);
-
     return res.json({
         user: safeUser
     });

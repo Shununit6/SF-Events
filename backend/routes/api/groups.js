@@ -1,28 +1,34 @@
 const router = require('express').Router();
 
-const { Group, Membership } = require('../../db/models');
+const { Group, sequelize, Membership, User } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
 
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
 
     const groupId = await Group.findAll(
         {
-            attributes: { include: ['id'],
-                          exclude: ['organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'numMembers', 'previewImage', 'createdAt', 'updatedAt'] }
-                        }
+            include: {
+                model: User,
+                as: "members",
+                attributes: [],
+                through: {attributes: [],},
+            },
+            attributes: {
+                include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'numMembers', 'previewImage', 'createdAt', 'updatedAt',
+                    [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
+            },
+            raw: true,
+            group: "members.id",
+            // where: { organizerId: req.user.id},
+        }
     );
-
-    let memberNum;
-    memberNum = (groupId.forEach(element => {
-        Membership.count({where: {groupId: element.id}})
-    }));
 
     return res.json(groupId);
 });
 
-router.get("/current", async(req, res) => {
+router.get("/current", async (req, res) => {
 
 });
 

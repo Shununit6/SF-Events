@@ -23,13 +23,21 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
     static async signup ({ username, email}){
-      const existingUser = await User.findOne({
+      const existingEmail = await User.findOne({
         where: {
             email
         }
       });
+      if(existingEmail){
+        return "email";
+      }
+      const existingUser = await User.findOne({
+        where: {
+            username
+        }
+      });
       if(existingUser){
-        return false;
+        return "username";
       }
     }
   }
@@ -38,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 30],
+        len: [1, 30],
         isNotEmail(value) {
           if (Validator.isEmail(value)) {
             throw new Error("Cannot be an email.");
@@ -50,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 30],
+        len: [1, 30],
         isNotEmail(value) {
           if (Validator.isEmail(value)) {
             throw new Error("Cannot be an email.");

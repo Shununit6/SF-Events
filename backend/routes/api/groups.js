@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
                 through: {attributes: [],},
             },
             attributes: {
-                include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'numMembers', 'previewImage', 'createdAt', 'updatedAt',
+                include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
                     [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
             },
             raw: true,
@@ -36,7 +36,7 @@ router.get("/current", requireAuth, async (req, res) => {
             through: {attributes: [],},
         },
         attributes: {
-            include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'numMembers', 'previewImage', 'createdAt', 'updatedAt',
+            include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
                 [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
         },
         raw: true,
@@ -59,7 +59,7 @@ router.get("/:groupId", async (req, res, next) => {
         },
         attributes: {
             exclude: ['previewImage'],
-            include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'numMembers', 'createdAt', 'updatedAt',
+            include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'createdAt', 'updatedAt',
                 [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
         },
         raw: true,
@@ -114,7 +114,7 @@ router.get("/:groupId", async (req, res, next) => {
         return next(err);
     }
 
-	return res.json(Organizer);
+	return res.json(Venues);
 });
 
 router.post("/", requireAuth, async (req, res) => {

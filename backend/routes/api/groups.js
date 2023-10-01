@@ -209,7 +209,7 @@ router.post("/:groupId/venues", requireAuth, async (req, res, next) => {
             model: User,
             as: "members",
             attributes: [],
-            through: {attributes: {include: ['status'],
+            through: {attributes: {
                 exclude: ['createdAt', 'updatedAt'],}},
         },
         attributes: {
@@ -219,9 +219,16 @@ router.post("/:groupId/venues", requireAuth, async (req, res, next) => {
         raw: true,
         group: "members.id",
         where: { id: groupId }});
+        const currentUserId = req.user.id;
+        const OrganizerId = group.organizerId;
+        const memberStatus = member['members.Membership.status'];
+        const memberGroupId = member['members.Membership.groupId'];
+        const memberUserId = member['members.Membership.userId'];
     console.log(req.user.id);
     console.log(group.organizerId);
     console.log(member['members.Membership.status']);
+    console.log(member['members.Membership.userId']);
+    console.log(member['members.Membership.groupId']);
     return res.json(
         member
     );

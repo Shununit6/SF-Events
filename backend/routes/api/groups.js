@@ -21,15 +21,31 @@ router.get('/', async (req, res) => {
             },
             raw: true,
             group: "members.id",
-            // where: { organizerId: req.user.id},
         }
     );
 
     return res.json(groupId);
 });
 
-router.get("/current", async (req, res) => {
-
+router.get("/current", requireAuth, async (req, res) => {
+    const group = await Group.findAll({
+        include: {
+            model: User,
+            as: "members",
+            attributes: [],
+            through: {attributes: [],},
+        },
+        attributes: {
+            include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'numMembers', 'previewImage', 'createdAt', 'updatedAt',
+                [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
+        },
+        raw: true,
+        group: "members.id",
+        where: {
+            organizerId: req.user.id,
+        },
+    });
+    return res.json(group);
 });
 
 router.post("/", requireAuth, async (req, res) => {

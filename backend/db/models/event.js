@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         {
           through: models.Attendee,
           foreignKey: 'eventId',
-          otherKey: 'userId'
+          otherKey: 'userId',
+          as: "attendees"
         }
       );
     }

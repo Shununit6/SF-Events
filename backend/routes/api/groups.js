@@ -4,6 +4,23 @@ const { Group, sequelize, GroupImage, User, Venue} = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
+const validateGroup = [
+    check('name').exists({ checkFalsy: true }).isLength({ min: 1, max: 60 })
+        .withMessage('Name must be 60 characters or less'),
+    check('about').exists({ checkFalsy: true }).isLength({ min: 50 })
+        .withMessage('About must be 50 characters or more'),
+    check('type').exists({ checkFalsy: true }).isIn(['Online', 'In person'])
+        .withMessage("Type must be 'Online' or 'In person'"),
+    check('private').exists({ checkFalsy: true }).isBoolean()
+        .withMessage('Private must be a boolean'),
+    check('city').exists({ checkFalsy: true }).isLength({ min: 1 })
+        .withMessage('City is required'),
+    check('state').exists({ checkFalsy: true }).isLength({ min: 1 })
+        .withMessage('State is required'),
+    handleValidationErrors
+];
 
 router.get('/', async (req, res) => {
 
@@ -133,7 +150,7 @@ router.get("/:groupId", async (req, res, next) => {
 	return res.json(getGroupById);
 });
 
-router.put("/:groupId", requireAuth, async (req, res, next) => {
+router.put("/:groupId", validateGroup, requireAuth, async (req, res, next) => {
     const groupId = req.params.groupId;
     const {name, about, type, private, city, state } = req.body;
     const group = await Group.findOne({

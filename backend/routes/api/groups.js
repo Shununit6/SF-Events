@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Group, sequelize, Membership, User } = require('../../db/models');
+const { Group, sequelize, GroupImage, User } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
@@ -51,18 +51,27 @@ router.post("/", requireAuth, async (req, res) => {
     );
 });
 
-router.post("/:groupId/images", async (req, res) => {
-    // res.json(group)
-    // console.log(req.user);
-    // console.log(req.user.id);
-    // console.log(res);
+router.post("/:groupId/images", async (req, res, next) => {
     const group = await Group.findAll({
 			where: {
 				id: req.params.groupId,
 			},
 		});
-    // console.log( req.params.groupId );
-	return res.json(group);
+    const groupId = req.params.groupId;
+    if(group.length === 0){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const { url, preview } = req.body;
+    const groupimage = await GroupImage.create({ groupId, url, preview });
+    const safeGroupImage = {
+        id: groupimage.id,
+        url: groupimage.url,
+        preview: groupimage.preview,
+    };
+	return res.json(safeGroupImage);
 });
 
 module.exports = router;

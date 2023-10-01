@@ -136,11 +136,14 @@ router.get("/:groupId", async (req, res, next) => {
 router.put("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
     const {name, about, type, private, city, state } = req.body;
-    const group = await Group.update(
-        { name: name, about: about, type: type, private: private, city: city, state: state },
-        {where: {
-            id: groupId,
-        }}
+    const group = await Group.findOne({
+        attributes: {
+            exclude: ['previewImage'],},
+        where: {
+        id: groupId,
+    }});
+    await group.update(
+        { name: name, about: about, type: type, private: private, city: city, state: state }
     );
     return res.json(group);
 });

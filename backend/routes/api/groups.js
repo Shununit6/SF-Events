@@ -50,7 +50,7 @@ router.get("/current", requireAuth, async (req, res) => {
 
 router.get("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
-    const group = await Group.findAll({
+    const group = await Group.findOne({
         include: {
             model: User,
             as: "members",
@@ -98,7 +98,7 @@ router.get("/:groupId", async (req, res, next) => {
             groupId: groupId,
 		},
 	});
-    const Organizer = await User.findAll({
+    const Organizer = await User.findOne({
         attributes: {
             exclude: [ 'email', 'username', 'hashedPassword', 'createdAt', 'updatedAt'],
             include: ['id', 'firstName', 'lastName',],
@@ -113,8 +113,24 @@ router.get("/:groupId", async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-
-	return res.json(Venues);
+    const {id, organizerId, name, about, type, private, city, state, createdAt, updatedAt, numMembers} = group;
+    const getGroupById = {
+        id: id,
+        organizerId: organizerId,
+        name: name,
+        about: about,
+        type: type,
+        private: private,
+        city: city,
+        state: state,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        numMembers: numMembers,
+        GroupImages,
+        Organizer,
+        Venues,
+    }
+	return res.json(getGroupById);
 });
 
 router.post("/", requireAuth, async (req, res) => {

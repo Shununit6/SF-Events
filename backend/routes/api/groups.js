@@ -133,7 +133,7 @@ router.get("/:groupId", async (req, res, next) => {
 	return res.json(getGroupById);
 });
 
-router.put("/:groupId", async (req, res, next) => {
+router.put("/:groupId", requireAuth, async (req, res, next) => {
     const groupId = req.params.groupId;
     const {name, about, type, private, city, state } = req.body;
     const group = await Group.findOne({
@@ -142,6 +142,12 @@ router.put("/:groupId", async (req, res, next) => {
         where: {
         id: groupId,
     }});
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
     await group.update(
         { name: name, about: about, type: type, private: private, city: city, state: state }
     );

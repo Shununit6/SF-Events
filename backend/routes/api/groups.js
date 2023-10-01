@@ -22,6 +22,8 @@ const validateGroup = [
     handleValidationErrors
 ];
 
+// const { validateVenue } = require('./venues');
+
 router.get('/', async (req, res) => {
 
     const groups = await Group.findAll(
@@ -188,6 +190,40 @@ router.post("/", requireAuth, async (req, res) => {
     };
     return res.json(
         safeGroup
+    );
+});
+// * Require Authentication: Current User must be the organizer of the group or
+// a member of the group with a status of "co-host"
+router.post("/:groupId/venues", requireAuth, async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const {address, city, state, lat, lng } = req.body;
+    const group = await Group.findOne({ where: { id: groupId, }});
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const member = await Group.findOne({
+        include: {
+            model: User,
+            as: "members",
+            attributes: [],
+            through: {attributes: {include: ['status'],
+                exclude: ['createdAt', 'updatedAt'],}},
+        },
+        attributes: {
+            exclude: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
+                [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
+        },
+        raw: true,
+        group: "members.id",
+        where: { id: groupId }});
+    console.log(req.user.id);
+    console.log(group.organizerId);
+    console.log(member['members.Membership.status']);
+    return res.json(
+        member
     );
 });
 

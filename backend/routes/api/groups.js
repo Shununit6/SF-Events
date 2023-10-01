@@ -1,13 +1,13 @@
 const router = require('express').Router();
 
-const { Group, sequelize, GroupImage, User } = require('../../db/models');
+const { Group, sequelize, GroupImage, User, Venue} = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
 
 router.get('/', async (req, res) => {
 
-    const groupId = await Group.findAll(
+    const groups = await Group.findAll(
         {
             include: {
                 model: User,
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
         }
     );
 
-    return res.json(groupId);
+    return res.json(groups);
 });
 
 router.get("/current", requireAuth, async (req, res) => {
@@ -46,6 +46,75 @@ router.get("/current", requireAuth, async (req, res) => {
         },
     });
     return res.json(group);
+});
+
+router.get("/:groupId", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const group = await Group.findAll({
+        include: {
+            model: User,
+            as: "members",
+            attributes: [],
+            through: {attributes: [],},
+        },
+        attributes: {
+            exclude: ['previewImage'],
+            include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'numMembers', 'createdAt', 'updatedAt',
+                [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
+        },
+        raw: true,
+        group: "members.id",
+		where: {
+			id: groupId,
+		},
+	});
+    const GroupImages = await GroupImage.findAll({
+        include: {
+            model: Group,
+            attributes: [],
+        },
+        attributes: {
+            exclude: ['groupId', 'createdAt', 'updatedAt'],
+            include: ['id', 'url', 'preview'],
+        },
+        raw: true,
+        group: "GroupImage.id",
+		where: {
+            groupId: groupId,
+		},
+	});
+    const Venues = await Venue.findAll({
+        include: {
+            model: Group,
+            attributes: [],
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt'],
+            include: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
+        },
+        raw: true,
+        group: "Venue.id",
+		where: {
+            groupId: groupId,
+		},
+	});
+    const Organizer = await User.findAll({
+        attributes: {
+            exclude: [ 'email', 'username', 'hashedPassword', 'createdAt', 'updatedAt'],
+            include: ['id', 'firstName', 'lastName',],
+        },
+		where: {
+            id: groupId,
+		},
+	});
+    if(group.length === 0){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+
+	return res.json(Organizer);
 });
 
 router.post("/", requireAuth, async (req, res) => {

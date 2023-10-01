@@ -133,6 +133,18 @@ router.get("/:groupId", async (req, res, next) => {
 	return res.json(getGroupById);
 });
 
+router.put("/:groupId", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const {name, about, type, private, city, state } = req.body;
+    const group = await Group.update(
+        { name: name, about: about, type: type, private: private, city: city, state: state },
+        {where: {
+            id: groupId,
+        }}
+    );
+    return res.json(group);
+});
+
 router.post("/", requireAuth, async (req, res) => {
     const organizerId = req.user.id;
     const { name, about, type, private, city, state } = req.body;
@@ -143,9 +155,10 @@ router.post("/", requireAuth, async (req, res) => {
         name: group.name,
         about: group.about,
         type: group.type,
-        private: group.private,
         city: group.city,
         state: group.state,
+        createdAt: group.createdAt,
+        updatedAt: group.updatedAt
     };
     return res.json(
         safeGroup

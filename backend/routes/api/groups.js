@@ -22,7 +22,19 @@ const validateGroup = [
     handleValidationErrors
 ];
 
-// const { validateVenue } = require('./venues');
+const validateVenue = [
+    check('address').exists({ checkFalsy: true }).isLength({ min: 1 })
+        .withMessage('Street address is required'),
+    check('city').exists({ checkFalsy: true }).isLength({ min: 1 })
+        .withMessage('City is required'),
+    check('state').exists({ checkFalsy: true }).isLength({ min: 1 })
+        .withMessage('State is required'),
+    check('lat').exists({ checkFalsy: true }).isFloat({ min: -90, max: 90 })
+        .withMessage('Latitude is not valid'),
+    check('lng').exists({ checkFalsy: true }).isFloat({ min: -180, max: 180 })
+        .withMessage('Longitude is not valid'),
+    handleValidationErrors
+];
 
 router.get('/', async (req, res) => {
 
@@ -203,7 +215,7 @@ router.post("/",  validateGroup, requireAuth, async (req, res) => {
 });
 // * Require Authentication: Current User must be the organizer of the group or
 // a member of the group with a status of "co-host"
-router.post("/:groupId/venues", requireAuth, async (req, res, next) => {
+router.post("/:groupId/venues", validateVenue, requireAuth, async (req, res, next) => {
     const userId = req.user.id;
     const groupId = req.params.groupId;
     const {address, city, state, lat, lng } = req.body;

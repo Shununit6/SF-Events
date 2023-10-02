@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Group, sequelize, GroupImage, User, Venue} = require('../../db/models');
+const { Group, sequelize, GroupImage, User, Venue, Event} = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
@@ -262,6 +262,45 @@ router.post("/:groupId/venues", validateVenue, requireAuth, async (req, res, nex
     );
 });
 
+// Require Authorization: Current User must be the organizer of the group or
+// a member of the group with a status of "co-host"
+router.post("/:groupId/events", requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+    const groupId = req.params.groupId;
+    const group = await Group.findOne({
+			where: {
+				id: groupId,
+			},
+		});
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    if(group.organizerId !== userId){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const event = await Event.create({ groupId, venueId, name, type, capacity, price, description, startDate, endDate });
+    const safeEvent = {
+        id: event.id,
+        groupId: event.groupId,
+        venueId: event.venueId,
+        name: event.name,
+        type: event.type,
+        capacity: event.capacity,
+        price: event.price,
+        description: event.description,
+        startDate: event.startDate,
+        endDate: event.endDate
+    };
+    return res.json(safeEvent);
+});
+
 // Require proper authorization: Current User must be the organizer for the group
 router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     const userId = req.user.id;
@@ -292,5 +331,7 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     };
 	return res.json(safeGroupImage);
 });
+
+
 
 module.exports = router;

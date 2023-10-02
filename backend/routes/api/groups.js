@@ -36,6 +36,26 @@ const validateVenue = [
     handleValidationErrors
 ];
 
+const validateEvent = [
+    check('venueId').exists({ checkFalsy: true }).isInt()
+        .withMessage('Venue does not exist'),
+    check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
+        .withMessage('Name must be at least 5 characters'),
+    check('type').exists({ checkFalsy: true }).isIn(['Online', 'In person'])
+        .withMessage("Type must be Online or In person"),
+    check('capacity').exists({ checkFalsy: true }).isInt({ min: 1 })
+        .withMessage('Capacity must be an integer'),
+    check('price').exists({ checkFalsy: true }).isDouble({ min: 0 })
+        .withMessage('Price is invalid'),
+    check('description').exists({ checkFalsy: true }).isLength({ min: 1 })
+        .withMessage('Description is required'),
+    check('startDate').exists({ checkFalsy: true }).isDate()
+        .withMessage('Start date must be in the future'),
+    check('endDate').exists({ checkFalsy: true }).isDate()
+        .withMessage('End date is less than start date'),
+    handleValidationErrors
+];
+
 router.get('/', async (req, res) => {
 
     const Groups = await Group.findAll(
@@ -264,7 +284,7 @@ router.post("/:groupId/venues", validateVenue, requireAuth, async (req, res, nex
 
 // Require Authorization: Current User must be the organizer of the group or
 // a member of the group with a status of "co-host"
-router.post("/:groupId/events", requireAuth, async (req, res, next) => {
+router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, next) => {
     const userId = req.user.id;
     const groupId = req.params.groupId;
     const group = await Group.findOne({

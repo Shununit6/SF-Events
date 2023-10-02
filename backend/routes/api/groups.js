@@ -6,6 +6,7 @@ const { requireAuth } = require('../../utils/auth');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { DATE } = require('sequelize');
 const validateGroup = [
     check('name').exists({ checkFalsy: true }).isLength({ min: 1, max: 60 })
         .withMessage('Name must be 60 characters or less'),
@@ -45,14 +46,14 @@ const validateEvent = [
         .withMessage("Type must be Online or In person"),
     check('capacity').exists({ checkFalsy: true }).isInt({ min: 1 })
         .withMessage('Capacity must be an integer'),
-    check('price').exists({ checkFalsy: true }).isDouble({ min: 0 })
+    check('price').exists({ checkFalsy: true }).isDecimal({ min: 0 })
         .withMessage('Price is invalid'),
     check('description').exists({ checkFalsy: true }).isLength({ min: 1 })
         .withMessage('Description is required'),
-    check('startDate').exists({ checkFalsy: true }).isDate()
+    check('startDate').exists({ checkFalsy: true }).isAfter(`${new Date()}`)
         .withMessage('Start date must be in the future'),
-    check('endDate').exists({ checkFalsy: true }).isDate()
-        .withMessage('End date is less than start date'),
+    // check('endDate').exists({ checkFalsy: true }).isAfter(`${startDate}`)
+    //     .withMessage('End date is less than start date'),
     handleValidationErrors
 ];
 

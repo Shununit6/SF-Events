@@ -204,6 +204,7 @@ router.post("/",  validateGroup, requireAuth, async (req, res) => {
 // * Require Authentication: Current User must be the organizer of the group or
 // a member of the group with a status of "co-host"
 router.post("/:groupId/venues", requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
     const groupId = req.params.groupId;
     const {address, city, state, lat, lng } = req.body;
     const group = await Group.findOne({ where: { id: groupId, }});
@@ -213,33 +214,39 @@ router.post("/:groupId/venues", requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-    const member = await Group.findOne({
+    const cohost = await Group.findAll({
         include: {
             model: User,
             as: "members",
             attributes: [],
             through: {attributes: {
-                exclude: ['createdAt', 'updatedAt'],}},
+                include: ['userId', 'groupId', 'status']
+            },
+            where: { status: "co-host" }
+            },
         },
-        attributes: {
-            exclude: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
-                [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
-        },
-        raw: true,
-        group: "members.id",
-        where: { id: groupId }});
-        const currentUserId = req.user.id;
-        const OrganizerId = group.organizerId;
-        const memberStatus = member['members.Membership.status'];
-        const memberGroupId = member['members.Membership.groupId'];
-        const memberUserId = member['members.Membership.userId'];
-    console.log(req.user.id);
-    console.log(group.organizerId);
-    console.log(member['members.Membership.status']);
-    console.log(member['members.Membership.userId']);
-    console.log(member['members.Membership.groupId']);
+        attributes: [],
+        where: { id: groupId },
+    });
+    const organizerId = group.organizerId;
+    if(organizerId !== userId && cohost.length === 0){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    const venue = await Venue.create({ groupId, address, city, state, lat, lng });
+    const safeVenue = {
+        id: venue.id,
+        groupId: venue.groupId,
+        address: venue.address,
+        city: venue.city,
+        state: venue.state,
+        lat: venue.lat,
+        lng: venue.lng,
+    };
     return res.json(
-        member
+        safeVenue
     );
 });
 

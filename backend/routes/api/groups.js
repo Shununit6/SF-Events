@@ -26,7 +26,7 @@ const validateGroup = [
 
 router.get('/', async (req, res) => {
 
-    const groups = await Group.findAll(
+    const Groups = await Group.findAll(
         {
             include: {
                 model: User,
@@ -43,11 +43,11 @@ router.get('/', async (req, res) => {
         }
     );
 
-    return res.json(groups);
+    return res.json({ Groups });
 });
 
 router.get("/current", requireAuth, async (req, res) => {
-    const group = await Group.findAll({
+    const Groups = await Group.findAll({
         include: {
             model: User,
             as: "members",
@@ -64,7 +64,7 @@ router.get("/current", requireAuth, async (req, res) => {
             organizerId: req.user.id,
         },
     });
-    return res.json(group);
+    return res.json({ Groups });
 });
 
 router.get("/:groupId", async (req, res, next) => {
@@ -128,7 +128,7 @@ router.get("/:groupId", async (req, res, next) => {
 	});
     if(group.length === 0){
         const err = new Error("Group couldn't be found");
-        err.title = "Group couldn't be found";
+        err.title = "Couldn't find a Group with the specified id";
         err.status = 404;
         return next(err);
     }
@@ -152,7 +152,9 @@ router.get("/:groupId", async (req, res, next) => {
 	return res.json(getGroupById);
 });
 
+// Require proper authorization: Group must belong to the current user
 router.put("/:groupId", validateGroup, requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
     const groupId = req.params.groupId;
     const {name, about, type, private, city, state } = req.body;
     const group = await Group.findOne({
@@ -167,13 +169,19 @@ router.put("/:groupId", validateGroup, requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
+    if(group.organizerId !== userId){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
     await group.update(
         { name: name, about: about, type: type, private: private, city: city, state: state }
     );
     return res.json(group);
 });
 
-router.post("/", requireAuth, async (req, res) => {
+router.post("/",  validateGroup, requireAuth, async (req, res) => {
     const organizerId = req.user.id;
     const { name, about, type, private, city, state } = req.body;
     const group = await Group.create({ organizerId, name, about, type, private, city, state });
@@ -183,12 +191,13 @@ router.post("/", requireAuth, async (req, res) => {
         name: group.name,
         about: group.about,
         type: group.type,
+        private: group.private,
         city: group.city,
         state: group.state,
         createdAt: group.createdAt,
         updatedAt: group.updatedAt
     };
-    return res.json(
+    return res.status(201).json(
         safeGroup
     );
 });
@@ -234,17 +243,25 @@ router.post("/:groupId/venues", requireAuth, async (req, res, next) => {
     );
 });
 
-router.post("/:groupId/images", async (req, res, next) => {
-    const group = await Group.findAll({
+// Require proper authorization: Current User must be the organizer for the group
+router.post("/:groupId/images", requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+    const groupId = req.params.groupId;
+    const group = await Group.findOne({
 			where: {
-				id: req.params.groupId,
+				id: groupId,
 			},
 		});
-    const groupId = req.params.groupId;
-    if(group.length === 0){
+    if(!group){
         const err = new Error("Group couldn't be found");
         err.title = "Group couldn't be found";
         err.status = 404;
+        return next(err);
+    }
+    if(group.organizerId !== userId){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
         return next(err);
     }
     const { url, preview } = req.body;
@@ -258,22 +275,3 @@ router.post("/:groupId/images", async (req, res, next) => {
 });
 
 module.exports = router;
-
-// const groups = await Group.findAll({
-//     attributes: [ 'id', ],
-//     where,
-//     include: [
-//         {
-//             model: Membership,
-//             attributes: []
-//         }
-//     ],
-//     attributes: {
-//         include: [
-//             [
-//                 sequelize.fn("COUNT", sequelize.col("Membership.id")),
-//                 "numMembers"
-//             ]
-//         ]
-//     },
-// });

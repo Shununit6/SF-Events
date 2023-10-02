@@ -214,6 +214,49 @@ router.put("/:groupId", validateGroup, requireAuth, async (req, res, next) => {
     return res.json(group);
 });
 
+router.get("/:groupId/events", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const Events = await Event.findAll({
+        include: [
+            {
+                model: Group,
+                attributes: {
+                    exclude: ['organizerId', 'about', 'type', 'private','previewImage', 'createdAt', 'updatedAt'],
+                    include: ['id', 'name', 'city', 'state',]
+                },
+            },
+            {
+                model: Venue,
+                attributes: {
+                    exclude: ['groupId', 'address', 'lat', 'lng', 'createdAt', 'updatedAt'],
+                    include: ['id', 'city', 'state',]
+                },
+            },
+            {
+                model: User,
+                as: "attendees",
+                attributes: [],
+                through: {attributes: [],},
+            },
+        ],
+        attributes: {
+            exclude: ['description','capacity','price', 'createdAt', 'updatedAt'],
+            include: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage',
+            [sequelize.fn('COUNT', sequelize.col('attendees.id')), 'numAttending']
+            ]
+        },
+        group: "Event.id",
+        where: { groupId: groupId }
+    });
+    if(Events.length === 0){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    return res.json({Events});
+});
+
 router.post("/",  validateGroup, requireAuth, async (req, res) => {
     const organizerId = req.user.id;
     const { name, about, type, private, city, state } = req.body;

@@ -64,6 +64,59 @@ router.get('/', async (req, res) => {
     return res.json({Events});
 });
 
+router.get('/:eventId', async (req, res, next) => {
+    const eventId = req.params.eventId;
+    const event = await Event.findOne(
+        {
+            include: [
+                {
+                    model: Group,
+                    attributes: {
+                        exclude: ['organizerId', 'about', 'type', 'previewImage', 'createdAt', 'updatedAt'],
+                        include: ['id', 'name', 'private', 'city', 'state',]
+                    },
+                },
+                {
+                    model: Venue,
+                    attributes: {
+                        exclude: ['groupId', 'createdAt', 'updatedAt'],
+                        include: ['id', 'address', 'city', 'state','lat', 'lng',]
+                    },
+                },
+                {
+                    model: EventImage,
+                    attributes: {
+                        exclude: ['eventId','createdAt', 'updatedAt'],
+                        include: ['id', 'url', 'preview']
+                    },
+                },
+                {
+                    model: User,
+                    as: "attendees",
+                    attributes: [],
+                    through: {attributes: [],},
+                },
+
+            ],
+            attributes: {
+                exclude: ['previewImage','createdAt', 'updatedAt'],
+                include: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'capacity','price', 'startDate', 'endDate',
+                [sequelize.fn('COUNT', sequelize.col('attendees.id')), 'numAttending']
+                ]
+            },
+            where: {
+                id: eventId,
+            },
+        });
+    if(!event.id){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    return res.json(event);
+})
+
 // Require proper authorization: Current User must be an attendee,
 // host, or co-host of the event
 router.post("/:eventId/images", requireAuth, async (req, res, next) => {

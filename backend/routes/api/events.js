@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Event, sequelize, User, Group, Venue, EventImage} = require('../../db/models');
+const { Event, sequelize, User, Group, Venue, EventImage, Membership } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
@@ -123,8 +123,36 @@ router.get('/:eventId', async (req, res, next) => {
     return res.json(event);
 })
 
-router.put('/:eventId', async (req, res, next) => {
-
+// Require Authorization: Current User must be the organizer of the group or
+//  a member of the group with a status of "co-host"
+router.put('/:eventId', requireAuth, validateEvent, async (req, res, next) => {
+    const eventId = req.params.eventId;
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const venue = Venue.findOne({ where: { id: venueId }});
+    if(!venue){
+        const err = new Error("Venue couldn't be found");
+        err.title = "Venue couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const event = await Event.findOne({
+        where: { id: eventId, }
+    });
+    if(!event){
+        const err = new Error("Event couldn't be found");
+        err.title = "Event couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    await event.update(
+        { venueId: venueId, name: name, type: type, capacity:capacity,
+            price:price, description:description, startDate:startDate, endDate:endDate }
+    );
+    const returnEvent = await Event.findOne({
+        attributes: {
+            exclude: ['previewImage', 'createdAt', 'updatedAt'],},
+        where: { id: eventId, }});
+    return res.json(returnEvent);
 })
 
 // Require proper authorization: Current User must be an attendee,

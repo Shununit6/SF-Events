@@ -262,6 +262,50 @@ router.get("/:groupId/events", async (req, res, next) => {
     return res.json({Events});
 });
 
+router.get("/:groupId/members", async (req, res, next) => {
+    const cuserId = req.user.id;
+    const groupId = req.params.groupId;
+    const cuserGroup = await Group.findOne({
+        where: {
+            organizerId: cuserId,
+            id: groupId,
+        }
+    });
+    const group = await Group.findOne({
+        where: {
+            id: groupId,
+        }
+    });
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.title = "Group couldn't be found";
+        return next(err);
+    }
+    const cohost = await Membership.findOne({
+        where: {
+            userId: cuserId,
+            groupId: groupId,
+            status: "co-host",
+        }
+    });
+    const Members = await Membership.findAll({
+        where: {groupId: groupId}
+    });
+    const noPendingMember = await Membership.findAll({
+        where: {groupId: groupId, status: "co-host", status: "member"}
+    });
+    if(cuserGroup || cohost){
+        return res.json(
+            {Members}
+        );
+    }else{
+        return res.json(
+            noPendingMember
+        );
+    }
+});
+
 router.post("/",  validateGroup, requireAuth, async (req, res) => {
     const organizerId = req.user.id;
     const { name, about, type, private, city, state } = req.body;

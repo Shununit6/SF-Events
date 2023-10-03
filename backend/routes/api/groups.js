@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Group, sequelize, GroupImage, User, Venue, Event} = require('../../db/models');
+const { Group, sequelize, GroupImage, User, Venue, Event, Membership} = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
@@ -369,6 +369,46 @@ router.post("/:groupId/events", requireAuth, validateEvent, async (req, res, nex
     };
     return res.json(safeEvent);
 });
+
+router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const userId = req.user.id;
+    const group = await Group.findOne({
+        where: {
+            id: groupId,
+        },
+    });
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const membership = await Membership.findOne({
+        where: {
+            userId: userId,
+        }
+    })
+    if(membership && membership.status === "pending"){
+        const err = new Error("Membership has already been requested");
+        err.title = "Membership has already been requested";
+        err.status = 400;
+        return next(err);
+    }
+    if(membership && membership.status === "member"){
+        const err = new Error("User is already a member of the group");
+        err.title = "User is already a member of the group";
+        err.status = 400;
+        return next(err);
+    }
+    const status = "pending";
+    const member = await Membership.create({ userId, groupId, status,});
+    const safeMember = {
+        memberId: member.userId,
+        status: member.status,
+    };
+	return res.json(safeMember);
+})
 
 // Require proper authorization: Current User must be the organizer for the group
 router.post("/:groupId/images", requireAuth, async (req, res, next) => {

@@ -410,6 +410,52 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
 	return res.json(safeMember);
 })
 
+// Require proper authorization:
+// To change the status from "pending" to "member":
+// Current User must already be the organizer or have a membership to the group with the status of "co-host"
+// To change the status from "member" to "co-host":
+// Current User must already be the organizer
+router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+    const groupId = req.params.groupId;
+    const { memberId, status } = req.body;
+    console.log(memberId, status);
+    const group = await Group.findOne({
+        where: {
+            organizerId: userId,
+            id: groupId,
+        }
+    });
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId,
+            status: "co-host",
+        }
+    })
+    const member = await Membership.findOne({
+        where: {
+            userId: memberId,
+            groupId: groupId,
+        }
+    })
+    const memberStatus = member.status;
+    if(!group && !cohost){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    if(group || co-host && status === "member" && memberStatus === "pending"){
+
+    }
+    if(group && status === "co-host"){
+
+    }
+    console.log(member.status);
+    return res.json(member);
+})
+
 // Require proper authorization: Current User must be the organizer for the group
 router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     const userId = req.user.id;

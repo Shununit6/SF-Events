@@ -416,29 +416,53 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
 // To change the status from "member" to "co-host":
 // Current User must already be the organizer
 router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
-    const userId = req.user.id;
+    const cuserId = req.user.id;
     const groupId = req.params.groupId;
     const { memberId, status } = req.body;
-    console.log(memberId, status);
+    // console.log(memberId, status);
     const group = await Group.findOne({
         where: {
-            organizerId: userId,
+            organizerId: cuserId,
             id: groupId,
         }
     });
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        err.title = "Group couldn't be found";
+        return next(err);
+    }
     const cohost = await Membership.findOne({
         where: {
-            userId: userId,
+            userId: cuserId,
             groupId: groupId,
             status: "co-host",
         }
     })
+    const memberUser = await User.findOne({
+        where: {
+            id: memberId,
+        }
+    })
+    if(!memberUser){
+        const err = new Error("Validations Error");
+        err.status = 400;
+        err.title = 'Validations Error';
+        err.errors = { memberId: "User couldn't be found" };
+        return next(err);
+    }
     const member = await Membership.findOne({
         where: {
             userId: memberId,
             groupId: groupId,
         }
     })
+    if(!member){
+        const err = new Error("Membership between the user and the group does not exist");
+        err.status = 404;
+        err.title = 'membership does not exist';
+        return next(err);
+    }
     const memberStatus = member.status;
     if(!group && !cohost){
         const err = new Error("Forbidden");
@@ -447,13 +471,35 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
         return next(err);
     }
     if(group || co-host && status === "member" && memberStatus === "pending"){
-
+        const userId = memberId;
+        const updatemember = await Membership.create({ userId, groupId, status,});
+        const safeMember = {
+            id: updatemember.id,
+            groupId: updatemember.groupId,
+            memberId: updatemember.userId,
+            status: updatemember.status,
+        };
+	    return res.json(safeMember);
     }
-    if(group && status === "co-host"){
-
+    if(group && status === "co-host" && memberStatus === "member"){
+        const userId = memberId;
+        const updatemember = await Membership.create({ userId, groupId, status,});
+        const safeMember = {
+            id: updatemember.id,
+            groupId: updatemember.groupId,
+            memberId: updatemember.userId,
+            status: updatemember.status,
+        };
+	    return res.json(safeMember);
     }
-    console.log(member.status);
-    return res.json(member);
+    // console.log(member.status);
+    if(status === "pending"){
+        const err = new Error("Validations Error");
+        err.status = 400;
+        err.title = 'Validations Error';
+        err.errors = {status : "Cannot change a membership status to pending"};
+        return next(err);
+    }
 })
 
 // Require proper authorization: Current User must be the organizer for the group

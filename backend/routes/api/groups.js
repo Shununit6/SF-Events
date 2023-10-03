@@ -68,16 +68,16 @@ router.get('/', async (req, res) => {
         {
             include: {
                 model: User,
-                as: "members",
+                as: "Members",
                 attributes: [],
                 through: {attributes: [],},
             },
             attributes: {
                 include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
-                    [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
+                    [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
             },
             raw: true,
-            group: "members.id",
+            group: "Members.id",
         }
     );
 
@@ -88,16 +88,16 @@ router.get("/current", requireAuth, async (req, res) => {
     const Groups = await Group.findAll({
         include: {
             model: User,
-            as: "members",
+            as: "Members",
             attributes: [],
             through: {attributes: [],},
         },
         attributes: {
             include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
-                [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
+                [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
         },
         raw: true,
-        group: "members.id",
+        group: "Members.id",
         where: {
             organizerId: req.user.id,
         },
@@ -110,17 +110,17 @@ router.get("/:groupId", async (req, res, next) => {
     const group = await Group.findOne({
         include: {
             model: User,
-            as: "members",
+            as: "Members",
             attributes: [],
             through: {attributes: [],},
         },
         attributes: {
             exclude: ['previewImage'],
             include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'createdAt', 'updatedAt',
-                [sequelize.fn('COUNT', sequelize.col('members.id')), 'numMembers']],
+                [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
         },
         raw: true,
-        group: "members.id",
+        group: "Members.id",
 		where: {
 			id: groupId,
 		},
@@ -289,15 +289,39 @@ router.get("/:groupId/members", async (req, res, next) => {
             status: "co-host",
         }
     });
-    const Members = await Membership.findAll({
-        where: {groupId: groupId}
+    const Members = await Group.findOne({
+        include: {
+            model: User,
+            as: "Members",
+            attributes: {
+                exclude: ['email', 'username', 'hashedPassword', 'createdAt', 'updatedAt'],
+                include: ['id', 'firstName', 'lastName']},
+            through: {attributes: {
+                exclude: ['id', 'groupId', 'userId', 'createdAt', 'updatedAt'],
+                include: ['status',]},},
+            },
+        attributes: [],
+        where: {id: groupId},
     });
-    const noPendingMember = await Membership.findAll({
-        where: {groupId: groupId, status: "co-host", status: "member"}
+    const noPendingMember = await Group.findOne({
+        include: {
+            model: User,
+            as: "Members",
+            attributes: {
+                exclude: ['email', 'username', 'hashedPassword', 'createdAt', 'updatedAt'],
+                include: ['id', 'firstName', 'lastName']},
+            through: {attributes: {
+                exclude: ['id', 'groupId', 'userId', 'createdAt', 'updatedAt'],
+                include: ['status',]},
+                where: {status: {[Op.not]: "pending",}},
+            },
+            },
+        attributes: [],
+        where: {id: groupId},
     });
     if(cuserGroup || cohost){
         return res.json(
-            {Members}
+            Members
         );
     }else{
         return res.json(
@@ -342,7 +366,7 @@ router.post("/:groupId/venues", validateVenue, requireAuth, async (req, res, nex
     const cohost = await Group.findAll({
         include: {
             model: User,
-            as: "members",
+            as: "Members",
             attributes: [],
             through: {attributes: {
                 include: ['userId', 'groupId', 'status']

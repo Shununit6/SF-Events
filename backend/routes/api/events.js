@@ -22,8 +22,14 @@ const validateEvent = [
         .withMessage('Description is required'),
     check('startDate').exists({ checkFalsy: true }).isAfter(`${new Date()}`)
         .withMessage('Start date must be in the future'),
-    // check('endDate').exists({ checkFalsy: true }).isAfter(`${startDate}`)
-    //     .withMessage('End date is less than start date'),
+    check('endDate').custom((endDate, { req }) => {
+            const startDate = req.body.startDate;
+            if (startDate >= endDate) {
+                return false
+            }
+            return true
+        }).withMessage('End date is less than start date'),
+
     handleValidationErrors
 ];
 router.get('/', async (req, res) => {
@@ -115,6 +121,10 @@ router.get('/:eventId', async (req, res, next) => {
         return next(err);
     }
     return res.json(event);
+})
+
+router.put('/:eventId', async (req, res, next) => {
+
 })
 
 // Require proper authorization: Current User must be an attendee,

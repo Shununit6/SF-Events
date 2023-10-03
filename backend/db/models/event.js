@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
     }
+
   }
   Event.init({
     groupId: {
@@ -51,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     price: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL(10,2),
       allowNull: false,
     },
     startDate: {
@@ -61,6 +62,9 @@ module.exports = (sequelize, DataTypes) => {
     endDate: {
       type: DataTypes.DATE,
       allowNull: false,
+      validate: {
+
+      },
     },
     previewImage: {
       type: DataTypes.STRING,

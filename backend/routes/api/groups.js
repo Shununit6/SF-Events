@@ -333,8 +333,7 @@ router.post("/:groupId/venues", validateVenue, requireAuth, async (req, res, nex
 
 // Require Authorization: Current User must be the organizer of the group or
 // a member of the group with a status of "co-host"
-router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, next) => {
-    const userId = req.user.id;
+router.post("/:groupId/events", requireAuth, validateEvent, async (req, res, next) => {
     const groupId = req.params.groupId;
     const group = await Group.findOne({
 			where: {
@@ -347,6 +346,7 @@ router.post("/:groupId/events", validateEvent, requireAuth, async (req, res, nex
         err.status = 404;
         return next(err);
     }
+    const userId = req.user.id;
     if(group.organizerId !== userId){
         const err = new Error("Forbidden");
         err.status = 403;

@@ -24,7 +24,7 @@ const validateVenue = [
 
 // Require Authentication: Current User must be the organizer of the group or
 //  a member of the group with a status of "co-host"
-router.put("/:venueId", validateVenue, requireAuth, async (req, res, next) => {
+router.put("/:venueId",requireAuth, validateVenue, async (req, res, next) => {
     // const userId = req.user.id;
     const venueId = req.params.venueId;
     const {address, city, state, lat, lng} = req.body;

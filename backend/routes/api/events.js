@@ -118,8 +118,8 @@ router.get('/:eventId', async (req, res, next) => {
             },
         });
     if(!event.id){
-        const err = new Error("Group couldn't be found");
-        err.title = "Group couldn't be found";
+        const err = new Error("Event couldn't be found");
+        err.title = "Event couldn't be found";
         err.status = 404;
         return next(err);
     }

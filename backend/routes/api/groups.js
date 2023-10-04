@@ -601,6 +601,12 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
 	return res.json(safeGroupImage);
 });
 
+router.delete("/:groupId/membership", requireAuth, async (req, res, next) => {
 
+});
+
+router.delete("/group-images/:imageId", requireAuth, async (req, res, next) => {
+
+});
 
 module.exports = router;

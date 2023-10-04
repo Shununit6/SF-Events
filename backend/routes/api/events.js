@@ -6,6 +6,7 @@ const { requireAuth } = require('../../utils/auth');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const attendee = require('../../db/models/attendee');
 
 const validateEvent = [
     check('venueId').exists({ checkFalsy: true }).isInt()
@@ -222,4 +223,48 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
     };
     return res.json(safeAttendee);
 });
+
+router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
+    const cuserId = req.user.id;
+    const eventId = req.params.eventId;
+    const event = await Event.findOne({ where: {id: eventId,},});
+    if(!event){
+        const err = new Error("Event couldn't be found");
+        err.title = "Event couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const groupId = event.groupId;
+    const organizer = await Group.findOne({ where: {id: groupId, organizerId: cuserId }});
+    const member = await Membership.findOne({ where: {userId: cuserId, groupId: groupId},});
+    if(!organizer && member.status !== "co-host"){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    const { userId, status } = req.body;
+    if(status === "pending"){
+        const err = new Error("Cannot change an attendance status to pending");
+        err.title = "Cannot change an attendance status to pending";
+        err.status = 400;
+        return next(err);
+    }
+    const attendance = await Attendee.findOne({ where: { userId: userId, eventId: eventId }});
+    if(!attendance){
+        const err = new Error("Attendance between the user and the event does not exist");
+        err.title = "Attendance between the user and the event does not exist";
+        err.status = 404;
+        return next(err);
+    }
+    await attendance.update({ status: status });
+    const safeAttendee = {
+        id: attendance.id,
+        eventId: attendance.eventId,
+        userId: attendee.userId,
+        status: attendee.status,
+    };
+    return res.json(safeAttendee);
+});
+
 module.exports = router;

@@ -219,7 +219,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
 })
 
 // Require proper authorization: Group must belong to the current user
-router.put("/:groupId", validateGroup, requireAuth, async (req, res, next) => {
+router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
     const userId = req.user.id;
     const groupId = req.params.groupId;
     const {name, about, type, private, city, state } = req.body;
@@ -380,7 +380,7 @@ router.post("/", requireAuth, validateGroup, async (req, res) => {
 });
 // * Require Authentication: Current User must be the organizer of the group or
 // a member of the group with a status of "co-host"
-router.post("/:groupId/venues", validateVenue, requireAuth, async (req, res, next) => {
+router.post("/:groupId/venues", requireAuth, validateVenue, async (req, res, next) => {
     const userId = req.user.id;
     const groupId = req.params.groupId;
     const {address, city, state, lat, lng } = req.body;

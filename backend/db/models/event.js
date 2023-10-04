@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
           through: models.Attendee,
           foreignKey: 'eventId',
           otherKey: 'userId',
-          as: "attendees"
+          as: "Attendees"
         }
       );
     }

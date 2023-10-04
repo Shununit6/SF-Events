@@ -239,7 +239,7 @@ router.get("/:groupId/events", async (req, res, next) => {
             },
             {
                 model: User,
-                as: "attendees",
+                as: "Attendees",
                 attributes: [],
                 through: {attributes: [],},
             },

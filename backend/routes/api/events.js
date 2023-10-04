@@ -8,6 +8,8 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const attendee = require('../../db/models/attendee');
 
+const { Op } = require('sequelize');
+
 const validateEvent = [
     check('venueId').exists({ checkFalsy: true }).isInt()
         .withMessage('Venue does not exist'),
@@ -53,7 +55,7 @@ router.get('/', async (req, res) => {
                 },
                 {
                     model: User,
-                    as: "attendees",
+                    as: "Attendees",
                     attributes: [],
                     through: {attributes: [],},
                 },
@@ -99,7 +101,7 @@ router.get('/:eventId', async (req, res, next) => {
                 },
                 {
                     model: User,
-                    as: "attendees",
+                    as: "Attendees",
                     attributes: [],
                     through: {attributes: [],},
                 },
@@ -180,6 +182,56 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     };
 	return res.json(safeEventImage);
 });
+
+router.get("/:eventId/attendees", async (req, res, next) => {
+    const cuserId = req.user.id;
+    const eventId = req.params.eventId;
+    const event = await Event.findOne({ where: {id: eventId,},});
+    if(!event){
+        const err = new Error("Event couldn't be found");
+        err.title = "Event couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const groupId = event.groupId;
+    const organizer = await Group.findOne({ where: {id: groupId, organizerId: cuserId }});
+    const member = await Membership.findOne({ where: {userId: cuserId, groupId: groupId},});
+    const allAttend = await Event.findOne({
+        include: {
+            model: User,
+            as: "Attendees",
+            attributes: {
+                exclude: ['email', 'username', 'hashedPassword', 'createdAt', 'updatedAt'],
+                include: ['id', 'firstName', 'lastName']},
+            through: {attributes: {
+                exclude: ['id', 'eventId', 'userId', 'createdAt', 'updatedAt'],
+                include: ['status',]},},
+            },
+        attributes: [],
+        where: {id: eventId},
+    });
+    const nopendingAttend = await Event.findOne({
+        include: {
+            model: User,
+            as: "Attendees",
+            attributes: {
+                exclude: ['email', 'username', 'hashedPassword', 'createdAt', 'updatedAt'],
+                include: ['id', 'firstName', 'lastName']},
+            through: {attributes: {
+                exclude: ['id', 'eventId', 'userId', 'createdAt', 'updatedAt'],
+                include: ['status',]},
+                where: {status: {[Op.not]: "pending",}},
+                },
+            },
+        attributes: [],
+        where: {id: eventId},
+    });
+    if(organizer || member.status === "co-host"){
+        return res.json(allAttend);
+    }else{
+        return res.json(nopendingAttend);
+    }
+})
 
 router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
     const cuserId = req.user.id;

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Event, sequelize, User, Group, Venue, EventImage, Membership } = require('../../db/models');
+const { Event, sequelize, User, Group, Venue, EventImage, Membership, Attendee } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
@@ -180,4 +180,46 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
 	return res.json(safeEventImage);
 });
 
+router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
+    const cuserId = req.user.id;
+    const eventId = req.params.eventId;
+    const event = await Event.findOne({ where: {id: eventId,},});
+    if(!event){
+        const err = new Error("Event couldn't be found");
+        err.title = "Event couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const groupId = event.groupId;
+    const member = await Membership.findOne({ where: {userId: cuserId, groupId: groupId},});
+    // if(member.status === "pending"){
+    // }
+    if(!member){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    const attendance = await Attendee.findOne({ where: {userId: cuserId, eventId: eventId}});
+    if(attendance && attendance.status==="pending"){
+        const err = new Error("Attendance has already been requested");
+        err.title = "Attendance has already been requested";
+        err.status = 400;
+        return next(err);
+    }
+    if(attendance && attendance.status==="attending"){
+        const err = new Error("User is already an attendee of the event");
+        err.title = "User is already an attendee of the event";
+        err.status = 400;
+        return next(err);
+    }
+    const status = "pending";
+    const userId = cuserId;
+    const attendee = await Attendee.create({ userId, eventId, status });
+    const safeAttendee = {
+        userId: attendee.userId,
+        status: attendee.status,
+    };
+    return res.json(safeAttendee);
+});
 module.exports = router;

@@ -164,9 +164,9 @@ router.get("/:groupId", async (req, res, next) => {
             id: groupId,
 		},
 	});
-    if(group.length === 0){
+    if(!group){
         const err = new Error("Group couldn't be found");
-        err.title = "Couldn't find a Group with the specified id";
+        err.title = "Group couldn't be found";
         err.status = 404;
         return next(err);
     }

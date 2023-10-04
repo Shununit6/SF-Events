@@ -190,6 +190,34 @@ router.get("/:groupId", async (req, res, next) => {
 	return res.json(getGroupById);
 });
 
+router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
+    const currentUser = req.user.id;
+    const groupId = req.params.groupId;
+    const group = await Group.findOne({ where: {id: groupId,},});
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const organizer = await Group.findOne({ where: {id: groupId, organizerId: currentUser}});
+    const cohost = await Membership.findOne({
+        where: {
+            userId: currentUser,
+            groupId: groupId,
+            status: "co-host",
+        }
+    });
+    if( !cohost && !organizer){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    const Venues = await Venue.findAll({where: {groupId: groupId}});
+    return res.json(Venues);
+})
+
 // Require proper authorization: Group must belong to the current user
 router.put("/:groupId", validateGroup, requireAuth, async (req, res, next) => {
     const userId = req.user.id;
@@ -330,7 +358,7 @@ router.get("/:groupId/members", async (req, res, next) => {
     }
 });
 
-router.post("/",  validateGroup, requireAuth, async (req, res) => {
+router.post("/", requireAuth, validateGroup, async (req, res) => {
     const organizerId = req.user.id;
     const { name, about, type, private, city, state } = req.body;
     const group = await Group.create({ organizerId, name, about, type, private, city, state });

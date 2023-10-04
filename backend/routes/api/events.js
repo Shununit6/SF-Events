@@ -354,4 +354,38 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
     }
 });
 
+router.delete("/:eventId", requireAuth, async (req, res, next) => {
+    const currentUser = req.user.id;
+    const eventId = req.params.eventId;
+    const event = await Event.findOne({ where: {id: eventId,},});
+    if(!event){
+        const err = new Error("Event couldn't be found");
+        err.title = "Event couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const groupId = event.groupId;
+    const organizer = await Group.findOne({ where: {id: groupId, organizerId: currentUser}});
+    const cohost = await Membership.findOne({
+        where: {
+            userId: currentUser,
+            groupId: groupId,
+            status: "co-host",
+        }
+    });
+    if( !cohost && !organizer){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    await event.destroy();
+    const deletedEvent = await Event.findOne({ where: {id: eventId,},});
+    if(!deletedEvent){
+        return res.json({
+            "message": "Successfully deleted"
+          });
+    }
+});
+
 module.exports = router;

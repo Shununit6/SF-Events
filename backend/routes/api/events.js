@@ -319,4 +319,39 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
     return res.json(safeAttendee);
 });
 
+router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
+    const { userId } = req.body;
+    const currentUser = req.user.id;
+    const eventId = req.params.eventId;
+    const event = await Event.findOne({ where: {id: eventId,},});
+    if(!event){
+        const err = new Error("Event couldn't be found");
+        err.title = "Event couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const groupId = event.groupId;
+    const organizer = await Group.findOne({ where: {id: groupId, organizerId: currentUser}});
+    if( userId !== currentUser && !organizer){
+        const err = new Error("Only the User or organizer may delete an Attendance");
+        err.title = "Only the User or organizer may delete an Attendance";
+        err.status = 403;
+        return next(err);
+    }
+    const attendance = await Attendee.findOne({ where: { userId: userId, eventId: eventId }});
+    if(!attendance){
+        const err = new Error("Attendance does not exist for this User");
+        err.title = "Attendance does not exist for this User";
+        err.status = 404;
+        return next(err);
+    }
+    await attendance.destroy();
+    const deletedAttendance = await Attendee.findOne({ where: { userId: userId, eventId: eventId }});
+    if(!deletedAttendance){
+        return res.json({
+            "message": "Successfully deleted attendance from event"
+          });
+    }
+});
+
 module.exports = router;

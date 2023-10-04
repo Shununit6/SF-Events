@@ -38,7 +38,7 @@ const validateVenue = [
 ];
 
 const validateEvent = [
-    check('venueId').exists({ checkFalsy: true }).isInt()
+    check('venueId').exists({ checkFalsy: true }).isInt({ max: 4000 })
         .withMessage('Venue does not exist'),
     check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
         .withMessage('Name must be at least 5 characters'),
@@ -46,7 +46,7 @@ const validateEvent = [
         .withMessage("Type must be Online or In person"),
     check('capacity').exists({ checkFalsy: true }).isInt({ min: 1 })
         .withMessage('Capacity must be an integer'),
-    check('price').exists({ checkFalsy: true }).isDecimal({ min: 0 })
+    check('price').exists({ checkFalsy: true }).isFloat({ min: 0 })
         .withMessage('Price is invalid'),
     check('description').exists({ checkFalsy: true }).isLength({ min: 1 })
         .withMessage('Description is required'),
@@ -214,8 +214,10 @@ router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
         err.title = 'Require proper authorization';
         return next(err);
     }
-    const Venues = await Venue.findAll({where: {groupId: groupId}});
-    return res.json(Venues);
+    const Venues = await Venue.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'],},
+        where: {groupId: groupId}});
+    return res.json({Venues});
 })
 
 // Require proper authorization: Group must belong to the current user

@@ -602,7 +602,48 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
 });
 
 router.delete("/:groupId/membership", requireAuth, async (req, res, next) => {
-
+    const userId = req.user.id;
+    const groupId = req.params.groupId;
+    const group = await Group.findOne({
+			where: {
+				id: groupId,
+			},
+		});
+    if(!group){
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+    const {memberId} = req.body;
+    const member = User.findOne({where: {id: memberId}});
+    if(!member){
+        const err = new Error("Validation Error");
+        err.title = "Validation Error";
+        err.status = 400;
+        err.errors = { memberId: "User couldn't be found" };
+        return next(err);
+    }
+    if(group.organizerId !== userId && memberId !== userId){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    const membership = await Membership.findOne({ where: { userId: userId, groupId: groupId }});
+    if(!membership){
+        const err = new Error("Membership does not exist for this User");
+        err.title = "Membership does not exist for this User";
+        err.status = 404;
+        return next(err);
+    }
+    await membership.destroy();
+    const deletedMembership = await Membership.findOne({ where: { userId: userId, groupId: groupId }});
+    if(!deletedMembership){
+        return res.json({
+            "message": "Successfully deleted membership from group"
+          });
+    }
 });
 
 router.delete("/group-images/:imageId", requireAuth, async (req, res, next) => {

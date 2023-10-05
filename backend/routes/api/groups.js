@@ -6,7 +6,7 @@ const { requireAuth } = require('../../utils/auth');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { DATE } = require('sequelize');
+const { DATE , Op} = require('sequelize');
 const validateGroup = [
     check('name').exists({ checkFalsy: true }).isLength({ min: 1, max: 60 })
         .withMessage('Name must be 60 characters or less'),
@@ -490,24 +490,31 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
         err.title = "Group couldn't be found";
         err.status = 404;
         return next(err);
-    }
-    const membership = await Membership.findOne({
+    };
+    const pending = await Membership.findOne({
         where: {
             userId: userId,
+            status: "pending",
         }
-    })
-    if(membership && membership.status === "pending"){
+    });
+    const isMember = await Membership.findOne({
+        where: {
+            userId: userId,
+            status: "member",
+        }
+    });
+    if(pending){
         const err = new Error("Membership has already been requested");
         err.title = "Membership has already been requested";
         err.status = 400;
         return next(err);
-    }
-    if(membership && membership.status === "member"){
+    };
+    if(isMember){
         const err = new Error("User is already a member of the group");
         err.title = "User is already a member of the group";
         err.status = 400;
         return next(err);
-    }
+    };
     const status = "pending";
     const member = await Membership.create({ userId, groupId, status,});
     const safeMember = {
@@ -629,7 +636,13 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-    if(group.organizerId !== userId){
+    const organizer = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: userId
+        },
+    });
+    if(!organizer){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';

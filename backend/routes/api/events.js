@@ -288,7 +288,7 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
         return next(err);
     }
     const groupId = event.groupId;
-    const member = await Membership.findOne({ where: {userId: cuserId, groupId: groupId},});
+    const member = await Membership.findOne({ where: {userId: cuserId, groupId: groupId, status: "member"},});
     // if(member.status === "pending"){
     // }
     if(!member){
@@ -304,7 +304,7 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
         err.status = 400;
         return next(err);
     }
-    if(attendance && attendance.status==="attending"){
+    if(attendance && attendance.status==="attendee"){
         const err = new Error("User is already an attendee of the event");
         err.title = "User is already an attendee of the event";
         err.status = 400;

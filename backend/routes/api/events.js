@@ -462,6 +462,9 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
     }
 });
 
+// * Require Authentication: true
+// * Require Authorization: Current User must be the organizer of the group or a member of
+//   the group with a status of "co-host"
 router.delete("/:eventId", requireAuth, async (req, res, next) => {
     const currentUser = req.user.id;
     const eventId = req.params.eventId;

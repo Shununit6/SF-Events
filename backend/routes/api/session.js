@@ -63,7 +63,6 @@ router.delete('/', (_req, res) => {
 router.get('/', (req, res) => {
     console.log('here');
     const { user } = req;
-    console.log(user.firstName);
     if (user) {
         const safeUser = {
             id: user.id,

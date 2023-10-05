@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { Venue } = require('../../db/models');
+const { Venue, Group, Membership } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
@@ -25,7 +25,7 @@ const validateVenue = [
 // Require Authentication: Current User must be the organizer of the group or
 //  a member of the group with a status of "co-host"
 router.put("/:venueId", requireAuth, validateVenue, async (req, res, next) => {
-    // const userId = req.user.id;
+    const userId = req.user.id;
     const venueId = req.params.venueId;
     const {address, city, state, lat, lng} = req.body;
     const venue = await Venue.findOne({
@@ -41,12 +41,25 @@ router.put("/:venueId", requireAuth, validateVenue, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-    // if(group.organizerId !== userId){
-    //     const err = new Error("Forbidden");
-    //     err.status = 403;
-    //     err.title = 'Require proper authorization';
-    //     return next(err);
-    // }
+    const groupId = venue.groupId;
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId,
+            status: "co-host",
+        }
+    });
+    const organizer = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: userId,}
+    });
+    if(!organizer && !cohost){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    };
     await venue.update(
         { address: address, city: city, state: state, lat: lat, lng: lng }
     );

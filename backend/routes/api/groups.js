@@ -719,8 +719,4 @@ router.delete("/:groupId/membership", requireAuth, async (req, res, next) => {
     }
 });
 
-router.delete("/group-images/:imageId", requireAuth, async (req, res, next) => {
-
-});
-
 module.exports = router;

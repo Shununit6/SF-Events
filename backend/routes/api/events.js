@@ -147,6 +147,26 @@ router.put('/:eventId', requireAuth, validateEvent, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
+    const userId = req.user.id;
+    const groupId = event.groupId;
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId,
+            status: "co-host",
+        }
+    });
+    const organizer = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: userId,}
+    });
+    if(!organizer && !cohost){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    };
     await event.update(
         { venueId: venueId, name: name, type: type, capacity:capacity,
             price:price, description:description, startDate:startDate, endDate:endDate }
@@ -175,11 +195,22 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     }
     const userId = req.user.id;
     const groupId = event.groupId;
-    const userAuth = Membership.findOne({
+    const cohost = Membership.findOne({
         where: { groupId: groupId,
-        userId: userId,}
+        userId: userId,
+        status: "co-host"}
     });
-    if(userAuth.status !== "co-host" &&  userAuth.status !== "attendee" && userAuth.status !== "host"){
+    const attendee = Membership.findOne({
+        where: { groupId: groupId,
+        userId: userId,
+        status: "attendee"}
+    });
+    const host = Membership.findOne({
+        where: { groupId: groupId,
+        userId: userId,
+        status: "host"}
+    });
+    if(!cohost &&  !attendee && !host){
         const err = new Error("Forbidden");
             err.status = 403;
             err.title = 'Require proper authorization';

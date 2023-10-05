@@ -15,7 +15,8 @@ router.delete("/:imageId", requireAuth, async (req, res, next) => {
         return next(err);
     }
     const userId = req.user.id;
-    const groupId = eventimage.groupId;
+    const event = await Event.findOne({ where: {id: eventimage.eventId}});
+    const groupId = event.groupId;
     const organizer = await Group.findOne({ where: { id: groupId, organizerId: userId},});
     const cohost = await Membership.findOne({ where: { groupId: groupId, userId: userId, status: "co-host"}, });
     if(!organizer && !cohost){

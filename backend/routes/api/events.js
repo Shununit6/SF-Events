@@ -54,7 +54,7 @@ const validateEvent = [
 const validateQuery = [
     check('page').exists({ checkFalsy: true }).isInt({min: 1})
         .withMessage("Page must be greater than or equal to 1"),
-    check('size').exists({ checkFalsy: true }).isInt({ min: 1 })
+    check('size').exists({ checkFalsy: true }).isInt({ min: 1})
         .withMessage("Size must be greater than or equal to 1"),
     check('name').optional().custom((name)=>{
         const number = parseInt(name);
@@ -68,7 +68,7 @@ const validateQuery = [
     check('startDate').optional().custom((startDate)=>{
         const date = startDate.slice(1, startDate.length-1);
         const Invalid = new Date(date);
-        if(Invalid == "Invalid Date"){
+        if(Invalid == "Invalid Date" || (Invalid < (new Date()))){
             return false
         }else{
             return true
@@ -76,24 +76,32 @@ const validateQuery = [
     }).withMessage("Start date must be a valid datetime"),
     handleValidationErrors
 ];
-// isIn(['Online', 'In person'])
-router.get('/', validateQuery, async (req, res) => {
-    let defaultPage = 1, defaultSize = 20, defaultName = " ", defaultType = " ", defaultStartDate = " ";
-    let { page, size, name, type, startDate } = req.query;
-    // console.log(
-    //     `page: ${page}, size: ${size}, name: ${name}, type: ${type}, startDate: ${startDate} `,
-    //     `typeof page: ${ typeof page}, size: ${typeof size}, name: ${typeof name}, type: ${typeof type}, startDate: ${typeof startDate} `
-    // );
-    page = page > 10 ? defaultPage : page;
-    size = size > 20 ? defaultSize : size;
-    name = "undefined" ? defaultName: name;
-    type = "undefined" ? defaultType: type;
-    startDate = "undefined" ? defaultType : startDate;
 
-    console.log(page-4);
+router.get('/', validateQuery, async (req, res) => {
+    let { page, size, name, type, startDate } = req.query;
+    // let date = req.query.startDate;
+    // // "\"\\\"2023-11-19 20:00:00\\\"\"
+    // if(date){
+    // date = date.slice(5, date.length-5)};
+    page = page > 10 ? 1 : page;
+    size = size > 20 ? 20 : size;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    const where = {};
+    if(name) where.name = name;
+    if(type) where.type = type;
+    if(startDate) where.startDate = date;
+
+    const pagination = {};
+    pagination.limit = size;
+    pagination.offset = size * (page - 1);
 
     const Events = await Event.findAll(
         {
+            where: { ...where },
+            ...pagination,
             include: [
                 {
                     model: Group,
@@ -115,18 +123,17 @@ router.get('/', validateQuery, async (req, res) => {
                     attributes: [],
                     through: {attributes: [],},
                 },
-
             ],
             attributes: {
                 exclude: ['description','capacity','price', 'createdAt', 'updatedAt'],
                 include: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage',
-                [sequelize.fn('COUNT', sequelize.col('attendees.id')), 'numAttending']
+                [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending']
                 ]
             },
             group: "Event.id",
         }
     );
-    return res.json({Events});
+    return res.json({Events}, page);
 });
 
 router.get('/:eventId', async (req, res, next) => {

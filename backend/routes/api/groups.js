@@ -38,7 +38,7 @@ const validateVenue = [
 ];
 
 const validateEvent = [
-    check('venueId').exists({ checkFalsy: true }).isInt({ max: 4000 })
+    check('venueId').exists({ checkFalsy: true }).isInt({ max: 100 })
         .withMessage('Venue does not exist'),
     check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
         .withMessage('Name must be at least 5 characters'),
@@ -393,22 +393,19 @@ router.post("/:groupId/venues", requireAuth, validateVenue, async (req, res, nex
         err.status = 404;
         return next(err);
     }
-    const cohost = await Group.findAll({
-        include: {
-            model: User,
-            as: "Members",
-            attributes: [],
-            through: {attributes: {
-                include: ['userId', 'groupId', 'status']
-            },
-            where: { status: "co-host" }
-            },
-        },
-        attributes: [],
-        where: { id: groupId },
+    const organizer = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: userId,
+    }});
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId,
+            status: "co-host",
+        }
     });
-    const organizerId = group.organizerId;
-    if(organizerId !== userId && cohost.length === 0){
+    if(!organizer && !cohost){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';
@@ -445,7 +442,19 @@ router.post("/:groupId/events", requireAuth, validateEvent, async (req, res, nex
         return next(err);
     }
     const userId = req.user.id;
-    if(group.organizerId !== userId){
+    const organizer = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: userId,
+    }});
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId,
+            status: "co-host",
+        }
+    });
+    if(!organizer && !cohost){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';
@@ -517,10 +526,8 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     const cuserId = req.user.id;
     const groupId = req.params.groupId;
     const { memberId, status } = req.body;
-    // console.log(memberId, status);
     const group = await Group.findOne({
         where: {
-            organizerId: cuserId,
             id: groupId,
         }
     });
@@ -562,33 +569,40 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
         return next(err);
     }
     const memberStatus = member.status;
-    if(!group && !cohost){
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.title = 'Require proper authorization';
-        return next(err);
-    }
-    if(group || co-host && status === "member" && memberStatus === "pending"){
+    const organizer = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: cuserId,
+        }
+    });
+    if(organizer || cohost && status === "member" && memberStatus === "pending"){
         const userId = memberId;
         const updatemember = await Membership.create({ userId, groupId, status,});
+        const {id} = updatemember;
         const safeMember = {
-            id: updatemember.id,
+            id: id,
             groupId: updatemember.groupId,
             memberId: updatemember.userId,
             status: updatemember.status,
         };
 	    return res.json(safeMember);
     }
-    if(group && status === "co-host" && memberStatus === "member"){
+    if(organizer && status === "co-host" && memberStatus === "member"){
         const userId = memberId;
         const updatemember = await Membership.create({ userId, groupId, status,});
+        const {id} = updatemember;
         const safeMember = {
-            id: updatemember.id,
+            id: id,
             groupId: updatemember.groupId,
             memberId: updatemember.userId,
             status: updatemember.status,
         };
 	    return res.json(safeMember);
+    }else if(cohost){
+            const err = new Error("Forbidden");
+            err.status = 403;
+            err.title = 'Require proper authorization';
+            return next(err);
     }
     // console.log(member.status);
     if(status === "pending"){

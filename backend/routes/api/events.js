@@ -11,7 +11,7 @@ const attendee = require('../../db/models/attendee');
 const { Op } = require('sequelize');
 
 const validateEvent = [
-    check('venueId').exists({ checkFalsy: true }).isInt()
+    check('venueId').exists({ checkFalsy: true }).isInt({max: 100})
         .withMessage('Venue does not exist'),
     check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
         .withMessage('Name must be at least 5 characters'),
@@ -19,7 +19,7 @@ const validateEvent = [
         .withMessage("Type must be Online or In person"),
     check('capacity').exists({ checkFalsy: true }).isInt({ min: 1 })
         .withMessage('Capacity must be an integer'),
-    check('price').exists({ checkFalsy: true }).isDecimal({ min: 0 })
+    check('price').exists({ checkFalsy: true }).isFloat({ min: 0 })
         .withMessage('Price is invalid'),
     check('description').exists({ checkFalsy: true }).isLength({ min: 1 })
         .withMessage('Description is required'),
@@ -172,6 +172,18 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
         err.title = "Event couldn't be found";
         err.status = 404;
         return next(err);
+    }
+    const userId = req.user.id;
+    const groupId = event.groupId;
+    const userAuth = Membership.findOne({
+        where: { groupId: groupId,
+        userId: userId,}
+    });
+    if(userAuth.status !== "co-host" &&  userAuth.status !== "attendee" && userAuth.status !== "host"){
+        const err = new Error("Forbidden");
+            err.status = 403;
+            err.title = 'Require proper authorization';
+            return next(err);
     }
     const { url, preview } = req.body;
     const eventimage = await EventImage.create({ eventId, url, preview });

@@ -100,8 +100,8 @@ router.get('/', validateQuery, async (req, res) => {
 
     const Events = await Event.findAll(
         {
-            where: { ...where },
-            ...pagination,
+            // where,
+            // ...pagination,
             include: [
                 {
                     model: Group,
@@ -133,7 +133,8 @@ router.get('/', validateQuery, async (req, res) => {
             group: "Event.id",
         }
     );
-    return res.json({Events}, page);
+    return res.json({Events});
+    // return res.json({Events}, page);
 });
 
 router.get('/:eventId', async (req, res, next) => {

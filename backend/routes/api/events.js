@@ -63,26 +63,17 @@ const validateQuery = [
         }
         return true})
         .withMessage("Name must be a string"),
-    // check('name').optional().isString()
-    //     .withMessage("Name must be a string"),
     check('type').optional().isString().isIn(['"Online"', '"In person"'])
         .withMessage("Type must be Online or In person"),
-    //exists({ checkFalsy: true }).optional().isString()
-    // check('startDate').optional().custom((startDate, {req})=>{
-    //     const notValid = isNaN(date.getTime(startDate));
-    //     // const date = new Date();
-    //     if(notValid) return false;
-    //     if(startDate instanceof Date && !isNaN(startDate.valueOf())){return true}
-    //     else{
-    //         return false;
-    //     }
-    // })
-    //     .withMessage("Start date must be a valid datetime"),
-        // [
-        //     check.query('username')
-        //   ], (req, res) => {
-        //    //your code
-        //   }
+    check('startDate').optional().custom((startDate)=>{
+        const date = startDate.slice(1, startDate.length-1);
+        const Invalid = new Date(date);
+        if(Invalid == "Invalid Date"){
+            return false
+        }else{
+            return true
+        }
+    }).withMessage("Start date must be a valid datetime"),
     handleValidationErrors
 ];
 // isIn(['Online', 'In person'])

@@ -677,7 +677,15 @@ router.delete("/:groupId", requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-    if(group.organizerId !== userId){
+    const membership = await Membership.findOne({ where: { userId: userId, groupId: groupId }});
+    const cohost = await Membership.findOne({ where: { userId: userId, groupId: groupId,status:"co-host" }});
+    if(!membership){
+        const err = new Error("Membership does not exist for this User");
+        err.title = "Membership does not exist for this User";
+        err.status = 404;
+        return next(err);
+    }
+    if(group.organizerId !== userId || cohost){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';
@@ -722,7 +730,8 @@ router.delete("/:groupId/membership", requireAuth, async (req, res, next) => {
         return next(err);
     }
     const membership = await Membership.findOne({ where: { userId: userId, groupId: groupId }});
-    if(!membership){
+    const cohost = await Membership.findOne({ where: { userId: userId, groupId: groupId,status:"co-host" }});
+    if(!membership || cohost){
         const err = new Error("Membership does not exist for this User");
         err.title = "Membership does not exist for this User";
         err.status = 404;

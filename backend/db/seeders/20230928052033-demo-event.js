@@ -18,8 +18,8 @@ module.exports = {
         description: 'descriptionOne',
         capacity: 10,
         price: 18.50,
-        startDate: '12-02-2023',
-        endDate: '12-10-2023',
+        startDate: '2023-12-02 08:00:00',
+        endDate: '2023-12-12 08:00:00',
         previewImage: 'previewOne'
       },
       {
@@ -30,8 +30,8 @@ module.exports = {
         description: 'descriptionOne',
         capacity: 20,
         price: 10.50,
-        startDate: '11-02-2023',
-        endDate: '11-10-2023',
+        startDate: '2023-11-02 08:00:00',
+        endDate: '2023-12-02 08:00:00',
         previewImage: 'previewTwo'
       },
       {
@@ -42,8 +42,8 @@ module.exports = {
         description: 'descriptionThree',
         capacity: 15,
         price: 5.50,
-        startDate: '10-02-2023',
-        endDate: '10-10-2023',
+        startDate: '2023-12-12 08:00:00',
+        endDate: '2023-12-22 08:00:00',
         previewImage: 'previewThree'
       }
     ], { validate: true});

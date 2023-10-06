@@ -66,6 +66,7 @@ const validateQuery = [
     check('type').optional().isString().isIn(['"Online"', '"In person"'])
         .withMessage("Type must be Online or In person"),
     check('startDate').optional().custom((startDate)=>{
+        // '"2022-09-07"'
         const date = startDate.slice(1, startDate.length-1);
         const Invalid = new Date(date);
         if(Invalid == "Invalid Date" || (Invalid < (new Date()))){
@@ -79,10 +80,12 @@ const validateQuery = [
 
 router.get('/', validateQuery, async (req, res) => {
     let { page, size, name, type, startDate } = req.query;
-    let date = req.query.startDate;
+    const date = startDate.slice(1, startDate.length-1);
     // "\"\\\"2023-11-19 20:00:00\\\"\"
-    if(date){
-    date = date.slice(5, date.length-5)};
+    // if(date){
+    // date = date.slice(5, date.length-5)};
+    const test = await Event.findOne({where: {id : 1}});
+    console.log(test.startDate);
     page = page > 10 ? 1 : page;
     size = size > 20 ? 20 : size;
 
@@ -92,7 +95,9 @@ router.get('/', validateQuery, async (req, res) => {
     const where = {};
     if(name) where.name = name;
     if(type) where.type = type;
-    if(startDate) where.startDate = date;
+    if(date) where.startDate = date;
+
+    console.log(date);
 
     const pagination = {};
     pagination.limit = size;
@@ -101,7 +106,7 @@ router.get('/', validateQuery, async (req, res) => {
     const Events = await Event.findAll(
         {
             where,
-            // ...pagination,
+            ...pagination,
             include: [
                 {
                     model: Group,
@@ -136,19 +141,14 @@ router.get('/', validateQuery, async (req, res) => {
 				],
                 ]
             },
-            raw: true,
-            // group: ["Attendances.id", "Event.id"]
-            // group: "Attendees.id",
         }
-
     );
-    // return res.json({Events});
-    return res.json({Events}, page);
+    return res.json({Events, page});
 });
 
 router.get('/:eventId', async (req, res, next) => {
     const eventId = req.params.eventId;
-    const event = await Event.findOne(
+    const event = await Event.findAll(
         {
             include: [
                 {

@@ -4,7 +4,7 @@ const { Event, sequelize, User, Group, Venue, EventImage, Membership, Attendance
 
 const { requireAuth } = require('../../utils/auth');
 
-const { check, query } = require('express-validator');
+const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 
@@ -287,7 +287,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
         userId: userId,
         status: "host"}
     });
-    if(!cohost && !attendee && !host || member){
+    if(!cohost && !attendee && !host){
         const err = new Error("Forbidden");
             err.status = 403;
             err.title = 'Require proper authorization';
@@ -316,7 +316,7 @@ router.get("/:eventId/attendees", async (req, res, next) => {
     }
     const groupId = event.groupId;
     const organizer = await Group.findOne({ where: {id: groupId, organizerId: cuserId }});
-    const member = await Membership.findOne({ where: {userId: cuserId, groupId: groupId},});
+    const cohost = await Membership.findOne({ where: {userId: cuserId, groupId: groupId, status:"co-host"},});
     const allAttend = await Event.findOne({
         include: {
             model: User,
@@ -347,7 +347,7 @@ router.get("/:eventId/attendees", async (req, res, next) => {
         attributes: [],
         where: {id: eventId},
     });
-    if(organizer || member.status === "co-host"){
+    if(organizer || cohost){
         return res.json(allAttend);
     }else{
         return res.json(nopendingAttend);
@@ -382,7 +382,7 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
         err.status = 400;
         return next(err);
     }
-    if(attendance && attendance.status==="attendee"){
+    if(attendance && attendance.status==="attendee"|| attendance.status==="attending"){
         const err = new Error("User is already an attendee of the event");
         err.title = "User is already an attendee of the event";
         err.status = 400;
@@ -431,9 +431,10 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
+    let id =attendance.userId - 1;
     await attendance.update({ status: status });
     const safeAttendee = {
-        id: attendance.id,
+        id: id,
         eventId: attendance.eventId,
         userId: attendance.userId,
         status: attendance.status,

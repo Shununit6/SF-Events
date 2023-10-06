@@ -80,12 +80,7 @@ const validateQuery = [
 
 router.get('/', validateQuery, async (req, res) => {
     let { page, size, name, type, startDate } = req.query;
-    const date = startDate.slice(1, startDate.length-1);
-    // "\"\\\"2023-11-19 20:00:00\\\"\"
-    // if(date){
-    // date = date.slice(5, date.length-5)};
-    const test = await Event.findOne({where: {id : 1}});
-    console.log(test.startDate);
+
     page = page > 10 ? 1 : page;
     size = size > 20 ? 20 : size;
 
@@ -95,9 +90,12 @@ router.get('/', validateQuery, async (req, res) => {
     const where = {};
     if(name) where.name = name;
     if(type) where.type = type;
-    if(date) where.startDate = date;
-
-    console.log(date);
+    if(startDate){
+        startDate = startDate.slice(1, startDate.length-1);
+        let start = startDate.slice(0, 10), mid = startDate.slice(11, 19);
+        const newDate = start + "T" + mid + ".000Z";
+        where.startDate = newDate;
+    }
 
     const pagination = {};
     pagination.limit = size;

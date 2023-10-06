@@ -646,7 +646,14 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
             organizerId: userId
         },
     });
-    if(!organizer){
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId,
+            status: "co-host",
+        }
+    });
+    if(!organizer || cohost){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';

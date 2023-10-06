@@ -435,8 +435,8 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
     const safeAttendee = {
         id: attendance.id,
         eventId: attendance.eventId,
-        userId: attendee.userId,
-        status: attendee.status,
+        userId: attendance.userId,
+        status: attendance.status,
     };
     return res.json(safeAttendee);
 });

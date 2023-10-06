@@ -289,7 +289,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     }
     const { url, preview } = req.body;
     const eventimage = await EventImage.create({ eventId, url, preview });
-    event.update({previewImage: url});
+    if(preview === true) event.update({previewImage: url});
     const safeEventImage = {
         id: eventimage.id,
         url: eventimage.url,

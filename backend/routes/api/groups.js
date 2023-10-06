@@ -650,6 +650,7 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     }
     const { url, preview } = req.body;
     const groupimage = await GroupImage.create({ groupId, url, preview });
+    if(preview === true) group.update({previewImage: url});
     const safeGroupImage = {
         id: groupimage.id,
         url: groupimage.url,

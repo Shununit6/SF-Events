@@ -1,4 +1,6 @@
-# `<SF EVENTS>`
+# SF EVENTS
+
+<!-- # `<SF EVENTS>` -->
 
 ## Database Schema Design
 

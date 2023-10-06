@@ -588,7 +588,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
             organizerId: cuserId,
         }
     });
-    if(!cohost && !organizer){
+    if(!cohost && !organizer || (status === "co-host" && cohost)){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';

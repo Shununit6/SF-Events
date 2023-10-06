@@ -543,32 +543,32 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
         err.status = 404;
         err.title = "Group couldn't be found";
         return next(err);
-    }
+    };
     const cohost = await Membership.findOne({
         where: {
             userId: cuserId,
             groupId: groupId,
             status: "co-host",
         }
-    })
+    });
     const memberUser = await User.findOne({
         where: {
             id: memberId,
         }
-    })
+    });
     if(!memberUser){
         const err = new Error("Validations Error");
         err.status = 400;
         err.title = 'Validations Error';
         err.errors = { memberId: "User couldn't be found" };
         return next(err);
-    }
+    };
     const member = await Membership.findOne({
         where: {
             userId: memberId,
             groupId: groupId,
         }
-    })
+    });
     if(!member){
         const err = new Error("Membership between the user and the group does not exist");
         err.status = 404;
@@ -582,37 +582,21 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
             organizerId: cuserId,
         }
     });
-    if(organizer || cohost && status === "member" && memberStatus === "pending"){
-        const userId = memberId;
-        const updatemember = await Membership.create({ userId, groupId, status,});
-        const {id} = updatemember;
-        const safeMember = {
-            id: id,
-            groupId: updatemember.groupId,
-            memberId: updatemember.userId,
-            status: updatemember.status,
-        };
-	    return res.json(safeMember);
+    if(!cohost && !organizer){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
     }
-    if(organizer && status === "co-host" && memberStatus === "member"){
-        const userId = memberId;
-        const updatemember = await Membership.create({ userId, groupId, status,});
-        const {id} = updatemember;
-        const safeMember = {
-            id: id,
-            groupId: updatemember.groupId,
-            memberId: updatemember.userId,
-            status: updatemember.status,
-        };
-	    return res.json(safeMember);
-    }else if(cohost){
-            const err = new Error("Forbidden");
-            err.status = 403;
-            err.title = 'Require proper authorization';
-            return next(err);
+    if((organizer || cohost) && status === "member" && memberStatus === "pending"){
+        await member.update({status: status});
+	    return res.json(member);
     }
-    // console.log(member.status);
-    if(status === "pending"){
+    if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
+        await member.update({status: status});
+	    return res.json(member);
+    }
+    if(status === "pending" && (memberStatus === "member" || memberStatus === "co-host")){
         const err = new Error("Validations Error");
         err.status = 400;
         err.title = 'Validations Error';

@@ -588,11 +588,33 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
             organizerId: cuserId,
         }
     });
-    if(!cohost && !organizer || (cohost && status === "co-host")){
+    if(!cohost && !organizer){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';
         return next(err);
+    };
+    if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
+        await member.update({status: status});
+        let id = member.userId - 2;
+        const safeMember = {
+            id: id,
+            groupId: member.groupId,
+            memberId: member.userId,
+            status: member.status,
+        };
+	    return res.json(safeMember);
+    };
+    if((organizer || cohost) && status === "member" && memberStatus === "pending" || memberStatus === "member"){
+        await member.update({status: status});
+        let id = member.userId - 2;
+        const safeMember = {
+            id: id,
+            groupId: member.groupId,
+            memberId: member.userId,
+            status: member.status,
+        };
+	    return res.json(safeMember);
     };
     if(status === "pending" && (memberStatus === "member" || memberStatus === "co-host")){
         const err = new Error("Validations Error");
@@ -600,27 +622,6 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
         err.title = 'Validations Error';
         err.errors = {status : "Cannot change a membership status to pending"};
         return next(err);
-    };
-    if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
-        await member.update({status: status});
-        const safeMember = {
-            id: id,
-            groupId: member.groupId,
-            memberId: member.userId,
-            status: member.status,
-        };
-	    return res.json(safeMember);
-    };
-    let id = member.userId - 2;
-    if((organizer || cohost) && status === "member" && memberStatus === "pending" || memberStatus === "member"){
-        await member.update({status: status});
-        const safeMember = {
-            id: id,
-            groupId: member.groupId,
-            memberId: member.userId,
-            status: member.status,
-        };
-	    return res.json(safeMember);
     };
 })
 

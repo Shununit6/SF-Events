@@ -1,5 +1,5 @@
 'use strict';
-const { Attendee } = require('../models');
+const { Attendance } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Attendee.bulkCreate([
+    await Attendance.bulkCreate([
       {
         userId: 1,
         eventId: 1,
@@ -28,7 +28,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Attendees';
+    options.tableName = 'Attendances';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       status: {[Op.in]: ['attending', 'waitlist', 'pending']}

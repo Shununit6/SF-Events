@@ -1,12 +1,12 @@
 const router = require('express').Router();
 
-const { Event, sequelize, User, Group, Venue, EventImage, Membership, Attendee } = require('../../db/models');
+const { Event, sequelize, User, Group, Venue, EventImage, Membership, Attendance } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 
 const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const attendee = require('../../db/models/attendee');
+
 
 const { Op } = require('sequelize');
 
@@ -52,9 +52,9 @@ const validateEvent = [
     //     }
     //   }
 const validateQuery = [
-    check('page').exists({ checkFalsy: true }).isInt({min: 1})
+    check('page').exists({ checkFalsy: true }).optional().isInt({min: 1})
         .withMessage("Page must be greater than or equal to 1"),
-    check('size').exists({ checkFalsy: true }).isInt({ min: 1})
+    check('size').exists({ checkFalsy: true }).optional().isInt({ min: 1})
         .withMessage("Size must be greater than or equal to 1"),
     check('name').optional().custom((name)=>{
         const number = parseInt(name);
@@ -79,10 +79,10 @@ const validateQuery = [
 
 router.get('/', validateQuery, async (req, res) => {
     let { page, size, name, type, startDate } = req.query;
-    // let date = req.query.startDate;
-    // // "\"\\\"2023-11-19 20:00:00\\\"\"
-    // if(date){
-    // date = date.slice(5, date.length-5)};
+    let date = req.query.startDate;
+    // "\"\\\"2023-11-19 20:00:00\\\"\"
+    if(date){
+    date = date.slice(5, date.length-5)};
     page = page > 10 ? 1 : page;
     size = size > 20 ? 20 : size;
 
@@ -100,7 +100,7 @@ router.get('/', validateQuery, async (req, res) => {
 
     const Events = await Event.findAll(
         {
-            // where,
+            where,
             // ...pagination,
             include: [
                 {
@@ -127,14 +127,23 @@ router.get('/', validateQuery, async (req, res) => {
             attributes: {
                 exclude: ['description','capacity','price', 'createdAt', 'updatedAt'],
                 include: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage',
-                [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending']
+                // [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending']
+                [
+					sequelize.literal(
+						`(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = \`Event\`.id)`
+					),
+					"numAttending",
+				],
                 ]
             },
-            group: "Event.id",
+            raw: true,
+            // group: ["Attendances.id", "Event.id"]
+            // group: "Attendees.id",
         }
+
     );
-    return res.json({Events});
-    // return res.json({Events}, page);
+    // return res.json({Events});
+    return res.json({Events}, page);
 });
 
 router.get('/:eventId', async (req, res, next) => {
@@ -361,7 +370,7 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
         err.title = 'Require proper authorization';
         return next(err);
     }
-    const attendance = await Attendee.findOne({ where: {userId: cuserId, eventId: eventId}});
+    const attendance = await Attendance.findOne({ where: {userId: cuserId, eventId: eventId}});
     if(attendance && attendance.status==="pending"){
         const err = new Error("Attendance has already been requested");
         err.title = "Attendance has already been requested";
@@ -376,7 +385,7 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
     }
     const status = "pending";
     const userId = cuserId;
-    const attendee = await Attendee.create({ userId, eventId, status });
+    const attendee = await Attendance.create({ userId, eventId, status });
     const safeAttendee = {
         userId: attendee.userId,
         status: attendee.status,
@@ -410,7 +419,7 @@ router.put("/:eventId/attendance", requireAuth, async (req, res, next) => {
         err.status = 400;
         return next(err);
     }
-    const attendance = await Attendee.findOne({ where: { userId: userId, eventId: eventId }});
+    const attendance = await Attendance.findOne({ where: { userId: userId, eventId: eventId }});
     if(!attendance){
         const err = new Error("Attendance between the user and the event does not exist");
         err.title = "Attendance between the user and the event does not exist";
@@ -446,7 +455,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
         err.status = 403;
         return next(err);
     }
-    const attendance = await Attendee.findOne({ where: { userId: userId, eventId: eventId }});
+    const attendance = await Attendance.findOne({ where: { userId: userId, eventId: eventId }});
     if(!attendance){
         const err = new Error("Attendance does not exist for this User");
         err.title = "Attendance does not exist for this User";
@@ -454,7 +463,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
         return next(err);
     }
     await attendance.destroy();
-    const deletedAttendance = await Attendee.findOne({ where: { userId: userId, eventId: eventId }});
+    const deletedAttendance = await Attendance.findOne({ where: { userId: userId, eventId: eventId }});
     if(!deletedAttendance){
         return res.json({
             "message": "Successfully deleted attendance from event"

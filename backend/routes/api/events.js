@@ -146,7 +146,7 @@ router.get('/', validateQuery, async (req, res) => {
 
 router.get('/:eventId', async (req, res, next) => {
     const eventId = req.params.eventId;
-    const event = await Event.findAll(
+    const event = await Event.findOne(
         {
             include: [
                 {
@@ -188,7 +188,7 @@ router.get('/:eventId', async (req, res, next) => {
                 id: eventId,
             },
         });
-    if(!event.id){
+    if(!event){
         const err = new Error("Event couldn't be found");
         err.title = "Event couldn't be found";
         err.status = 404;

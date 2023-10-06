@@ -375,14 +375,15 @@ router.post("/:eventId/attendance", requireAuth, async (req, res, next) => {
         err.title = 'Require proper authorization';
         return next(err);
     }
-    const attendance = await Attendance.findOne({ where: {userId: cuserId, eventId: eventId}});
-    if(attendance && attendance.status==="pending"){
+    const pending = await Attendance.findOne({ where: {userId: cuserId, eventId: eventId, status: "pending"}});
+    const attending = await Attendance.findOne({ where: {userId: cuserId, eventId: eventId, status: "attending"}});
+    if(pending){
         const err = new Error("Attendance has already been requested");
         err.title = "Attendance has already been requested";
         err.status = 400;
         return next(err);
     }
-    if(attendance && attendance.status==="attendee"|| attendance.status==="attending"){
+    if(attending){
         const err = new Error("User is already an attendee of the event");
         err.title = "User is already an attendee of the event";
         err.status = 400;

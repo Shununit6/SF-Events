@@ -76,12 +76,12 @@ router.get('/', async (req, res) => {
                 include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
                     [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
             },
-            raw: true,
+
             group: "Members.id",
         }
     );
 
-    return res.json({ Groups });
+    return res.json( {Groups} );
 });
 
 router.get("/current", requireAuth, async (req, res) => {
@@ -601,8 +601,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
         err.errors = {status : "Cannot change a membership status to pending"};
         return next(err);
     };
-    let id = member.userId - 2;
-    if((organizer || cohost) && status === "member" && memberStatus === "pending" || memberStatus === "member"){
+    if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
         await member.update({status: status});
         const safeMember = {
             id: id,
@@ -612,7 +611,8 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
         };
 	    return res.json(safeMember);
     };
-    if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
+    let id = member.userId - 2;
+    if((organizer || cohost) && status === "member" && memberStatus === "pending" || memberStatus === "member"){
         await member.update({status: status});
         const safeMember = {
             id: id,

@@ -706,7 +706,7 @@ router.delete("/:groupId/membership", requireAuth, async (req, res, next) => {
         return next(err);
     }
     const {memberId} = req.body;
-    const member = User.findOne({where: {id: memberId}});
+    const member = await User.findOne({where: {id: memberId}});
     if(!member){
         const err = new Error("Validation Error");
         err.title = "Validation Error";

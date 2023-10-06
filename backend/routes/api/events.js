@@ -81,8 +81,8 @@ const validateQuery = [
 router.get('/', validateQuery, async (req, res) => {
     let { page, size, name, type, startDate } = req.query;
 
-    page = page > 10 ? 1 : page;
-    size = size > 20 ? 20 : size;
+    page = !page || page > 10 ? 1 : page;
+    size = !size || size > 20 ? 20 : size;
 
     page = parseInt(page);
     size = parseInt(size);
@@ -98,8 +98,8 @@ router.get('/', validateQuery, async (req, res) => {
     }
 
     const pagination = {};
-    pagination.limit = size;
-    pagination.offset = size * (page - 1);
+    if(size) pagination.limit = size;
+    if(page) pagination.offset = size * (page - 1);
 
     const Events = await Event.findAll(
         {

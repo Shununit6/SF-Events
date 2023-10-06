@@ -208,7 +208,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
             status: "co-host",
         }
     });
-    if( !cohost && !organizer){
+    if( (!cohost) && (!organizer)){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';
@@ -503,13 +503,19 @@ router.post("/:groupId/membership", requireAuth, async (req, res, next) => {
             status: "member",
         }
     });
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            status: "co-host",
+        }
+    });
     if(pending){
         const err = new Error("Membership has already been requested");
         err.title = "Membership has already been requested";
         err.status = 400;
         return next(err);
     };
-    if(isMember){
+    if(isMember || cohost){
         const err = new Error("User is already a member of the group");
         err.title = "User is already a member of the group";
         err.status = 400;
@@ -582,27 +588,40 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
             organizerId: cuserId,
         }
     });
-    if(!cohost && !organizer){
+    if(!cohost && !organizer || (cohost && status === "co-host")){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';
         return next(err);
-    }
-    if((organizer || cohost) && status === "member" && memberStatus === "pending"){
-        await member.update({status: status});
-	    return res.json(member);
-    }
-    if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
-        await member.update({status: status});
-	    return res.json(member);
-    }
+    };
     if(status === "pending" && (memberStatus === "member" || memberStatus === "co-host")){
         const err = new Error("Validations Error");
         err.status = 400;
         err.title = 'Validations Error';
         err.errors = {status : "Cannot change a membership status to pending"};
         return next(err);
-    }
+    };
+    let id = member.userId - 2;
+    if((organizer || cohost) && status === "member" && memberStatus === "pending" || memberStatus === "member"){
+        await member.update({status: status});
+        const safeMember = {
+            id: id,
+            groupId: member.groupId,
+            memberId: member.userId,
+            status: member.status,
+        };
+	    return res.json(safeMember);
+    };
+    if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
+        await member.update({status: status});
+        const safeMember = {
+            id: id,
+            groupId: member.groupId,
+            memberId: member.userId,
+            status: member.status,
+        };
+	    return res.json(safeMember);
+    };
 })
 
 // Require proper authorization: Current User must be the organizer for the group

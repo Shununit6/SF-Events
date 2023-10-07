@@ -139,6 +139,7 @@ router.get('/', validateQuery, async (req, res) => {
 				],
                 ]
             },
+            group: "Event.id",
         }
     );
     return res.json({Events, page});
@@ -194,6 +195,7 @@ router.get('/:eventId', async (req, res, next) => {
             where: {
                 id: eventId,
             },
+            group: "Event.id",
         });
     return res.json(event);
 })
@@ -244,6 +246,7 @@ router.put('/:eventId', requireAuth, validateEvent, async (req, res, next) => {
             price:price, description:description, startDate:startDate, endDate:endDate }
     );
     const returnEvent = await Event.findOne({
+        group: "Event.id",
         attributes: {
             exclude: ['previewImage', 'createdAt', 'updatedAt'],},
         where: { id: eventId, }});

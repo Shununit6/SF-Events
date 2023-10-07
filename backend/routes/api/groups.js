@@ -76,8 +76,7 @@ router.get('/', async (req, res) => {
                 include: ['id', 'organizerId', 'name', 'about', 'type', 'private', 'city', 'state', 'previewImage', 'createdAt', 'updatedAt',
                     [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
             },
-
-            group: "Members.id",
+            group: ["Members.id", "Group.id"],
         }
     );
 
@@ -97,7 +96,7 @@ router.get("/current", requireAuth, async (req, res) => {
                 [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
         },
         raw: true,
-        group: "Members.id",
+        group: ["Members.id", "Group.id",],
         where: {
             organizerId: req.user.id,
         },
@@ -120,7 +119,7 @@ router.get("/:groupId", async (req, res, next) => {
                 [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
         },
         raw: true,
-        group: "Members.id",
+        group: ["Members.id", "Group.id",],
 		where: {
 			id: groupId,
 		},
@@ -163,6 +162,7 @@ router.get("/:groupId", async (req, res, next) => {
 		where: {
             id: groupId,
 		},
+        group: "User.id",
 	});
     if(!group){
         const err = new Error("Group couldn't be found");
@@ -230,6 +230,7 @@ router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
             exclude: ['previewImage'],},
         where: {
         id: groupId,
+        group: ["Members.id", "Group.id"],
     }});
     if(!group){
         const err = new Error("Group couldn't be found");
@@ -280,7 +281,7 @@ router.get("/:groupId/events", async (req, res, next) => {
             [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending']
             ]
         },
-        group: "Event.id",
+        group: ["Event.id", "Group.id"],
         where: { groupId: groupId }
     });
     if(Events.length === 0){

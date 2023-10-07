@@ -133,7 +133,7 @@ router.get('/', validateQuery, async (req, res) => {
                 // [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending'],
                 [
 					sequelize.literal(
-						`(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = \`Event\`.id)`
+						`(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = Event.id)`
 					),
 					"numAttending",
 				],
@@ -195,7 +195,7 @@ router.get('/:eventId', async (req, res, next) => {
             where: {
                 id: eventId,
             },
-            group: ["Event.id", "Group.id", "Venue.id", "Attendees.id"],
+            group: ["Event.id", "Group.id", "Venue.id", "Attendees.id", "EventImage.id"],
         });
     return res.json(event);
 })

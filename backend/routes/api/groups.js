@@ -120,7 +120,6 @@ router.get("/:groupId", async (req, res, next) => {
                 [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
         },
         raw: true,
-        group: "Members.id",
 		where: {
 			id: groupId,
 		},

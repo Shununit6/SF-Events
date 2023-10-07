@@ -120,18 +120,23 @@ router.get('/', validateQuery, async (req, res) => {
                         include: ['id', 'city', 'state',]
                     },
                 },
+                // {
+                //     model: User,
+                //     as: "Attendees",
+                //     attributes: [],
+                //     through: {attributes: [],},
+                // },
                 {
-                    model: User,
-                    as: "Attendees",
-                    attributes: [],
-                    through: {attributes: [],},
-                },
+                    model: sequelize.literal(
+                      `(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = Event.id)`
+                    ),
+                    as: 'numAttending'
+                }
             ],
             attributes: {
                 exclude: ['description','capacity','price', 'createdAt', 'updatedAt'],
                 include: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage',
                 // [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending'],
-                [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending'],
                 // [
 				// 	sequelize.literal(
 				// 		`(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = Event.id)`
@@ -140,7 +145,8 @@ router.get('/', validateQuery, async (req, res) => {
 				// ],
                 ]
             },
-            group: ["Event.id", "Group.id", "Venue.id", "Attendees.id"],
+            raw: true,
+            group: ['Event.id', 'Group.id', 'Venue.id'],
         }
     );
     return res.json({Events, page});

@@ -119,7 +119,7 @@ router.get("/:groupId", async (req, res, next) => {
                 [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
         },
         raw: true,
-        group: ["Members.id", "Group.id",],
+        group: "Members.id",
 		where: {
 			id: groupId,
 		},
@@ -215,6 +215,7 @@ router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
         return next(err);
     }
     const Venues = await Venue.findAll({
+        group: "Venue.id",
         attributes: { exclude: ['createdAt', 'updatedAt'],},
         where: {groupId: groupId}});
     return res.json({Venues});
@@ -230,7 +231,6 @@ router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
             exclude: ['previewImage'],},
         where: {
         id: groupId,
-        group: ["Members.id", "Group.id"],
     }});
     if(!group){
         const err = new Error("Group couldn't be found");
@@ -281,7 +281,7 @@ router.get("/:groupId/events", async (req, res, next) => {
             [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending']
             ]
         },
-        group: ["Event.id", "Group.id"],
+        group: ["Event.id", "Group.id", "Venue.id", "Attendees.id"],
         where: { groupId: groupId }
     });
     if(Events.length === 0){

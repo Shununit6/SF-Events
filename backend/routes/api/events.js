@@ -139,7 +139,7 @@ router.get('/', validateQuery, async (req, res) => {
 				],
                 ]
             },
-            group: "Event.id",
+            group: ["Event.id", "Group.id", "Venue.id", "Attendees.id"],
         }
     );
     return res.json({Events, page});

@@ -101,7 +101,7 @@ router.get('/', validateQuery, async (req, res) => {
     if(size) pagination.limit = size;
     if(page) pagination.offset = size * (page - 1);
 
-    const Events = await Event.findAll(
+    const events = await Event.findAll(
         {
             where,
             ...pagination,
@@ -120,18 +120,18 @@ router.get('/', validateQuery, async (req, res) => {
                         include: ['id', 'city', 'state',]
                     },
                 },
-                // {
-                //     model: User,
-                //     as: "Attendees",
-                //     attributes: [],
-                //     through: {attributes: [],},
-                // },
                 {
-                    model: sequelize.literal(
-                      `(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = Event.id)`
-                    ),
-                    as: 'numAttending'
-                }
+                    model: User,
+                    as: "Attendees",
+                    attributes: ['id'],
+                    through: {attributes: [],},
+                },
+                // {
+                //     model: sequelize.literal(
+                //       `(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = Event.id)`
+                //     ),
+                //     as: 'numAttending'
+                // }
             ],
             attributes: {
                 exclude: ['description','capacity','price', 'createdAt', 'updatedAt'],
@@ -145,11 +145,17 @@ router.get('/', validateQuery, async (req, res) => {
 				// ],
                 ]
             },
-            raw: true,
-            group: ['Event.id', 'Group.id', 'Venue.id'],
+            // raw: true,
+            // group: ['Event.id', 'Group.id', 'Venue.id', 'Attendees.id'],
         }
     );
-    return res.json({Events, page});
+    const returnEvents = events.map((obj)=>{
+        const event = obj.toJSON();
+        event.numAttending = event.Attendees.length;
+        delete event.Attendees;
+        return event;
+    });
+    return res.json({ Events: returnEvents, page});
 });
 
 router.get('/:eventId', async (req, res, next) => {

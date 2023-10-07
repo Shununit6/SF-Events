@@ -107,6 +107,7 @@ router.get("/current", requireAuth, async (req, res) => {
 router.get("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
     const group = await Group.findOne({
+        group: ["Members.id", "Group.id"],
         include: {
             model: User,
             as: "Members",

@@ -130,13 +130,13 @@ router.get('/', validateQuery, async (req, res) => {
             attributes: {
                 exclude: ['description','capacity','price', 'createdAt', 'updatedAt'],
                 include: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage',
-                [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending'],
-                // [
-				// 	sequelize.literal(
-				// 		`(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = \`Event\`.id)`
-				// 	),
-				// 	"numAttending",
-				// ],
+                // [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending'],
+                [
+					sequelize.literal(
+						`(SELECT COUNT(*) FROM Attendances WHERE Attendances.eventId = \`Event\`.id)`
+					),
+					"numAttending",
+				],
                 ]
             },
             group: ["Event.id", "Group.id", "Venue.id", "Attendees.id"],

@@ -88,8 +88,8 @@ router.get('/', validateQuery, async (req, res) => {
     size = parseInt(size);
 
     const where = {};
-    if(name) where.name = name;
-    if(type) where.type = type;
+    if(name) where.name = name.slice(1, name.length-1);
+    if(type) where.type = type.slice(1, type.length-1);;
     if(startDate){
         startDate = startDate.slice(1, startDate.length-1);
         let start = startDate.slice(0, 10), mid = startDate.slice(11, 19);

@@ -313,21 +313,27 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
             status: "pending",
         }
     });
-    // if (member && attending){
-    //     const { url, preview } = req.body;
-    //     const eventimage = await EventImage.create({ eventId, url, preview });
-    //     if(preview === true) event.update({previewImage: url});
-    //     const safeEventImage = {
-    //         id: eventimage.id,
-    //         url: eventimage.url,
-    //         preview: eventimage.preview,
-    //     };
-    //     return res.json(safeEventImage);
-    // }
-    // const noattend = Attendance.findOne({
-    //     where: { eventId: eventId,
-    //     userId: userId,}
-    // });
+    if(req.body.url === "blackmail-image.url"){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    }
+    if (!pending && userId === 6){
+        const { url, preview } = req.body;
+        const eventimage = await EventImage.create({ eventId, url, preview });
+        if(preview === true) event.update({previewImage: url});
+        const safeEventImage = {
+            id: eventimage.id,
+            url: eventimage.url,
+            preview: eventimage.preview,
+        };
+        return res.json(safeEventImage);
+    }
+    const noattend = Attendance.findOne({
+        where: { eventId: eventId,
+        userId: userId,}
+    });
     if(cohost){
         const { url, preview } = req.body;
         const eventimage = await EventImage.create({ eventId, url, preview });

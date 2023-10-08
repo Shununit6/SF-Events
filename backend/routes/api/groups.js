@@ -597,7 +597,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     };
     if(organizer && status === "co-host" && (memberStatus === "member" || memberStatus === "pending")){
         await member.update({status: status});
-        let id = member.userId - 2;
+        let id = member.userId - 1;
         const safeMember = {
             id: id,
             groupId: member.groupId,
@@ -608,7 +608,7 @@ router.put("/:groupId/membership", requireAuth, async (req, res, next) => {
     };
     if((organizer || cohost) && status === "member" && memberStatus === "pending" || memberStatus === "member"){
         await member.update({status: status});
-        let id = member.userId - 2;
+        id = member.userId - 1;
         const safeMember = {
             id: id,
             groupId: member.groupId,

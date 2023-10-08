@@ -308,7 +308,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
         userId: userId,
         status: "host"}
     });
-    if(!cohost && !attendee && !host && !attending){
+    if(!cohost && !attendee && !host && !attending || member){
         const err = new Error("Forbidden");
             err.status = 403;
             err.title = 'Require proper authorization';

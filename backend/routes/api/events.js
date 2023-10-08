@@ -290,35 +290,39 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     });
     const member = Membership.findOne({
         where: { groupId: groupId,
-        userId: userId,
+        userId: 6,
         status: "member"}
     });
-    const cohost = Membership.findOne({
-        where: { groupId: groupId,
-        userId: userId,
-        status: "co-host"}
-    });
-    const attending = Membership.findOne({
-        where: { groupId: groupId,
-        userId: userId,
-        status: "attending"}
-    });
-    const attendee = Attendance.findOne({
+    // const cohost = Membership.findOne({
+    //     where: { groupId: groupId,
+    //     userId: userId,
+    //     status: "co-host"}
+    // });
+    const attending = Attendance.findOne({
         where: { eventId: eventId,
         userId: userId,
         status: "attending"}
     });
-    const host = Membership.findOne({
-        where: { groupId: groupId,
-        userId: userId,
-        status: "host"}
+    const organizer = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: userId,
+    }});
+    const cohost = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId,
+            status: "co-host",
+        }
     });
-    if(!cohost && !attendee && !host && !attending || member || pending){
+    if(!organizer && !cohost && !attending){
+    if(member || pending){
         const err = new Error("Forbidden");
             err.status = 403;
             err.title = 'Require proper authorization';
             return next(err);
-    }
+    }}
+    if(organizer || cohost || attending){
     const { url, preview } = req.body;
     const eventimage = await EventImage.create({ eventId, url, preview });
     if(preview === true) event.update({previewImage: url});
@@ -327,7 +331,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
         url: eventimage.url,
         preview: eventimage.preview,
     };
-	return res.json(safeEventImage);
+	return res.json(safeEventImage);}
 });
 
 router.get("/:eventId/attendees", async (req, res, next) => {

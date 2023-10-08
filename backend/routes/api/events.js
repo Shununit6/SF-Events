@@ -283,6 +283,11 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     }
     const userId = req.user.id;
     const groupId = event.groupId;
+    const pending = Membership.findOne({
+        where: { groupId: groupId,
+        userId: userId,
+        status: "pending"}
+    });
     const member = Membership.findOne({
         where: { groupId: groupId,
         userId: userId,
@@ -308,7 +313,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
         userId: userId,
         status: "host"}
     });
-    if(!cohost && !attendee && !host && !attending || member){
+    if(!cohost && !attendee && !host && !attending || member || pending){
         const err = new Error("Forbidden");
             err.status = 403;
             err.title = 'Require proper authorization';

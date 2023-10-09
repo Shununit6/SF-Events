@@ -11,7 +11,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
 
 const validateEvent = [
-    check('venueId').exists({ checkFalsy: true }).isInt({max: 100})
+    check('venueId').exists({ checkFalsy: true }).isInt({})
         .withMessage('Venue does not exist'),
     check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
         .withMessage('Name must be at least 5 characters'),

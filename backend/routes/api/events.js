@@ -11,7 +11,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
 
 const validateEvent = [
-    check('venueId').exists({ checkFalsy: true }).isInt({max: 100})
+    check('venueId').exists({ checkFalsy: true }).isInt()
         .withMessage('Venue does not exist'),
     check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
         .withMessage('Name must be at least 5 characters'),
@@ -218,7 +218,7 @@ router.get('/:eventId', async (req, res, next) => {
 router.put('/:eventId', requireAuth, validateEvent, async (req, res, next) => {
     const eventId = req.params.eventId;
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-    const venue = Venue.findOne({ where: { id: venueId }});
+    const venue = await Venue.findOne({ where: { id: venueId }});
     if(!venue){
         const err = new Error("Venue couldn't be found");
         err.title = "Venue couldn't be found";

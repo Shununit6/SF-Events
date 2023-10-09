@@ -283,83 +283,74 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
     }
     const userId = req.user.id;
     const groupId = event.groupId;
-    const member = Membership.findOne({
-        where: { groupId: groupId,
-        userId: userId,
-        status: "member"}
+    const organizer = await Group.findOne({
+        where: { id: groupId,
+        organizerId: userId,
+        }
     });
-    const attending = Attendance.findOne({
+    const aattendance = await Attendance.findOne({
         where: { eventId: eventId,
         userId: userId,
-        status: "attending"}
-    });
-    const cohost = await Membership.findOne({
-        where: {
-            userId: userId,
-            groupId: groupId,
-            status: "co-host",
         }
     });
-    const notmember = await Membership.findOne({
-        where: {
-            userId: userId,
-            groupId: groupId,
+    const mmembership = await Membership.findOne({
+        where: { groupId: groupId,
+        userId: userId,
         }
     });
-    const pending = await Membership.findOne({
-        where: {
-            userId: userId,
-            groupId: groupId,
-            status: "pending",
-        }
-    });
-    if(req.body.url === "blackmail-image.url"){
+    if(organizer){
+        const { url, preview } = req.body;
+    const eventimage = await EventImage.create({ eventId, url, preview });
+    if(preview === true) event.update({previewImage: url});
+    const safeEventImage = {
+            id: eventimage.id,
+            url: eventimage.url,
+            preview: eventimage.preview,
+    };
+    return res.json(safeEventImage);
+    }
+    //stranger
+    if(!aattendance && !mmembership && !organizer){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    };
+    // console.log("uniqueAttendance", aattendance.status , "uniqueAttendance", mmembership.status);
+    if(mmembership.status === "co-host"){
+        const { url, preview } = req.body;
+    const eventimage = await EventImage.create({ eventId, url, preview });
+    if(preview === true) event.update({previewImage: url});
+    const safeEventImage = {
+            id: eventimage.id,
+            url: eventimage.url,
+            preview: eventimage.preview,
+    };
+    return res.json(safeEventImage);
+    }
+    //pending
+    if(!aattendance && mmembership.status === "pending"){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        err.title = 'Require proper authorization';
+        return next(err);
+    };
+    //pending && member
+    if(aattendance.status === "pending" && mmembership.status === "member"){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';
         return next(err);
     }
-    if (!pending && userId === 6){
-        const { url, preview } = req.body;
-        const eventimage = await EventImage.create({ eventId, url, preview });
-        if(preview === true) event.update({previewImage: url});
-        const safeEventImage = {
+    const { url, preview } = req.body;
+    const eventimage = await EventImage.create({ eventId, url, preview });
+    if(preview === true) event.update({previewImage: url});
+    const safeEventImage = {
             id: eventimage.id,
             url: eventimage.url,
             preview: eventimage.preview,
-        };
-        return res.json(safeEventImage);
-    }
-    const noattend = Attendance.findOne({
-        where: { eventId: eventId,
-        userId: userId,}
-    });
-    if(cohost){
-        const { url, preview } = req.body;
-        const eventimage = await EventImage.create({ eventId, url, preview });
-        if(preview === true) event.update({previewImage: url});
-        const safeEventImage = {
-            id: eventimage.id,
-            url: eventimage.url,
-            preview: eventimage.preview,
-        };
-        return res.json(safeEventImage);
-    }
-    if(!cohost && !attending && !member || notmember || pending){
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.title = 'Require proper authorization';
-        return next(err);}
-    else{
-        const { url, preview } = req.body;
-        const eventimage = await EventImage.create({ eventId, url, preview });
-        if(preview === true) event.update({previewImage: url});
-        const safeEventImage = {
-            id: eventimage.id,
-            url: eventimage.url,
-            preview: eventimage.preview,
-        };
-        return res.json(safeEventImage);}
+    };
+    return res.json(safeEventImage);
 });
 
 router.get("/:eventId/attendees", async (req, res, next) => {

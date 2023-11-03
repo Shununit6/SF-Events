@@ -63,8 +63,7 @@ module.exports = {
       }
     }, options);
   },
-  down: (queryInterface, Sequelize) => {
-    options.tableName = "Groups";
-    return queryInterface.dropTable(options);
+  down: async (queryInterface, Sequelize) => {
+    return queryInterface.dropTable("Groups", options);
   }
 };

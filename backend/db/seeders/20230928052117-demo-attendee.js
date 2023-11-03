@@ -30,7 +30,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     options.tableName = 'Attendances';
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
+    await queryInterface.bulkDelete(options, {
       status: {[Op.in]: ['attending', 'waitlist', 'pending']}
     }, {});
   }

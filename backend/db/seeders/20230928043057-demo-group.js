@@ -45,7 +45,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     options.tableName = 'Groups';
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
+    await queryInterface.bulkDelete(options, {
       organizerId: { [Op.in]: [1, 2, 3] }
     }, {});
   }

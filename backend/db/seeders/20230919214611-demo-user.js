@@ -36,7 +36,7 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'Users';
-    return queryInterface.bulkDelete(options, {
+    await queryInterface.bulkDelete(options, {
     }, {});
   }
 };

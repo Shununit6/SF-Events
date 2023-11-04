@@ -1,0 +1,20 @@
+form {
+    font-family: Georgia, serif, cursive;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+  }
+
+  button {
+      background-color: #24a5eb;
+      color: white;
+      width: 100%;
+    }
+
+  button:hover {
+      opacity: 0.86;
+  }

@@ -16,10 +16,14 @@ function Navigation({ isLoaded }){
     );
   } else {
     sessionLinks = (
-      <li>
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup"> Sign Up</NavLink>
-      </li>
+        <ul>
+            <li>
+                <NavLink to="/login">Log In</NavLink>
+            </li>
+            <li>
+                <NavLink to="/signup"> Sign Up</NavLink>
+            </li>
+        </ul>
     );
   }
 

@@ -1,13 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
+import { createRoot } from 'react-dom/client';
 
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
+
 
 const store = configureStore();
 
@@ -29,9 +31,23 @@ function Root() {
   );
 }
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
     <Root />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
+
+// import { createRoot } from 'react-dom/client';
+// const container = document.getElementById('root');
+// const root = createRoot(container);
+// root.render(<React.StrictMode>
+//   <App />
+// </React.StrictMode>);
+
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <Root />
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );

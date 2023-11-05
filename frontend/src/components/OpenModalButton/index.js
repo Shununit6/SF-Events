@@ -4,7 +4,7 @@ import { useModal } from "../../context/Modal";
 function OpenModalButton({
     modalComponent, buttonText, onButtonClick, onModalClose,
 }) {
-    const { setModalContent, setOnModalContent } = useModal();
+    const { setModalContent, setOnModalClose } = useModal();
     const onClick = () => {
         if (typeof onButtonClick === "function") onButtonClick();
         if (typeof onModalClose === "function") setOnModalClose(onModalClose);

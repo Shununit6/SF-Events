@@ -1,4 +1,6 @@
 form {
+  display: grid;
+  grid-gap: 30px;
   font-family: Georgia, serif, cursive;
 }
 
@@ -14,7 +16,7 @@ button {
   color: white;
   width: 30%;
   height: 30px;
-  }
+}
 
 button:hover {
     opacity: 0.86;

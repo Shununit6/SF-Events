@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// router.get('/hello/world', function(req, res){
-//     res.cookie('XSRF-TOKEN', req.csrfToken());
-//     res.send('Hello World!');
-// });
-
 router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();
     res.cookie("XSRF-TOKEN", csrfToken);
@@ -35,11 +30,11 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-if(process.env.NODE_ENV !=='production'){
-    router.get('api/csrf/restore', (req, res) => {
-        res.cookie('XSRF-TOKEN', req.csrfToken());
-        return res.json({});
+if (process.env.NODE_ENV !== 'production') {
+    router.get('/api/csrf/restore', (req, res) => {
+      res.cookie('XSRF-TOKEN', req.csrfToken());
+      res.status(201).json({});
     });
-}
+  }
 
 module.exports = router;

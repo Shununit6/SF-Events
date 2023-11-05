@@ -1,17 +1,21 @@
+div {
+  font-family: Georgia, serif, cursive;
+  color:black;
+}
+
 form {
   display: grid;
-  grid-gap: 30px;
+  grid-gap: 15px;
   font-family: Georgia, serif, cursive;
 }
 
 input {
-  width: 80%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  width: 50%;
   display: inline-block;
 }
 
 button {
+  margin: 0 auto;
   background-color: #24a5eb;
   color: white;
   width: 30%;

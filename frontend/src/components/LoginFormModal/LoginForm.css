@@ -1,17 +1,16 @@
 form {
   display: grid;
-  grid-gap: 30px;
+  grid-gap: 15px;
   font-family: Georgia, serif, cursive;
 }
 
 input {
   width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
   display: inline-block;
 }
 
 button {
+  margin: 0 auto;
   background-color: #24a5eb;
   color: white;
   width: 30%;

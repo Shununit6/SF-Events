@@ -17,9 +17,7 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded &&
         <Switch>
-          {/* <router exact to='/groups'>
-            <Groups/>
-          </router> */}
+          {/* <Route exact path="/groups" component={Groups} /> */}
         </Switch>}
     </>
   );

@@ -43,27 +43,6 @@ export const groupDetails = (groupId) => async dispatch => {
     return res;
 }
 
-// export const getGroupById = (groupId) => async (dispatch) => {
-//     const res = await fetch(`/api/groups/${groupId}`);
-
-//     if (res.ok) {
-//         const data = await res.json();
-//         console.log("data", data);
-//         dispatch(addOneGroup(data));
-//         return data;
-//     }
-//     return res;
-// };
-
-// export const getOnePokemon = id => async dispatch => {
-//     const response = await fetch(`/api/pokemon/${id}`);
-
-//     if (response.ok) {
-//       const pokemon = await response.json();
-//       dispatch(addOnePokemon(pokemon));
-//     }
-//   };
-
 const groupsReducer = (state = { isLoading: true,}, action) => {
     switch (action.type) {
         case LOAD_GROUPS:

@@ -24,12 +24,13 @@ export const getAllGroups = () => async (dispatch) => {
 const groupsReducer = (state = {}, action) => {
     switch (action.type) {
         case LOAD_GROUPS:
-            const groupsState = action.groups.Groups;
+            const groupsState = {};
             console.log("getallgroups", action.groups.Groups);
-            // action.getAllGroups.forEach((group) => {
-            //     groupsState[group.id] = group;
-            // });
-            return groupsState;
+            action.groups.Groups.forEach((group) => {
+                groupsState[group.id] = group;
+            });
+            console.log(groupsState);
+            return {...groupsState};
         default:
             return state;
     }

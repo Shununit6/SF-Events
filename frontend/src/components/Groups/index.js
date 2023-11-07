@@ -1,5 +1,5 @@
 import React, { useEffect} from 'react';
-// import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as groupsActions from '../../store/groups';
 
@@ -11,6 +11,7 @@ function Groups() {
     }, [dispatch]);
   return (
     <div>
+      <Link exact to="/groups">Get All Groups</Link>
          {/* <section> */}
              {/* <ul>
                  {Object.values(groups).map((report) => (

@@ -11,9 +11,15 @@ function Groups() {
     }, [dispatch]);
   return (
     <div>
+      {/* <section>
+        {groups.map((group) => (
+          <Link to={`/groups/${group.id}`}>{<GroupIndexItem group={group} key={group.id} />}</Link>
+
+        ))}
+    </section> */}
          {/* <section> */}
              {/* <ul>
-                 {Object.values(groups).map((report) => (
+                 {Object.values(groups).map((group) => (
                     <ReportIndexItem report={report} key={report.id} />
                 ))}
             </ul>

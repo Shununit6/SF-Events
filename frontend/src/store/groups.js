@@ -47,7 +47,7 @@ const groupsReducer = (state = { isLoading: true,}, action) => {
     switch (action.type) {
         case LOAD_GROUPS:
             const groupsState = {};
-            console.log("getallgroups", action.groups.Groups);
+            // console.log("getallgroups", action.groups.Groups);
             action.groups.Groups.forEach((group) => {
                 groupsState[group.id] = group;
             });
@@ -55,7 +55,7 @@ const groupsReducer = (state = { isLoading: true,}, action) => {
             return {...groupsState,  isLoading: false,};
         case LOAD_GROUP_DETAILS: {
             const groupState = {};
-            console.log("actiongroup",action.groups);
+            // console.log("actiongroup",action.groups);
             groupState[action.groups.id] = action.groups;
             return {groupState, isLoading: false,};
         }

@@ -19,9 +19,15 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded &&
         <Switch>
-          {/* <Route exact path="/" component={Home} /> */}
-          <Route exact path="/groups" component={Groups} />
-          <Route exact path="/groups/:groupId" component={GroupDetails} />
+          <Route exact path="/">
+            <h1>San Francisco Event</h1>
+          </Route>
+          <Route exact path="/groups">
+            <Groups/>
+          </Route>
+          <Route path="/groups/:groupId">
+            <GroupDetails />
+          </Route>
         </Switch>}
     </>
   );

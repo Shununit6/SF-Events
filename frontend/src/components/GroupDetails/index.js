@@ -8,16 +8,16 @@ const GroupDetails = () => {
     const { groupId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const groupState = useSelector((state) => state.groups);
-    // console.log(groupState);
+    // console.log("groupState", groupState);
     // const groupDetail = groupState[groupId];
     // const {organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
     useEffect(() => {
         dispatch(groupDetails(groupId)).then(()=>setIsLoading(false))
     }, [dispatch, groupId])
 
-    // if (!groupDetail) {
-    //     return <div>Loading...</div>
-    // }
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
 
     return(
         <div>

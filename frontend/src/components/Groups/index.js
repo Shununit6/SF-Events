@@ -22,7 +22,7 @@ function Groups() {
          <section>
              <ul>
                  {Object.values(groups).map((group) => (
-                  <Link to={`/groups/${group.id}`}><GroupIndexItem group={group} key={group.id}/></Link>
+                  <Link to={`/groups/${group.id}`}>{<GroupIndexItem group={group} key={group.id}/>}</Link>
                 ))}
             </ul>
          </section>

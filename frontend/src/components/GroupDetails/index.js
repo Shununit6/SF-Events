@@ -14,17 +14,15 @@ const GroupDetails = () => {
         dispatch(groupDetails(groupId)).then(()=>setIsLoaded(true))
     }, [dispatch, groupId])
 
-    const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
-    const isPrivate = groupDetail.private;
-
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }
-
+    const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
+    const isPrivate = groupDetail.private;
     if(isLoaded){
         return(
             <div>
-                <Link to={`/groups/${groupId}`}></Link>
+                <Link to={`/groups/${groupId}`} key={`${groupId}`}></Link>
                 <p>id: , {id}</p>
                 <p>organizerId: , {organizerId}</p>
                 <p>name , {name}</p>

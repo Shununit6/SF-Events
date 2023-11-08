@@ -28,6 +28,13 @@ function App() {
           <Route path="/groups/:groupId">
             <GroupDetails />
           </Route>
+          {/* <Route exact path="/" component={Home} /> */}
+          {/* <Route path="/groups/new" component={CreateGroupForm} /> */}
+          {/* <Route exact path="/">
+            <h1>San Francisco Event</h1>
+          </Route>
+          <Route path="/groups" component={Groups} />
+          <Route path="/groups/:groupId" component={GroupDetails} /> */}
         </Switch>}
     </>
   );

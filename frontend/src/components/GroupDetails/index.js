@@ -5,33 +5,35 @@ import { groupDetails } from "../../store/groups";
 
 const GroupDetails = () => {
     const dispatch = useDispatch();
-    const { groupId } = useParams();
+    let { groupId } = useParams();
+    groupId = parseInt(groupId);
     const [isLoading, setIsLoading] = useState(true);
-    const groupState = useSelector((state) => state.groups);
-    // console.log("groupState", groupState);
-    // const groupDetail = groupState[groupId];
-    // const {organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
+    const groupDetail = useSelector((state) => state.groups[groupId]);
+
     useEffect(() => {
         dispatch(groupDetails(groupId)).then(()=>setIsLoading(false))
     }, [dispatch, groupId])
 
+
     if (isLoading) {
-        return <div>Loading...</div>
+        return (<div>Loading...</div>);
     }
 
+    const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
+    const isPrivate = groupDetail.private;
     return(
         <div>
-          <Link exact to="/groups/${groupId}">GroupDetails</Link>
-            {/* <h1>{id}</h1>
-            <h1>{organizerId}</h1>
-            <h1>{name}</h1>
-            <h1>{about}</h1>
-            <h1>{type}</h1>
-            {/* <h1>{private}</h1> */}
-            {/* <h1>{city}</h1>
-            <h1>{state}</h1>
-            <h1>{createdAt}</h1>
-            <h1>{updatedAt}</h1> */}
+            <Link to={`/groups/${groupId}`}></Link>
+            <p>id: , {id}</p>
+            <p>organizerId: , {organizerId}</p>
+            <p>name , {name}</p>
+            <p>about , {about}</p>
+            <p>type , {type}</p>
+            <h1>private {isPrivate}</h1>
+            <p>city , {city}</p>
+            <p>state , {state}</p>
+            <p>createdAt , {createdAt}</p>
+            <p>"updatedAt , {updatedAt}</p>
         </div>
     );
 };

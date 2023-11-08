@@ -37,27 +37,24 @@ export const groupDetails = (groupId) => async dispatch => {
 
     if (res.ok) {
         const data = await res.json();
-        dispatch(loadGroupDetails(data))
-        return data
+        dispatch(loadGroupDetails(data));
+        return data;
     }
     return res;
 }
 
-const groupsReducer = (state = { isLoading: true,}, action) => {
+const groupsReducer = (state = { }, action) => {
     switch (action.type) {
         case LOAD_GROUPS:
-            const groupsState = {};
-            // console.log("getallgroups", action.groups.Groups);
+            const groupsState = {...state};
             action.groups.Groups.forEach((group) => {
-                groupsState[group.id] = group;
+                if(!groupsState[group.id]) {groupsState[group.id] = group;}
             });
-            console.log(groupsState);
-            return {...groupsState,  isLoading: false,};
+            return {...groupsState};
         case LOAD_GROUP_DETAILS: {
-            const groupState = {};
-            // console.log("actiongroup",action.groups);
+            const groupState = {...state};
             groupState[action.groups.id] = action.groups;
-            return {groupState, isLoading: false,};
+            return groupState;
         }
         // case GET_GROUP:
         //     const groupState = {};

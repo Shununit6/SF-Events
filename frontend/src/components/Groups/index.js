@@ -11,7 +11,6 @@ function Groups() {
     }, [dispatch]);
   return (
     <div>
-      <Link exact to="/groups">Get All Groups</Link>
          {/* <section> */}
              {/* <ul>
                  {Object.values(groups).map((report) => (
@@ -35,36 +34,3 @@ function Groups() {
 }
 
 export default Groups;
-
-// import { Link } from "react-router-dom";
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { getAllReports } from "../store/reports";
-
-// import ReportIndexItem from "./ReportIndexItem";
-// import { resetDatabase } from "../mocks/storage";
-
-// const ReportIndex = () => {
-//     const reports = useSelector((state) => state.reports); // populate from Redux store
-//     const dispatch = useDispatch();
-
-//     useEffect(() => {
-//         dispatch(getAllReports());
-//     }, []);
-//     /* **DO NOT CHANGE THE RETURN VALUE** */
-//     return (
-//         <section>
-//             <ul>
-//                 {Object.values(reports).map((report) => (
-//                     <ReportIndexItem report={report} key={report.id} />
-//                 ))}
-//             </ul>
-//             <Link className="back-button new" to="/reports/new">
-//                 New Report
-//             </Link>
-//             <button onClick={resetDatabase}>Reset the Database</button>
-//         </section>
-//     );
-// };
-
-// export default ReportIndex;

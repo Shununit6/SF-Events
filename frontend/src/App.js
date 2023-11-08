@@ -5,7 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Groups from "./components/Groups";
 import GroupDetails from "./components/GroupDetails";
-// import Home from "./components/Home";
+import Home from "./components/Home";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ function App() {
       {isLoaded &&
         <Switch>
           <Route exact path="/">
+            <Home />
             <h1>San Francisco Event</h1>
           </Route>
           <Route exact path="/groups">
@@ -28,13 +29,6 @@ function App() {
           <Route path="/groups/:groupId">
             <GroupDetails />
           </Route>
-          {/* <Route exact path="/" component={Home} /> */}
-          {/* <Route path="/groups/new" component={CreateGroupForm} /> */}
-          {/* <Route exact path="/">
-            <h1>San Francisco Event</h1>
-          </Route>
-          <Route path="/groups" component={Groups} />
-          <Route path="/groups/:groupId" component={GroupDetails} /> */}
         </Switch>}
     </>
   );

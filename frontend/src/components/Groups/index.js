@@ -1,28 +1,32 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import * as groupsActions from '../../store/groups';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllGroups } from '../../store/groups';
+import GroupIndexItem from '../GroupIndexItem';
 function Groups() {
     const dispatch = useDispatch();
+    const [isLoaded, setIsLoaded] = useState(false);
+    const groups = useSelector((state) => state.groups);
+
     useEffect(()=>{
-    //   dispatch(groupsReducer);
-    console.log(dispatch(groupsActions.getAllGroups()));
+      dispatch(getAllGroups()).then(()=>setIsLoaded(true))
     }, [dispatch]);
+
+  if (!isLoaded) {
+    return (<div>Loading...</div>);
+  }
+
+  if(isLoaded){
   return (
     <div>
-      {/* <section>
-        {groups.map((group) => (
-          <Link to={`/groups/${group.id}`}>{<GroupIndexItem group={group} key={group.id} />}</Link>
-
-        ))}
-    </section> */}
-         {/* <section> */}
-             {/* <ul>
+         <section>
+             <ul>
                  {Object.values(groups).map((group) => (
-                    <ReportIndexItem report={report} key={report.id} />
+                  <Link to={`/groups/${group.id}`}><GroupIndexItem group={group} key={group.id}/></Link>
                 ))}
             </ul>
+         </section>
+        {/*
             <Link className="back-button new" to="/reports/new">
                 New Report
             </Link>
@@ -36,7 +40,7 @@ function Groups() {
         </li> */}
       {/* </ul> */}
     </div>
-  );
+  );}
 }
 
 export default Groups;

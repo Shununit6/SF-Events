@@ -28,7 +28,7 @@ const GroupDetails = () => {
                 <p>name , {name}</p>
                 <p>about , {about}</p>
                 <p>type , {type}</p>
-                <h1>private {isPrivate}</h1>
+                <p>private {isPrivate}</p>
                 <p>city , {city}</p>
                 <p>state , {state}</p>
                 <p>createdAt , {createdAt}</p>

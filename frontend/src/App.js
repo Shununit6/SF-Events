@@ -23,7 +23,7 @@ function App() {
             <Home />
             <h1>San Francisco Event</h1>
           </Route>
-          <Route exact path="/groups">
+          <Route path="/groups">
             <Groups/>
           </Route>
           <Route path="/groups/:groupId">

@@ -18,8 +18,14 @@ const GroupDetails = () => {
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }
-    const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
-    const isPrivate = groupDetail.private;
+    // const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
+    const { name, about, city, state } = groupDetail;
+    let isPrivate;
+    if(groupDetail.private){
+        isPrivate = "Private";
+    }else{
+        isPrivate = "Public";
+    }
     const handleDelete = (e) => {
         e.preventDefault();
         dispatch(deleteGroup(groupId));
@@ -28,21 +34,24 @@ const GroupDetails = () => {
         return(
             <div>
                 <Link to={`/groups/${groupId}`}></Link>
-                <p>id:  {id}</p>
-                <p>organizerId:  {organizerId}</p>
-                <p>name  {name}</p>
-                <p>about  {about}</p>
-                <p>type  {type}</p>
-                <p>private {isPrivate}</p>
-                <p>city  {city}</p>
-                <p>state  {state}</p>
-                <p>createdAt  {createdAt}</p>
-                <p>"updatedAt  {updatedAt}</p>
+                <img src={`https://picsum.photos/200/300?random=${groupId}`}/>
+                <p>{name}</p>
+                <p>{city}, {state}</p>
+                <p>##events</p>
+                <p>{isPrivate}</p>
+                <p>organized by firstName lastName</p>
+
                 <div className="buttons-container">
+                    <button>Join this group</button>
                     <button>Create event</button>
                     <button>Update</button>
                     <button onClick={handleDelete}>Delete</button>
                 </div>
+
+                <h1>Organizer</h1>
+                <h1>What we're about</h1>
+                <p>{about}</p>
+                <h1>Upcoming Events(#)</h1>
             </div>
         );
     }

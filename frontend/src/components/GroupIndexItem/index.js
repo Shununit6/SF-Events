@@ -27,6 +27,7 @@ const GroupIndexItem = ({ group }) => {
         <li>
             <div className="li-contents-flex">
             <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>
+                <img src={`https://picsum.photos/200/300?random=${id}`}/>
                 <p>{name}</p>
                 <p>{city}, {state}</p>
                 <p>{about}</p>

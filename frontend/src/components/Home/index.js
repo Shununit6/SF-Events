@@ -8,7 +8,9 @@ const Home = () => {
             <section>
                 <Link to="/events" > Find an event </Link>
             </section>
-            {/* <Link to="/groups/new" > Start a new group </Link> */}
+            <section>
+                <Link to="/groups/new" > Start a new group </Link>
+            </section>
         </div>
     );
 };

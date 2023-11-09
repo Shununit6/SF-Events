@@ -52,6 +52,7 @@ const GroupDetails = () => {
                 <h1>What we're about</h1>
                 <p>{about}</p>
                 <h1>Upcoming Events(#)</h1>
+                <h1>Past Events(#)</h1>
             </div>
         );
     }

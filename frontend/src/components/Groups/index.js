@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllGroups } from '../../store/groups';
 import GroupIndexItem from '../GroupIndexItem';
+import "./groups.css";
 function Groups() {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -22,7 +22,7 @@ function Groups() {
          <section>
              <ul>
                  {Object.values(groups).map((group) => (
-                  <Link to={`/groups/${group.id}`}  key={`${group.id}`}><GroupIndexItem group={group} key={group.id}/></Link>
+                  <GroupIndexItem group={group} key={group.id}/>
                 ))}
             </ul>
          </section>

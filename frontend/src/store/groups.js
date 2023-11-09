@@ -3,6 +3,7 @@
 export const LOAD_GROUPS = "groups/LOAD_GROUPS";
 export const LOAD_GROUP_DETAILS = "groups/LOAD_GROUP_DETAILS";
 export const REMOVE_GROUP = "groups/REMOVE_GROUP";
+export const GET_GROUP_EVENTS = "groups/GET_GROUP_EVENTS";
 // export const GET_GROUP = "groups/GET_GROUP";
 
 /**  Action Creators: */
@@ -18,6 +19,11 @@ export const loadGroupDetails = (groups) => ({
 
 export const removeGroup = (groups) => ({
     type: REMOVE_GROUP,
+    groups,
+});
+
+export const getGroupEvents = (groups) => ({
+    type: GET_GROUP_EVENTS,
     groups,
 });
 
@@ -50,6 +56,19 @@ export const groupDetails = (groupId) => async dispatch => {
     return res;
 }
 
+export const getGroupIdEvents = (groupId) => async (dispatch) => {
+    const res = await fetch(`/api/groups/${groupId}/events`);
+
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(getGroupEvents(groupId));
+        console.log("data", data);
+        console.log("datalength", data.Events.length);
+        return data;
+    }
+    return res;
+};
+
 export const deleteGroup = (groupId) => async (dispatch) => {
     const res = await fetch(`/api/groups/${groupId}`, {
         method: "DELETE",
@@ -68,12 +87,22 @@ const groupsReducer = (state = { }, action) => {
         case LOAD_GROUPS:
             const groupsState = { ...state };
             action.groups.Groups.forEach((group) => {
+                console.log(group);
+                console.log(group.id);
                 if(!groupsState[group.id]) {groupsState[group.id] = group;}
             });
             return {...groupsState};
         case LOAD_GROUP_DETAILS: {
             const groupState = { ...state };
             groupState[action.groups.id] = action.groups;
+            return groupState;
+        }
+        case GET_GROUP_EVENTS: {
+            const groupState = { ...state };
+            groupState[action.groups.id] = action.groups;
+            console.log("actiongroups", action.groups);
+            console.log("actiongroupsid",action.groups.id);
+            console.log(groupState);
             return groupState;
         }
         case REMOVE_GROUP:{

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { groupDetails } from "../../store/groups";
+import { deleteGroup } from "../../store/groups";
 
 const GroupDetails = () => {
     const dispatch = useDispatch();
@@ -19,20 +20,29 @@ const GroupDetails = () => {
     }
     const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
     const isPrivate = groupDetail.private;
+    const handleDelete = (e) => {
+        e.preventDefault();
+        dispatch(deleteGroup(groupId));
+    };
     if(isLoaded){
         return(
             <div>
-                <Link to={`/groups/${groupId}`} key={`${groupId}`}></Link>
-                <p>id: , {id}</p>
-                <p>organizerId: , {organizerId}</p>
-                <p>name , {name}</p>
-                <p>about , {about}</p>
-                <p>type , {type}</p>
+                <Link to={`/groups/${groupId}`}></Link>
+                <p>id:  {id}</p>
+                <p>organizerId:  {organizerId}</p>
+                <p>name  {name}</p>
+                <p>about  {about}</p>
+                <p>type  {type}</p>
                 <p>private {isPrivate}</p>
-                <p>city , {city}</p>
-                <p>state , {state}</p>
-                <p>createdAt , {createdAt}</p>
-                <p>"updatedAt , {updatedAt}</p>
+                <p>city  {city}</p>
+                <p>state  {state}</p>
+                <p>createdAt  {createdAt}</p>
+                <p>"updatedAt  {updatedAt}</p>
+                <div className="buttons-container">
+                    <button>Create event</button>
+                    <button>Update</button>
+                    <button onClick={handleDelete}>Delete</button>
+                </div>
             </div>
         );
     }

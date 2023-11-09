@@ -6,6 +6,8 @@ import Navigation from "./components/Navigation";
 import Groups from "./components/Groups";
 import GroupDetails from "./components/GroupDetails";
 import Home from "./components/Home";
+// import Events from "./components/Events";
+// import EventDetails from "./components/EventDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,12 +25,18 @@ function App() {
             <Home />
             <h1>San Francisco Event</h1>
           </Route>
-          <Route path="/groups">
+          <Route exact path="/groups">
             <Groups/>
           </Route>
           <Route path="/groups/:groupId">
             <GroupDetails />
           </Route>
+          {/* <Route exact path="/events">
+            <Events/>
+          </Route>
+          <Route path="/events/:eventId">
+            <EventDetails />
+          </Route> */}
         </Switch>}
     </>
   );

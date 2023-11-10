@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { groupDetails } from "../../store/groups";
+import { groupDetails, getGroupIdEvents } from "../../store/groups";
 import { deleteGroup } from "../../store/groups";
 
 const GroupDetails = () => {
@@ -9,10 +9,11 @@ const GroupDetails = () => {
     let { groupId } = useParams();
     groupId = parseInt(groupId);
     const [isLoaded, setIsLoaded] = useState(false);
+    // const groupDetail = useSelector((state) => state.groups[groupId]);
     const groupDetail = useSelector((state) => state.groups[groupId]);
-
+    // groupDetails(groupId),
     useEffect(() => {
-        dispatch(groupDetails(groupId)).then(()=>setIsLoaded(true))
+        dispatch(getGroupIdEvents(groupId)).then(()=>setIsLoaded(true))
     }, [dispatch, groupId])
 
     if(!isLoaded) {
@@ -27,6 +28,7 @@ const GroupDetails = () => {
     }else{
         isPrivate = "Public";
     }
+    const numOfEvents = Object.values(groupDetail.events).length;
     const handleDelete = (e) => {
         e.preventDefault();
         dispatch(deleteGroup(groupId));
@@ -35,10 +37,10 @@ const GroupDetails = () => {
         return(
             <div>
                 <Link to={`/groups/${groupId}`}></Link>
-                <img alt="random group"src={`https://picsum.photos/200/300?random=${groupId}`}/>
+                {/* <img alt="random group"src={`https://picsum.photos/200/300?random=${groupId}`}/> */}
                 <p>{name}</p>
                 <p>{city}, {state}</p>
-                <p>##events</p>
+                <p>{numOfEvents} events</p>
                 <p>{isPrivate}</p>
                 <p>organized by firstName lastName</p>
 

@@ -82,7 +82,7 @@ export const getAllGroups = () => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        console.log("data", data);
+        // console.log("data", data);
         dispatch(loadGroups(data));
         return data;
     }
@@ -106,8 +106,8 @@ export const getGroupIdEvents = (groupId) => async (dispatch) => {
     if (res.ok) {
         const data = await res.json();
         dispatch(getGroupEvents(data.Events, groupId));
-        console.log("data", data);
-        console.log("datalength", data.Events.length);
+        // console.log("data", data);
+        // console.log("datalength", data.Events.length);
         return data;
     }
     return res;

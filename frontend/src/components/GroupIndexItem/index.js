@@ -5,34 +5,37 @@ import { Link } from 'react-router-dom';
 import "./GroupIndexItem.css";
 const GroupIndexItem = ({ group }) => {
     const dispatch = useDispatch();
-
     const [isLoaded, setIsLoaded] = useState(false);
-    const returnState = useSelector((state) => state);
-    // console.log("group", group.id);
+    // const groups = useSelector((state) => state.groups);
+
     useEffect(() => {
         dispatch(getGroupIdEvents(group.id)).then(()=>setIsLoaded(true))
-    }, [dispatch])
+    }, [dispatch,group.id])
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }
-    const {id, name, about, city, state } = group;
+
+    const {id, name, about, city, state} = group;
     let isPrivate;
     if(group.private){
         isPrivate = "Private";
     }else{
         isPrivate = "Public";
     }
-    // if(isLoaded){
+
+    const numOfEvents = Object.values(group.events).length;
+
     return (
         <li>
             <div className="li-contents-flex">
             <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>
                 <section>
-                    <img src={`https://picsum.photos/200/300?random=${id}`}/>
+                    {/* <img src={`https://picsum.photos/200/300?random=${id}`}/> */}
                     <p>{name}</p>
                     <p>{city}, {state}</p>
                     <p>{about}</p>
                     <p>{isPrivate}</p>
+                    <p>{numOfEvents} events</p>
                 </section>
             </Link>
             </div>

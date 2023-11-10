@@ -44,10 +44,11 @@ const GroupDetails = () => {
 
                 <div className="buttons-container">
                     <button>Join this group</button>
-                    <Link to="/groups/new">
-                        <button onclick="/groups/new">Create event</button>
-                    </Link>
-                    <button onclick={`/groups/${groupId}/edit`}>Update</button>
+                    {/* <Link to="/groups/new">
+                        <button onClick="/groups/new">Create event</button>
+                    </Link> */}
+                    <button onClick={"/groups/new"}>Create event</button>
+                    <button onClick={`/groups/${groupId}/edit`}>Update</button>
                     <button onClick={handleDelete}>Delete</button>
                 </div>
 

@@ -7,7 +7,7 @@ function Groups() {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const groups = useSelector((state) => state.groups);
-
+    console.log("groups", groups);
     useEffect(()=>{
       dispatch(getAllGroups()).then(()=>setIsLoaded(true))
     }, [dispatch]);

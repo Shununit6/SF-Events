@@ -1,20 +1,20 @@
-// import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { getGroupIdEvents } from '../../store/groups';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getGroupIdEvents } from '../../store/groups';
 import { Link } from 'react-router-dom';
 import "./GroupIndexItem.css";
 const GroupIndexItem = ({ group }) => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // const [isLoaded, setIsLoaded] = useState(false);
-    // const returnState = useSelector((state) => state);
-    // // console.log("group", group.id);
-    // useEffect(() => {
-    //     dispatch(getGroupIdEvents(group.id)).then(()=>setIsLoaded(true))
-    // }, [dispatch])
-    // if(!isLoaded) {
-    //     return (<div>Loading...</div>);
-    // }
+    const [isLoaded, setIsLoaded] = useState(false);
+    const returnState = useSelector((state) => state);
+    // console.log("group", group.id);
+    useEffect(() => {
+        dispatch(getGroupIdEvents(group.id)).then(()=>setIsLoaded(true))
+    }, [dispatch])
+    if(!isLoaded) {
+        return (<div>Loading...</div>);
+    }
     const {id, name, about, city, state } = group;
     let isPrivate;
     if(group.private){

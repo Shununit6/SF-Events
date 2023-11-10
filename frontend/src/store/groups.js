@@ -24,9 +24,10 @@ export const removeGroup = (groups) => ({
     groups,
 });
 
-export const getGroupEvents = (groups) => ({
+export const getGroupEvents = (events, groupId) => ({
     type: GET_GROUP_EVENTS,
-    groups,
+    events,
+    groupId
 });
 
 export const receiveGroup = (group) => ({
@@ -104,7 +105,7 @@ export const getGroupIdEvents = (groupId) => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        dispatch(getGroupEvents(groupId));
+        dispatch(getGroupEvents(data.Events, groupId));
         console.log("data", data);
         console.log("datalength", data.Events.length);
         return data;
@@ -132,7 +133,7 @@ const groupsReducer = (state = { }, action) => {
             action.groups.Groups.forEach((group) => {
                 if(!groupsState[group.id]) {groupsState[group.id] = group;}
             });
-            return {...groupsState}};
+            return groupsState};
         case LOAD_GROUP_DETAILS: {
             const groupState = { ...state };
             groupState[action.groups.id] = action.groups;
@@ -140,10 +141,14 @@ const groupsReducer = (state = { }, action) => {
         };
         case GET_GROUP_EVENTS: {
             const groupState = { ...state };
-            groupState[action.groups.id] = action.groups;
-            console.log("actiongroups", action.groups);
-            console.log("actiongroupsid",action.groups.id);
-            console.log(groupState);
+            const eventsObj = {};
+            action.events.forEach((event)=>{
+                eventsObj[event.id] = event;
+            });
+            groupState[action.groupId].events = eventsObj;
+            // console.log("actiongroups", action.groups);
+            // console.log("actiongroupsid",action.groups.id);
+            // console.log(groupState);
             return groupState;
         };
         case REMOVE_GROUP:{

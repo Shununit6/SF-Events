@@ -10,17 +10,17 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await GroupImage.bulkCreate([
       {
-        url: 'imageurlOne',
+        url: 'https://fastly.picsum.photos/id/158/4836/3224.jpg?hmac=Gu_3j3HxZgR74iw1sV0wcwlnSZSeCi7zDWLcjblOp_c',
         preview: true,
         groupId: 1
       },
       {
-        url: 'imageurlTwo',
+        url: 'https://fastly.picsum.photos/id/192/2352/2352.jpg?hmac=jN5UExysObV7_BrOYLdxoDKzm_c_lRM6QkaInKT_1Go',
         preview: false,
         groupId: 2
       },
       {
-        url: 'imageurlThree',
+        url: 'https://fastly.picsum.photos/id/250/4928/3264.jpg?hmac=4oIwzXlpK4KU3wySTnATICCa4H6xwbSGifrxv7GafWU',
         preview: true,
         groupId: 3
       }
@@ -31,7 +31,9 @@ module.exports = {
     options.tableName = 'GroupImages';
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
-      url: {[Op.in]: ['imageurlOne', 'imageurlTwo', 'imageurlThree']}
+      url: {[Op.in]: ['https://fastly.picsum.photos/id/192/2352/2352.jpg?hmac=jN5UExysObV7_BrOYLdxoDKzm_c_lRM6QkaInKT_1Go',
+      'https://fastly.picsum.photos/id/192/2352/2352.jpg?hmac=jN5UExysObV7_BrOYLdxoDKzm_c_lRM6QkaInKT_1Go',
+      'https://fastly.picsum.photos/id/250/4928/3264.jpg?hmac=4oIwzXlpK4KU3wySTnATICCa4H6xwbSGifrxv7GafWU']}
     }, {});
   }
 };

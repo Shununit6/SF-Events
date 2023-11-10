@@ -4,6 +4,8 @@ export const LOAD_GROUPS = "groups/LOAD_GROUPS";
 export const LOAD_GROUP_DETAILS = "groups/LOAD_GROUP_DETAILS";
 export const REMOVE_GROUP = "groups/REMOVE_GROUP";
 export const GET_GROUP_EVENTS = "groups/GET_GROUP_EVENTS";
+export const RECEIVE_GROUP = "groups/RECEIVE_GROUP";
+export const UPDATE_GROUP = "groups/UPDATE_GROUP";
 // export const GET_GROUP = "groups/GET_GROUP";
 
 /**  Action Creators: */
@@ -27,10 +29,51 @@ export const getGroupEvents = (groups) => ({
     groups,
 });
 
+export const receiveGroup = (group) => ({
+    type: RECEIVE_GROUP,
+    group,
+});
+
+export const editGroup = (group) => ({
+    type: UPDATE_GROUP,
+    group,
+});
+
 // export const getGroup = (groups) => ({
 //     type: GET_GROUP,
 //     groups,
 // });
+
+
+export const createGroup = (payload) => async (dispatch) => {
+    const res = await fetch("/api/groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(receiveGroup(data));
+        return data;
+    }
+    return res;
+};
+
+export const updateGroup = (payload) => async (dispatch) => {
+    const res = await fetch(`/api/groups/${payload.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(editGroup(data));
+        return data;
+    }
+    return res;
+};
 
 /** Thunk Action Creators: */
 export const getAllGroups = () => async (dispatch) => {
@@ -84,19 +127,17 @@ export const deleteGroup = (groupId) => async (dispatch) => {
 
 const groupsReducer = (state = { }, action) => {
     switch (action.type) {
-        case LOAD_GROUPS:
+        case LOAD_GROUPS:{
             const groupsState = { ...state };
             action.groups.Groups.forEach((group) => {
-                console.log(group);
-                console.log(group.id);
                 if(!groupsState[group.id]) {groupsState[group.id] = group;}
             });
-            return {...groupsState};
+            return {...groupsState}};
         case LOAD_GROUP_DETAILS: {
             const groupState = { ...state };
             groupState[action.groups.id] = action.groups;
             return groupState;
-        }
+        };
         case GET_GROUP_EVENTS: {
             const groupState = { ...state };
             groupState[action.groups.id] = action.groups;
@@ -104,12 +145,16 @@ const groupsReducer = (state = { }, action) => {
             console.log("actiongroupsid",action.groups.id);
             console.log(groupState);
             return groupState;
-        }
+        };
         case REMOVE_GROUP:{
             const groupState = { ...state };
             delete groupState[action.groups.id];
             return groupState;
-        }
+        };
+        case RECEIVE_GROUP:
+            return { ...state, [action.group.id]: action.group };
+        case UPDATE_GROUP:
+            return { ...state, [action.group.id]: action.group };
         // case GET_GROUP:
         //     const groupState = {};
         //     console.log("getgroupbyid", action.groups);

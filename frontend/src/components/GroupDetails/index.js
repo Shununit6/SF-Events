@@ -20,6 +20,7 @@ const GroupDetails = () => {
     }
     // const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
     const { name, about, city, state } = groupDetail;
+    // console.log(groupDetail.groupImage);
     let isPrivate;
     if(groupDetail.private){
         isPrivate = "Private";
@@ -34,7 +35,7 @@ const GroupDetails = () => {
         return(
             <div>
                 <Link to={`/groups/${groupId}`}></Link>
-                <img src={`https://picsum.photos/200/300?random=${groupId}`}/>
+                <img alt="random group"src={`https://picsum.photos/200/300?random=${groupId}`}/>
                 <p>{name}</p>
                 <p>{city}, {state}</p>
                 <p>##events</p>

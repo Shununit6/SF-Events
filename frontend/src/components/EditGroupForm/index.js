@@ -1,28 +1,28 @@
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-// import { getReportDetails } from "../store/reports";
-// import { useEffect } from "react";
-// import ReportForm from "./ReportForm";
+import { groupDetails } from "../../store/groups";
+import { useEffect } from "react";
+import GroupForm from "../GroupForm";
 
-// const EditReportForm = () => {
-//     const dispatch = useDispatch();
-//     const { reportId } = useParams();
-//     const report = useSelector((state) => state.reports[reportId]); // populate from Redux store
+const EditGroupForm = () => {
+    const dispatch = useDispatch();
+    const { groupId } = useParams();
+    const group = useSelector((state) => state.groups[groupId]);
 
-//     useEffect(() => {
-//         dispatch(getReportDetails(reportId));
-//     }, [dispatch, reportId]);
+    useEffect(() => {
+        dispatch(groupDetails(groupId));
+    }, [dispatch, groupId]);
 
-//     if (!report) return <></>;
+    if (!group) return <></>;
 
-//     /* **DO NOT CHANGE THE RETURN VALUE** */
-//     return (
-//         Object.keys(report).length > 1 && (
-//             <>
-//                 <ReportForm report={report} formType="Update Report" />
-//             </>
-//         )
-//     );
-// };
+    /* **DO NOT CHANGE THE RETURN VALUE** */
+    return (
+        Object.keys(group).length > 1 && (
+            <>
+                <GroupForm group={group} formType="Update Group" />
+            </>
+        )
+    );
+};
 
-// export default EditReportForm;
+export default EditGroupForm;

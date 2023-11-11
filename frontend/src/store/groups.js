@@ -1,4 +1,5 @@
-// import { csrfFetch } from "./csrf";
+import { csrfFetch } from "./csrf";
+
 /** Action Type Constants: */
 export const LOAD_GROUPS = "groups/LOAD_GROUPS";
 export const LOAD_GROUP_DETAILS = "groups/LOAD_GROUP_DETAILS";
@@ -47,12 +48,14 @@ export const receiveGroupImage = (groupImage) => ({
 
 
 export const createGroup = (payload) => async (dispatch) => {
-    const res = await fetch("/api/groups", {
+    console.log("createGroup         run");
+    console.log(payload);
+    const res = await csrfFetch("/api/groups", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-
+    console.log("res", res);
     if (res.ok) {
         const data = await res.json();
         dispatch(receiveGroup(data));
@@ -105,7 +108,7 @@ export const getGroupIdEvents = (groupId) => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        dispatch(getGroupEvents(data.Events, groupId));
+        await dispatch(getGroupEvents(data.Events, groupId));
         // console.log("data", data);
         // console.log("datalength", data.Events.length);
         return data;
@@ -156,13 +159,14 @@ const groupsReducer = (state = { }, action) => {
             return groupState;
         };
         case GET_GROUP_EVENTS: {
-            const groupState = { ...state };
+            // const groupState = { ...state };
             const eventsObj = {};
             action.events.forEach((event)=>{
                 eventsObj[event.id] = event;
             });
-            groupState[action.groupId].events = eventsObj;
-            return groupState;
+            // const modifiedGroup = state[action.groupId];
+            // modifiedGroup.events = eventsObj;
+            return {...state, [action.groupId]: {...state[action.groupId], events: eventsObj} };
         };
         case RECEIVE_GROUP_IMAGE: {
             const groupState = { ...state };
@@ -178,6 +182,7 @@ const groupsReducer = (state = { }, action) => {
             return groupState;
         };
         case RECEIVE_GROUP:
+            console.log(action);
             return { ...state, [action.group.id]: action.group };
         case UPDATE_GROUP:
             return { ...state, [action.group.id]: action.group };

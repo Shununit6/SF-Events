@@ -7,9 +7,10 @@ import "./GroupDetails.css";
 const GroupDetails = () => {
     const dispatch = useDispatch();
     let { groupId } = useParams();
-    groupId = parseInt(groupId);
+    // groupId = parseInt(groupId);
     const [isLoaded, setIsLoaded] = useState(false);
     const groupData = useSelector((state) => state.groups[groupId]);
+    // return ()=>{setIsLoaded(false)}
     useEffect(() => {
         dispatch(groupDetails(groupId)).then(()=>dispatch(getGroupIdEvents(groupId))).then(()=>setIsLoaded(true))
     }, [dispatch, groupId])
@@ -50,7 +51,7 @@ const GroupDetails = () => {
                 <p>{name}</p>
                 <p>{city}, {state}</p>
                 {console.log(groupData.events)}
-                <p>{groupData.events ? Object.values(groupData.events).length : 0} events</p>
+                <p>{Object.values(groupData.events|| {}).length} events</p>
                 <p>{isPrivate}</p>
                 <p>organized by firstName lastName</p>
 

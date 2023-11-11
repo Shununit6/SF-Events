@@ -11,13 +11,13 @@ const GroupForm = ({ group, formType }) => {
     let { groupId } = useParams();
     groupId = parseInt(groupId);
     const groupData = useSelector((state) => state.groups[groupId]);
-    const [city, setCity] = useState(groupData?.city);
-    const [state, setState] = useState(groupData?.state);
+    let [city, setCity] = useState(groupData?.city);
+    let [state, setState] = useState(groupData?.state);
     const [location, setLocation] = useState("");
     const [name, setName] = useState("");
     const [about, setAbout] = useState("");
     const [type, setType] = useState("");
-    const [isPrivate, setIsPrivate] = useState("");
+    let [isPrivate, setIsPrivate] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     // const [location, setLocation] = useState(groupData?.city, groupData?.state);
     // const [name, setName] = useState(groupData?.name);
@@ -47,48 +47,63 @@ const GroupForm = ({ group, formType }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
-        // if (Object.values(validationErrors).length){
-        //     return alert(`Cannot Submit`);}
-        const button = document.getElementById("groupButton");
-        if (Object.values(validationErrors).length){
-            button.disabled = true;
+        console.log(location);
+        city = location.split(",")[0];
+        state = location.split(",")[1];
+        // console.log(Object.values(groupData.GroupImages)[0].url;);
+        if(isPrivate === "Private"){
+            isPrivate = 1;
         }else{
-            button.disabled = false;
+            isPrivate = 0;
         }
-        group = { ...group, city, state, name, about, type, isPrivate};
+        group = { ...group, city, state, name, about, type, private:isPrivate,};
+        // GroupImages:{...GroupImages, url: imageUrl}
         // Object.values(groupData.GroupImages)[0].url
         let newGroup;
+        let errorCount = validationErrors.location.length + validationErrors.name.length
+        + validationErrors.about.length + validationErrors.type.length + validationErrors.isPrivate.length
+        + validationErrors.imageUrl.length;
+        console.log(errorCount);
+        if (errorCount > 0){
+            console.log("has errors");
+            }else{
+                console.log("no errors");
+                if (formType === "Update Group") {
+                    newGroup = await dispatch(updateGroup(group));
+                } else {
+                    newGroup = await dispatch(createGroup(group));
+                }
+                if (newGroup.id) {
+                    history.push(`/groups/${newGroup.id}`);
+                } else {
+                    const { validationErrors } = await newGroup.json();
+                    setValidationErrors(validationErrors);
+                }
+                console.log(newGroup);
 
-        if (formType === "Update Group") {
-            newGroup = await dispatch(updateGroup(group));
-        } else {
-            newGroup = await dispatch(createGroup(group));
-        }
-
-        if (newGroup.id) {
-            history.push(`/groups/${newGroup.id}`);
-        } else {
-            const { validationErrors } = await newGroup.json();
-            setValidationErrors(validationErrors);
-        }
-        console.log(newGroup);
-
-        setCity('');
-        setState('');
-        setLocation('');
-        setName('');
-        setAbout('');
-        setType('');
-        setIsPrivate('');
-        setImageUrl('')
-        setValidationErrors({});
-        setHasSubmitted(false);
+                setCity('');
+                setState('');
+                setLocation('');
+                setName('');
+                setAbout('');
+                setType('');
+                setIsPrivate('');
+                setImageUrl('')
+                setValidationErrors({});
+                setHasSubmitted(false);
+            }
+        // const button = document.getElementById("groupButton");
+        // if (Object.values(validationErrors).length){
+        //     button.disabled = true;
+        // }else{
+        //     button.disabled = false;
+        // }
     };
 
 //     /* **DO NOT CHANGE THE RETURN VALUE** */
     return (
         <form onSubmit={handleSubmit}>
-            {console.log(validationErrors)}
+            {/* {console.log(validationErrors)} */}
             <h2>{formType}</h2>
             <h2>We'll walk you through a few steps to build your local community</h2>
             <h2>First, set your group's location.</h2>
@@ -197,7 +212,7 @@ const GroupForm = ({ group, formType }) => {
                 </label>
             </div>
             {/* disabled */}
-            <button type="submit" id="GroupButton" disabled="false" >{formType}</button>
+            <button type="submit" id="GroupButton" >{formType}</button>
         </form>
     );
 };

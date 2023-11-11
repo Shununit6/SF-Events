@@ -49,12 +49,12 @@ const GroupForm = ({ group, formType }) => {
         setHasSubmitted(true);
         // if (Object.values(validationErrors).length){
         //     return alert(`Cannot Submit`);}
-        // const button = document.getElementById("groupButton");
-        // if (Object.values(validationErrors).length){
-        //     button.disabled = true;
-        // }else{
-        //     button.disabled = false;
-        // }
+        const button = document.getElementById("groupButton");
+        if (Object.values(validationErrors).length){
+            button.disabled = true;
+        }else{
+            button.disabled = false;
+        }
         group = { ...group, city, state, name, about, type, isPrivate};
         // Object.values(groupData.GroupImages)[0].url
         let newGroup;
@@ -197,7 +197,7 @@ const GroupForm = ({ group, formType }) => {
                 </label>
             </div>
             {/* disabled */}
-            <button type="submit" id="GroupButton" >{formType}</button>
+            <button type="submit" id="GroupButton" disabled="false" >{formType}</button>
         </form>
     );
 };

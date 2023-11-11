@@ -58,10 +58,10 @@ const GroupDetails = () => {
                     onClick={`/groups/${groupId}/edit`}
                     onClick={handleDelete}
                     */}
-                    <Link to="/groups/new">
+                    {/* <Link to="/events/new">
                         <button>Create event</button>
-                    </Link>
-                    {/* <button >Create event</button> */}
+                    </Link> */}
+                    <button >Create event</button>
                     <button >Update</button>
                     <button >Delete</button>
                 </div>

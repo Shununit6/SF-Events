@@ -3,17 +3,15 @@ import { useParams, Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { groupDetails, getGroupIdEvents } from "../../store/groups";
 import { deleteGroup } from "../../store/groups";
-
+import "./GroupDetails.css";
 const GroupDetails = () => {
     const dispatch = useDispatch();
     let { groupId } = useParams();
     groupId = parseInt(groupId);
     const [isLoaded, setIsLoaded] = useState(false);
-    // const groupDetail = useSelector((state) => state.groups[groupId]);
     const groupDetail = useSelector((state) => state.groups[groupId]);
-    // groupDetails(groupId),
     useEffect(() => {
-        dispatch(getGroupIdEvents(groupId)).then(()=>setIsLoaded(true))
+        dispatch(groupDetails(groupId)).then(()=>dispatch(getGroupIdEvents(groupId))).then(()=>setIsLoaded(true))
     }, [dispatch, groupId])
 
     if(!isLoaded) {
@@ -21,14 +19,23 @@ const GroupDetails = () => {
     }
     // const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupDetail;
     const { name, about, city, state } = groupDetail;
-    // console.log(groupDetail.groupImage);
     let isPrivate;
     if(groupDetail.private){
         isPrivate = "Private";
     }else{
         isPrivate = "Public";
     }
-    const numOfEvents = Object.values(groupDetail.events).length;
+
+    let numOfEvents = 0;
+    if(groupDetail.events){
+        numOfEvents = Object.values(groupDetail.events).length;
+    }
+    let imageUrl;
+    if(!Object.values(groupDetail.GroupImages)[0].url){
+        imageUrl = null;
+    }else{
+        imageUrl = Object.values(groupDetail.GroupImages)[0].url;
+    }
     const handleDelete = (e) => {
         e.preventDefault();
         dispatch(deleteGroup(groupId));
@@ -37,6 +44,7 @@ const GroupDetails = () => {
         return(
             <div>
                 <Link to={`/groups/${groupId}`}></Link>
+                <img id="images" src={imageUrl} alt="group"/>
                 {/* <img alt="random group"src={`https://picsum.photos/200/300?random=${groupId}`}/> */}
                 <p>{name}</p>
                 <p>{city}, {state}</p>
@@ -48,10 +56,14 @@ const GroupDetails = () => {
                     <button>Join this group</button>
                     {/* <Link to="/groups/new">
                         <button onClick="/groups/new">Create event</button>
-                    </Link> */}
-                    <button onClick={"/groups/new"}>Create event</button>
-                    <button onClick={`/groups/${groupId}/edit`}>Update</button>
-                    <button onClick={handleDelete}>Delete</button>
+                    </Link>
+                    onClick={"/groups/new"}
+                    onClick={`/groups/${groupId}/edit`}
+                    onClick={handleDelete}
+                    */}
+                    <button >Create event</button>
+                    <button >Update</button>
+                    <button >Delete</button>
                 </div>
 
                 <h1>Organizer</h1>

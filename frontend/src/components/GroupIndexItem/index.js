@@ -1,35 +1,43 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getGroupIdEvents } from '../../store/groups';
+import { groupDetails, getGroupIdEvents } from '../../store/groups';
 import { Link } from 'react-router-dom';
 import "./GroupIndexItem.css";
 const GroupIndexItem = ({ group }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
-    // const groups = useSelector((state) => state.groups);
-
+    const groupData = useSelector((state) => state.groups[group.id]);
     useEffect(() => {
-        dispatch(getGroupIdEvents(group.id)).then(()=>setIsLoaded(true))
-    }, [dispatch,group.id])
+        dispatch(groupDetails(group.id)).then(()=>dispatch(getGroupIdEvents(group.id))).then(()=>setIsLoaded(true))
+    }, [dispatch, group.id])
+
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }
 
-    const {id, name, about, city, state} = group;
+    const {id, name, about, city, state} =  groupData;
     let isPrivate;
     if(group.private){
         isPrivate = "Private";
     }else{
         isPrivate = "Public";
     }
+    let numOfEvents = 0;
+    if(!groupData.events){
+        numOfEvents = 0;
+    }else{
+        numOfEvents = Object.values(groupData.events).length;
+    }
 
-    const numOfEvents = Object.values(group.events).length;
-
+    const imageUrl = Object.values(groupData.GroupImages)[0].url;
+    console.log("groupData", groupData);
+    if(isLoaded){
     return (
         <li>
             <div className="li-contents-flex">
             <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>
                 <section>
+                    <img id = "groupImage" src={imageUrl} alt="group"/>
                     {/* <img src={`https://picsum.photos/200/300?random=${id}`}/> */}
                     <p>{name}</p>
                     <p>{city}, {state}</p>
@@ -41,7 +49,7 @@ const GroupIndexItem = ({ group }) => {
             </div>
         </li>
     );
-// }
+    }
 };
 
 export default GroupIndexItem;

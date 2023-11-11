@@ -2,3 +2,8 @@
 #linkwithtext {
     text-decoration:none;
 }
+
+#groupImage {
+    width: 300px;
+    height: 200px;
+}

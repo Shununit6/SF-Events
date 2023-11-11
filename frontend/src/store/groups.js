@@ -6,7 +6,7 @@ export const REMOVE_GROUP = "groups/REMOVE_GROUP";
 export const GET_GROUP_EVENTS = "groups/GET_GROUP_EVENTS";
 export const RECEIVE_GROUP = "groups/RECEIVE_GROUP";
 export const UPDATE_GROUP = "groups/UPDATE_GROUP";
-// export const GET_GROUP = "groups/GET_GROUP";
+export const RECEIVE_GROUP_IMAGE = "groups/RECEIVE_GROUP_IMAGE";
 
 /**  Action Creators: */
 export const loadGroups = (groups) => ({
@@ -40,10 +40,10 @@ export const editGroup = (group) => ({
     group,
 });
 
-// export const getGroup = (groups) => ({
-//     type: GET_GROUP,
-//     groups,
-// });
+export const receiveGroupImage = (groupImage) => ({
+    type: RECEIVE_GROUP_IMAGE,
+    groupImage,
+});
 
 
 export const createGroup = (payload) => async (dispatch) => {
@@ -113,6 +113,21 @@ export const getGroupIdEvents = (groupId) => async (dispatch) => {
     return res;
 };
 
+export const createGroupImage = (groupImage, groupId) => async (dispatch) => {
+    const res = await fetch(`/api/groups/${groupId}/images`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(groupImage),
+    });
+
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(receiveGroupImage(data));
+        return data;
+    }
+    return res;
+};
+
 export const deleteGroup = (groupId) => async (dispatch) => {
     const res = await fetch(`/api/groups/${groupId}`, {
         method: "DELETE",
@@ -133,7 +148,8 @@ const groupsReducer = (state = { }, action) => {
             action.groups.Groups.forEach((group) => {
                 if(!groupsState[group.id]) {groupsState[group.id] = group;}
             });
-            return groupsState};
+            return groupsState;
+        };
         case LOAD_GROUP_DETAILS: {
             const groupState = { ...state };
             groupState[action.groups.id] = action.groups;
@@ -146,7 +162,12 @@ const groupsReducer = (state = { }, action) => {
                 eventsObj[event.id] = event;
             });
             groupState[action.groupId].events = eventsObj;
-            // console.log("actiongroups", action.groups);
+            return groupState;
+        };
+        case RECEIVE_GROUP_IMAGE: {
+            const groupState = { ...state };
+
+            // console.log("actiongroups", action);
             // console.log("actiongroupsid",action.groups.id);
             // console.log(groupState);
             return groupState;
@@ -160,11 +181,7 @@ const groupsReducer = (state = { }, action) => {
             return { ...state, [action.group.id]: action.group };
         case UPDATE_GROUP:
             return { ...state, [action.group.id]: action.group };
-        // case GET_GROUP:
-        //     const groupState = {};
-        //     console.log("getgroupbyid", action.groups);
-        //     // console.log(groupState);
-        //     // return {...groupState};
+
         default:
             return state;
     }

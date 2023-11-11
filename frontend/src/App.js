@@ -35,9 +35,9 @@ function App() {
           <Route path="/groups/:groupId">
             <GroupDetails />
           </Route>
-          <Route path="/groups/:groupId/events">
+          {/* <Route path="/groups/:groupId/events">
             <GroupDetails />
-          </Route>
+          </Route> */}
           {/* <Route exact path="/events">
             <Events/>
           </Route>

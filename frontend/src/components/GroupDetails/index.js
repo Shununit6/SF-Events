@@ -26,17 +26,21 @@ const GroupDetails = () => {
         isPrivate = "Public";
     }
 
-    console.log(groupData.events);
-    let numEvents;
-    if(!groupData.events || groupData.events===undefined || groupData.events === null){
-        numEvents = 0;
-    }else{numEvents = Object.values(groupData.events).length;}
+    // console.log(groupData.events);
+    // console.log(groupData.events.length);
+    // let numEvents;
+    // if(groupData.events){console.log(Object.values(groupData.events).length);numEvents=Object.values(groupData.events).length;}
+    // let numEvents = groupData.events ? Object.values(groupData.events).length : 0;
+    // if(!groupData.events || groupData.events===undefined || groupData.events === null){
+    //     numEvents = 0;
+    // }else{numEvents = Object.values(groupData.events).length;}
 
     const imageUrl = Object.values(groupData.GroupImages)[0].url;
     const handleDelete = (e) => {
         e.preventDefault();
         dispatch(deleteGroup(groupId));
     };
+
     if(isLoaded){
         return(
             <div>
@@ -45,7 +49,8 @@ const GroupDetails = () => {
                 {/* <img alt="random group"src={`https://picsum.photos/200/300?random=${groupId}`}/> */}
                 <p>{name}</p>
                 <p>{city}, {state}</p>
-                <p>{numEvents} events</p>
+                {console.log(groupData.events)}
+                <p>{groupData.events ? Object.values(groupData.events).length : 0} events</p>
                 <p>{isPrivate}</p>
                 <p>organized by firstName lastName</p>
 

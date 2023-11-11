@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import Groups from "./components/Groups";
 import GroupDetails from "./components/GroupDetails";
 import Home from "./components/Home";
+import CreateGroupForm from "./components/GreateGroupForm";
 // import Events from "./components/Events";
 // import EventDetails from "./components/EventDetails";
 
@@ -28,12 +29,15 @@ function App() {
           <Route exact path="/groups">
             <Groups/>
           </Route>
+          <Route exact path="/groups/new">
+            <CreateGroupForm />
+          </Route>
           <Route path="/groups/:groupId">
             <GroupDetails />
           </Route>
-          {/* <Route path="/groups/:groupId/events">
+          <Route path="/groups/:groupId/events">
             <GroupDetails />
-          </Route> */}
+          </Route>
           {/* <Route exact path="/events">
             <Events/>
           </Route>

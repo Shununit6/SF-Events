@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useHistory, useParams, } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createGroup, updateGroup } from "../../store/groups";
-import { groupDetails } from "../../store/groups";
+import { createGroup, createGroupImage, updateGroup } from "../../store/groups";
+// import { groupDetails } from "../../store/groups";
 
 
 const GroupForm = ({ group, formType }) => {
@@ -56,7 +56,13 @@ const GroupForm = ({ group, formType }) => {
         }else{
             isPrivate = 0;
         }
+        let GroupImages={url: imageUrl, preview: 1};
+        console.log(GroupImages.url);
+        console.log(GroupImages.preview);
+        // group.GroupImages.url = imageUrl;
         group = { ...group, city, state, name, about, type, private:isPrivate,};
+        // group.GroupImages = {["url":imageUrl]};
+        console.log("62group", group);
         // GroupImages:{...GroupImages, url: imageUrl}
         // Object.values(groupData.GroupImages)[0].url
         let newGroup;
@@ -72,6 +78,8 @@ const GroupForm = ({ group, formType }) => {
                     newGroup = await dispatch(updateGroup(group));
                 } else {
                     newGroup = await dispatch(createGroup(group));
+                    console.log(newGroup);
+                    newGroup = await dispatch(createGroupImage(GroupImages, newGroup.id));
                 }
                 if (newGroup.id) {
                     history.push(`/groups/${newGroup.id}`);

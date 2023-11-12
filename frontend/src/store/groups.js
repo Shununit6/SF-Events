@@ -65,7 +65,7 @@ export const createGroup = (payload) => async (dispatch) => {
 };
 
 export const updateGroup = (payload) => async (dispatch) => {
-    const res = await fetch(`/api/groups/${payload.id}`, {
+    const res = await csrfFetch(`/api/groups/${payload.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -81,7 +81,7 @@ export const updateGroup = (payload) => async (dispatch) => {
 
 /** Thunk Action Creators: */
 export const getAllGroups = () => async (dispatch) => {
-    const res = await fetch("/api/groups");
+    const res = await csrfFetch("/api/groups");
 
     if (res.ok) {
         const data = await res.json();
@@ -93,7 +93,7 @@ export const getAllGroups = () => async (dispatch) => {
 };
 
 export const groupDetails = (groupId) => async dispatch => {
-    const res = await fetch(`/api/groups/${groupId}`)
+    const res = await csrfFetch(`/api/groups/${groupId}`)
 
     if (res.ok) {
         const data = await res.json();
@@ -104,7 +104,7 @@ export const groupDetails = (groupId) => async dispatch => {
 }
 
 export const getGroupIdEvents = (groupId) => async (dispatch) => {
-    const res = await fetch(`/api/groups/${groupId}/events`);
+    const res = await csrfFetch(`/api/groups/${groupId}/events`);
 
     if (res.ok) {
         const data = await res.json();
@@ -117,7 +117,7 @@ export const getGroupIdEvents = (groupId) => async (dispatch) => {
 };
 
 export const createGroupImage = (groupImage, groupId) => async (dispatch) => {
-    const res = await fetch(`/api/groups/${groupId}/images`, {
+    const res = await csrfFetch(`/api/groups/${groupId}/images`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(groupImage),
@@ -132,7 +132,7 @@ export const createGroupImage = (groupImage, groupId) => async (dispatch) => {
 };
 
 export const deleteGroup = (groupId) => async (dispatch) => {
-    const res = await fetch(`/api/groups/${groupId}`, {
+    const res = await csrfFetch(`/api/groups/${groupId}`, {
         method: "DELETE",
     });
 
@@ -168,18 +168,18 @@ const groupsReducer = (state = { }, action) => {
             // modifiedGroup.events = eventsObj;
             return {...state, [action.groupId]: {...state[action.groupId], events: eventsObj} };
         };
-        case RECEIVE_GROUP_IMAGE: {
-            const groupState = { ...state };
-
-            // console.log("actiongroups", action);
-            // console.log("actiongroupsid",action.groups.id);
-            // console.log(groupState);
-            return groupState;
-        };
         case REMOVE_GROUP:{
             const groupState = { ...state };
             delete groupState[action.groups.id];
             return groupState;
+        };
+        case RECEIVE_GROUP_IMAGE: {
+            const groupState = { ...state };
+            console.log("actionreceivegroupimage", action);
+            // console.log("actiongroupsid",action.groupImage);
+            // console.log(groupState);
+            return groupState;
+            // return {...state, [action.groupId]: {...state[action.groupId], events: {}} };
         };
         case RECEIVE_GROUP:
             console.log(action);

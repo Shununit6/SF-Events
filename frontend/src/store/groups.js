@@ -8,7 +8,7 @@ export const GET_GROUP_EVENTS = "groups/GET_GROUP_EVENTS";
 export const RECEIVE_GROUP = "groups/RECEIVE_GROUP";
 export const UPDATE_GROUP = "groups/UPDATE_GROUP";
 export const RECEIVE_GROUP_IMAGE = "groups/RECEIVE_GROUP_IMAGE";
-
+export const RECEIVE_GROUP_EVENT = "groups/RECEIVE_GROUP_EVENT";
 /**  Action Creators: */
 export const loadGroups = (groups) => ({
     type: LOAD_GROUPS,
@@ -46,7 +46,12 @@ export const receiveGroupImage = (groupImage) => ({
     groupImage,
 });
 
+export const receiveGroupEvent = (groupEvent) => ({
+    type: RECEIVE_GROUP_EVENT,
+    groupEvent,
+});
 
+/** Thunk Action Creators: */
 export const createGroup = (payload) => async (dispatch) => {
     console.log("createGroup         run");
     console.log(payload);
@@ -79,7 +84,6 @@ export const updateGroup = (payload) => async (dispatch) => {
     return res;
 };
 
-/** Thunk Action Creators: */
 export const getAllGroups = () => async (dispatch) => {
     const res = await csrfFetch("/api/groups");
 
@@ -126,6 +130,21 @@ export const createGroupImage = (groupImage, groupId) => async (dispatch) => {
     if (res.ok) {
         const data = await res.json();
         dispatch(receiveGroupImage(data));
+        return data;
+    }
+    return res;
+};
+
+export const createGroupEvent = (groupEvent, groupId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/events`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(groupEvent),
+    });
+
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(receiveGroupEvent(data));
         return data;
     }
     return res;
@@ -181,12 +200,16 @@ const groupsReducer = (state = { }, action) => {
             return groupState;
             // return {...state, [action.groupId]: {...state[action.groupId], events: {}} };
         };
+        case RECEIVE_GROUP_EVENT: {
+            const groupState = { ...state };
+            console.log("actionreveive_group_event", action.groupEvent);
+            return groupState;
+        };
         case RECEIVE_GROUP:
             console.log(action);
             return { ...state, [action.group.id]: action.group };
         case UPDATE_GROUP:
             return { ...state, [action.group.id]: action.group };
-
         default:
             return state;
     }

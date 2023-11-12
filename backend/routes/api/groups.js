@@ -164,6 +164,41 @@ router.get("/:groupId", async (req, res, next) => {
 		},
         group: "User.id",
 	});
+    //added to find all events with a specific groupId
+    let Events = await Event.findAll({
+        include: [
+            {
+                model: Group,
+                attributes: {
+                    exclude: ['organizerId', 'about', 'type', 'private','previewImage', 'createdAt', 'updatedAt'],
+                    include: ['id', 'name', 'city', 'state',]
+                },
+            },
+            {
+                model: Venue,
+                attributes: {
+                    exclude: ['groupId', 'address', 'lat', 'lng', 'createdAt', 'updatedAt'],
+                    include: ['id', 'city', 'state',]
+                },
+            },
+            {
+                model: User,
+                as: "Attendees",
+                attributes: [],
+                through: {attributes: [],},
+            },
+        ],
+        attributes: {
+            exclude: ['description','capacity','price', 'createdAt', 'updatedAt'],
+            include: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage',
+            [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending']
+            ]
+        },
+        group: ["Event.id", "Group.id", "Venue.id", "Attendees.id"],
+        where: { groupId: groupId }
+    });
+    //added to assign empty obj when Events is undefined
+    if(Events.length === 0) Events={};
     if(!group){
         const err = new Error("Group couldn't be found");
         err.title = "Group couldn't be found";
@@ -186,6 +221,7 @@ router.get("/:groupId", async (req, res, next) => {
         GroupImages,
         Organizer,
         Venues,
+        Events
     }
 	return res.json(getGroupById);
 });
@@ -284,12 +320,13 @@ router.get("/:groupId/events", async (req, res, next) => {
         group: ["Event.id", "Group.id", "Venue.id", "Attendees.id"],
         where: { groupId: groupId }
     });
-    if(Events.length === 0){
-        const err = new Error("Group couldn't be found");
-        err.title = "Group couldn't be found";
-        err.status = 404;
-        return next(err);
-    }
+    //uncomment this will send error if the group doesn't have any events
+    // if(Events.length === 0){
+    //     const err = new Error("Group couldn't be found");
+    //     err.title = "Group couldn't be found";
+    //     err.status = 404;
+    //     return next(err);
+    // }
     return res.json({Events});
 });
 

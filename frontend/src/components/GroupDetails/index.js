@@ -4,6 +4,7 @@ import { useSelector, useDispatch} from "react-redux"
 import { groupDetails, getGroupIdEvents } from "../../store/groups";
 import { deleteGroup } from "../../store/groups";
 import "./GroupDetails.css";
+import GroupEvents from "../GroupEvents";
 const GroupDetails = () => {
     const dispatch = useDispatch();
     let { groupId } = useParams();
@@ -51,8 +52,16 @@ const GroupDetails = () => {
         }else{
             upcomingEvents.unshift(ele);
         }});}
-    // console.log(pastEvents);
+
+    // let nomalizedPastEvents = {};
+    // pastEvents.forEach((ele, index)=>{nomalizedPastEvents[index]=ele});
+    // let nomalizedUpComingEvents = {};
+    // upcomingEvents.forEach((ele, index)=>{nomalizedUpComingEvents[index+1]=ele});
+    // console.log("pastEvents", pastEvents[0], pastEvents.name);
     // console.log(upcomingEvents);
+    // console.log(Object.values(nomalizedPastEvents).forEach((pastEvent)=>{
+    //     console.log(pastEvent.startDate);
+    // }));
 
     if(isLoaded){
         return(
@@ -86,10 +95,34 @@ const GroupDetails = () => {
                 <h1>Organizer</h1>
                 <h1>What we're about</h1>
                 <p>{about}</p>
-                <h1>Upcoming Events(#)</h1>
-                {/* <p>{upcomingEvents}</p> */}
-                <h1>Past Events(#)</h1>
-                {/* <p>{pastEvents}</p> */}
+                {upcomingEvents.length ?
+                <div>
+                <h1>Upcoming Events({upcomingEvents.length})</h1>
+                <section>
+                <ul>
+                    <p>
+                    {upcomingEvents.map((ele)=>{
+                        return ele.startDate;
+                    })}</p>
+                         <p>{upcomingEvents[0].startDate}</p>
+                         <p>{upcomingEvents[0].name}</p>
+                         <p>{upcomingEvents[0].location}</p>
+                </ul>
+                </section>
+                </div>
+                : null}
+                {pastEvents.length ?
+                <div>
+                    <h1>Past Events({pastEvents.length})</h1>
+                    <section>
+                    <ul>
+                        {pastEvents.map((pastEvent)=>{
+                            return <GroupEvents event={pastEvent} key={pastEvent.id}/>
+                        })}
+                    </ul>
+                    </section>
+                </div>
+                : null}
             </div>
         );
     }

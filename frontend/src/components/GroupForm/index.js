@@ -51,7 +51,8 @@ const GroupForm = ({ group, formType }) => {
         const errors = { location: [], name: [], about: [],type:[], isPrivate:[], imageUrl:[] };
         if (!location.length) errors["location"].push("Location is required");
         if (!name.length) errors["name"].push("Name is required");
-        if (about.length < 30) errors["about"].push("Description must be at least 30 characters long");
+        if (name.length > 60) errors["name"].push("Name must be 60 characters or less");
+        if (about.length < 50) errors["about"].push("Description needs 50 or more characters");
         if (!type.length) errors["type"].push("Group Type is required");
         if (!isPrivate.length) errors["isPrivate"].push("Visibility Type is required");
         // .png, .jpg, or .jpeg

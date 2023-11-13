@@ -68,7 +68,9 @@ const GroupDetails = () => {
                         <button>Create event</button>
                     </Link> */}
                     <button >Create event</button>
-                    <button >Update</button>
+                    <Link to={`/groups/${groupId}/edit`}>
+                        <button >Update</button>
+                    </Link>
                     <button >Delete</button>
                 </div>
 

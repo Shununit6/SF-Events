@@ -4,6 +4,7 @@ const CreateGroupForm = () => {
   const group = {
     city: '',
     state: '',
+    location: '',
     name: '',
     about: '',
     type: '',
@@ -15,7 +16,7 @@ const CreateGroupForm = () => {
   return (
     <GroupForm
       group={group}
-      formType="Create Report"
+      formType="Create Group"
     />
   );
 };

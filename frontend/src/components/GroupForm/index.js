@@ -1,31 +1,48 @@
 import { useState, useEffect } from "react";
 import { useHistory, useParams, } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createGroup, createGroupImage, updateGroup } from "../../store/groups";
+import { createGroup, createGroupImage, updateGroup, updateGroupImages } from "../../store/groups";
 // import { groupDetails } from "../../store/groups";
 
 
 const GroupForm = ({ group, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    let { groupId } = useParams();
-    groupId = parseInt(groupId);
-    const groupData = useSelector((state) => state.groups[groupId]);
-    let [city, setCity] = useState(groupData?.city);
-    let [state, setState] = useState(groupData?.state);
-    const [location, setLocation] = useState("");
-    const [name, setName] = useState("");
-    const [about, setAbout] = useState("");
-    const [type, setType] = useState("");
-    let [isPrivate, setIsPrivate] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
-    // const [location, setLocation] = useState(groupData?.city, groupData?.state);
-    // const [name, setName] = useState(groupData?.name);
-    // const [about, setAbout] = useState(groupData?.about);
-    // const [type, setType] = useState(groupData?.type);
-    // const [isPrivate, setIsPrivate] = useState(groupData?.private);
-    // const [imageUrl, setImageUrl] = useState("");
-    // const [imageUrl, setImageUrl] = useState(Object.values(groupData?.GroupImages)[0].url);
+    let [city, setCity] = useState(group?.city);
+    let [state, setState] = useState(group?.state);
+    let locationState;
+    if(city || state && formType === "Update Group"){
+        locationState=`${city}, ${state}`;
+        // [location, setLocation] = useState(`${city}, ${state}`);
+    }else{
+        locationState="";
+    }
+    let [location, setLocation] = useState(locationState);
+    let [name, setName] = useState(group?.name);
+    let [about, setAbout] = useState(group?.about);
+    let [type, setType] = useState(group?.type);
+    let privateState;
+    if(group?.private == 1){
+        privateState="Private";
+    }else if(group?.private == 0){
+        privateState="Public";
+    }else{
+        privateState="";
+    }
+    let [isPrivate, setIsPrivate] = useState(privateState);
+    let imageState;
+    if(formType === "Update Group" && group.GroupImages[0].url){
+        imageState = group.GroupImages[0].url;
+    }else{
+        imageState ="";
+    }
+    let [imageUrl, setImageUrl] = useState(imageState);
+
+    console.log("update/create", group);
+    console.log("update/create", group.GroupImages);
+    if(formType === "Update Group"){
+    console.log("update/create", group.GroupImages[0].url);}
+    // const [imageUrl, setImageUrl] = useState(Object.values(group?.GroupImages)[0].url);
     // const imageUrl = Object.values(groupData.GroupImages)[0].url;
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -47,6 +64,7 @@ const GroupForm = ({ group, formType }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
+
         console.log(location);
         city = location.split(",")[0];
         state = location.split(",")[1];
@@ -56,9 +74,6 @@ const GroupForm = ({ group, formType }) => {
         }else{
             isPrivate = 0;
         }
-        let GroupImages={url: imageUrl, preview: 1};
-        console.log(GroupImages.url);
-        console.log(GroupImages.preview);
         // group.GroupImages.url = imageUrl;
         group = { ...group, city, state, name, about, type, private:isPrivate,};
         // group.GroupImages = {["url":imageUrl]};
@@ -75,10 +90,16 @@ const GroupForm = ({ group, formType }) => {
             }else{
                 console.log("no errors");
                 if (formType === "Update Group") {
-                    newGroup = await dispatch(updateGroup(group));
+                    console.log("updateimageurl",imageUrl);
+                    newGroup = await dispatch(updateGroup(group, imageUrl));
+                    //uncomment to edit groupimages
+                    // newGroup = await dispatch(updateGroupImages(group, imageUrl));
                 } else {
                     newGroup = await dispatch(createGroup(group));
                     console.log(newGroup);
+                    let GroupImages={url: imageUrl, preview: 1};
+                    console.log(GroupImages.url);
+                    console.log(GroupImages.preview);
                     newGroup = await dispatch(createGroupImage(GroupImages, newGroup.id));
                 }
                 if (newGroup.id) {

@@ -7,6 +7,7 @@ export const REMOVE_GROUP = "groups/REMOVE_GROUP";
 export const GET_GROUP_EVENTS = "groups/GET_GROUP_EVENTS";
 export const RECEIVE_GROUP = "groups/RECEIVE_GROUP";
 export const UPDATE_GROUP = "groups/UPDATE_GROUP";
+export const UPDATE_GROUP_IMAGES = "groups/UPDATE_GROUP_IMAGES";
 export const RECEIVE_GROUP_IMAGE = "groups/RECEIVE_GROUP_IMAGE";
 export const RECEIVE_GROUP_EVENT = "groups/RECEIVE_GROUP_EVENT";
 /**  Action Creators: */
@@ -38,7 +39,12 @@ export const receiveGroup = (group) => ({
 
 export const editGroup = (group) => ({
     type: UPDATE_GROUP,
-    group,
+    group
+});
+
+export const editGroupImages = (imageUrl) => ({
+    type: UPDATE_GROUP,
+    imageUrl
 });
 
 export const receiveGroupImage = (groupImage) => ({
@@ -69,15 +75,34 @@ export const createGroup = (payload) => async (dispatch) => {
     return res;
 };
 
-export const updateGroup = (payload) => async (dispatch) => {
-    const res = await csrfFetch(`/api/groups/${payload.id}`, {
+export const updateGroup = (group, imageUrl) => async (dispatch) => {
+    console.log("functionupdateGroup", group, imageUrl);
+    const res = await csrfFetch(`/api/groups/${group.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(group, imageUrl),
     });
-
+    console.log("functionupdateGroup", res);
     if (res.ok) {
         const data = await res.json();
+        console.log("functionupdateGroup", data);
+        dispatch(editGroup(data));
+        return data;
+    }
+    return res;
+};
+
+export const updateGroupImages = (group, imageUrl) => async (dispatch) => {
+    console.log("functionupdateGroupImages", imageUrl);
+    const res = await csrfFetch(`/api/groups/${group.id}/GroupImages/edit`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(imageUrl),
+    });
+    console.log("functionupdateGroupImages", res);
+    if (res.ok) {
+        const data = await res.json();
+        console.log("functionupdateGroupImages", data);
         dispatch(editGroup(data));
         return data;
     }
@@ -209,7 +234,12 @@ const groupsReducer = (state = { }, action) => {
             console.log(action);
             return { ...state, [action.group.id]: action.group };
         case UPDATE_GROUP:
-            return { ...state, [action.group.id]: action.group };
+            console.log("action.imageUrl", action.imageUrl);
+            return {...state};
+            // return { ...state, [action.group.id]: action.group };
+        case UPDATE_GROUP_IMAGES:
+            console.log("action.imageUrl", action.imageUrl);
+            return {...state};
         default:
             return state;
     }

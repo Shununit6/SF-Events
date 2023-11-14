@@ -22,10 +22,10 @@ const GroupIndexItem = ({ group }) => {
     }else{
         isPrivate = "Public";
     }
-    let numOfEvents;
-    if(!groupData.events){
-        numOfEvents = 0;
-    }else{numOfEvents = Object.values(groupData.events).length;}
+    // let numOfEvents;
+    // if(!groupData.events){
+    //     numOfEvents = 0;
+    // }else{numOfEvents = Object.values(groupData.Events).length;}
     const imageUrl = Object.values(groupData.GroupImages)[0].url;
     console.log("groupData", groupData);
     if(isLoaded){
@@ -40,7 +40,7 @@ const GroupIndexItem = ({ group }) => {
                     <p>{city}, {state}</p>
                     <p>{about}</p>
                     <p>{isPrivate}</p>
-                    <p>{numOfEvents} events</p>
+                    <p>{Object.values(groupData.Events|| {}).length} events</p>
                 </section>
             </Link>
             </div>

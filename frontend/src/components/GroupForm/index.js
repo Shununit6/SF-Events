@@ -180,7 +180,7 @@ const GroupForm = ({ group, formType }) => {
                     <textarea
                         id='about'
                         value={about}
-                        placeholder="Please write at least 30 characters"
+                        placeholder="Please write at least 50 characters"
                         onChange={(e) => setAbout(e.target.value)}
                     />
                     {hasSubmitted &&

@@ -37,8 +37,8 @@ const GroupDetails = () => {
     };
 
     let pastEvents = [], upcomingEvents = [];
-    if(groupData.events){
-    let array = Object.values(groupData.events);
+    if(groupData.Events){
+    let array = Object.values(groupData.Events);
     console.log("array", array);
     array.sort(function(a,b){
     return new Date(b.startDate) - new Date(a.startDate);
@@ -71,8 +71,8 @@ const GroupDetails = () => {
                 {/* <img alt="random group"src={`https://picsum.photos/200/300?random=${groupId}`}/> */}
                 <p>{name}</p>
                 <p>{city}, {state}</p>
-                {console.log(groupData.events)}
-                <p>{Object.values(groupData.events|| {}).length} events</p>
+                {console.log(groupData.Events)}
+                <p>{Object.values(groupData.Events|| {}).length} events</p>
                 <p>{isPrivate}</p>
                 <p>organized by firstName lastName</p>
                 {/* {items.length
@@ -100,13 +100,13 @@ const GroupDetails = () => {
                 <h1>Upcoming Events({upcomingEvents.length})</h1>
                 <section>
                 <ul>
-                    <p>
-                    {upcomingEvents.map((ele)=>{
-                        return ele.startDate;
-                    })}</p>
-                         <p>{upcomingEvents[0].startDate}</p>
+
+                    {upcomingEvents.map((upcomingEvent)=>{
+                        return <GroupEvents group={groupData} event={upcomingEvent} key={upcomingEvent.id}/>
+                    })}
+                         {/* <p>{upcomingEvents[0].startDate}</p>
                          <p>{upcomingEvents[0].name}</p>
-                         <p>{upcomingEvents[0].location}</p>
+                         <p>{upcomingEvents[0].location}</p> */}
                 </ul>
                 </section>
                 </div>
@@ -117,7 +117,7 @@ const GroupDetails = () => {
                     <section>
                     <ul>
                         {pastEvents.map((pastEvent)=>{
-                            return <GroupEvents event={pastEvent} key={pastEvent.id}/>
+                            return <GroupEvents group={groupData} event={pastEvent} key={pastEvent.id}/>
                         })}
                     </ul>
                     </section>

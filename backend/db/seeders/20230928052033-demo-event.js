@@ -32,7 +32,7 @@ module.exports = {
         price: 18.50,
         startDate: '2023-11-02 08:00:00',
         endDate: '2023-11-03 08:00:00',
-        previewImage: 'previewOne'
+        previewImage: 'previewTwo'
       },
       {
         groupId: 2,

@@ -60,6 +60,16 @@ const GroupForm = ({ group, formType }) => {
         // .png, .jpg, or .jpeg
         if(!imageUrl.endsWith('.png') && !imageUrl.endsWith('.jpg') && !imageUrl.endsWith('.jpeg'))
         errors["imageUrl"].push("Image URL must end in .png, .jpg, or .jpeg");
+        if(formType === "Create Group"){
+            city = location.split(",")[0];
+            state = location.split(",")[1];
+            if(!city){
+                errors["location"].push("City is required");
+            }
+            if(!state){
+                errors["location"].push("State is required");
+            }
+        }
         setValidationErrors(errors);
     }, [location, name, about, type, isPrivate, imageUrl]);
 
@@ -71,7 +81,6 @@ const GroupForm = ({ group, formType }) => {
         console.log(location);
         city = location.split(",")[0];
         state = location.split(",")[1];
-
         if(isPrivate === "Private"){
             isPrivate = 1;
         }else{

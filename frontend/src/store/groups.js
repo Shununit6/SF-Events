@@ -114,12 +114,12 @@ export const createGroup = (payload) => async (dispatch) => {
     return res;
 };
 
-export const updateGroup = (group, imageUrl) => async (dispatch) => {
-    console.log("functionupdateGroup", group, imageUrl);
+export const updateGroup = (group) => async (dispatch) => {
+    console.log("functionupdateGroup", group);
     const res = await csrfFetch(`/api/groups/${group.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(group, imageUrl),
+        body: JSON.stringify(group),
     });
     console.log("functionupdateGroup", res);
     if (res.ok) {
@@ -131,12 +131,12 @@ export const updateGroup = (group, imageUrl) => async (dispatch) => {
     return res;
 };
 
-export const updateGroupImages = (group, imageUrl) => async (dispatch) => {
-    console.log("functionupdateGroupImages", imageUrl);
+export const updateGroupImages = (group) => async (dispatch) => {
+    console.log("functionupdateGroupImages", group);
     const res = await csrfFetch(`/api/groups/${group.id}/GroupImages/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(imageUrl),
+        body: JSON.stringify(group),
     });
     console.log("functionupdateGroupImages", res);
     if (res.ok) {

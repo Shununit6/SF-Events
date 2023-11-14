@@ -1,38 +1,40 @@
-// import { useEffect, useState } from "react";
-// import { useParams, Link } from "react-router-dom"
-// import { useSelector, useDispatch } from "react-redux"
-// import { eventDetails } from "../../store/events";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { eventDetails } from "../../store/events";
 
-// const EventDetails = () => {
-//     const dispatch = useDispatch();
-//     let { eventId } = useParams();
-//     eventId = parseInt(eventId);
-//     const [isLoading, setIsLoading] = useState(true);
-//     const eventDetail = useSelector((state) => state.events[eventId]);
+const EventDetails = () => {
+    const dispatch = useDispatch();
+    let { eventId } = useParams();
+    const sessionUser = useSelector(state => state.session.user);
+    const [isLoading, setIsLoading] = useState(true);
+    const eventData = useSelector((state) => state.events[eventId]);
 
-//     useEffect(() => {
-//         dispatch(eventDetails(eventId)).then(()=>setIsLoading(false))
-//     }, [dispatch, eventId])
+    useEffect(() => {
+        dispatch(eventDetails(eventId)).then(()=>setIsLoading(false))
+    }, [dispatch, eventId])
 
 
-//     if (isLoading) {
-//         return (<div>Loading...</div>);
-//     }
+    if (isLoading) {
+        return (<div>Loading...</div>);
+    }
 
-//     const {id, groupId, venueId, name, type, startDate, endDate, previewImage} = eventDetail;
-//     return(
-//         <div>
-//             <Link to={`/events/${eventId}`}></Link>
-//             <p>id {id}</p>
-//             <p>groupId {groupId}</p>
-//             <p>venueId {venueId}</p>
-//             <p>name  {name}</p>
-//             <p>type  {type}</p>
-//             <h1>startDate {startDate}</h1>
-//             <p>endDate  {endDate}</p>
-//             <p>previewImage  {previewImage}</p>
-//         </div>
-//     );
-// };
+    const {name, startDate, endDate} = eventData;
+    // const imageUrl = Object.values(eventDetail.EventImages).find((image) => image.preview === 1).url;
+    let imageUrl="";
+    if(eventData.EventImages.length > 0){
+        imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
+    }
+    return(
+        <div>
+            <img id="images" src={imageUrl} alt="event"/>
+            <p>name  {name}</p>
+            <p>startDate {startDate.slice(0, 10)}</p>
+            <p>endDate  {endDate.slice(0, 10)}</p>
+            {/* Action button shows if logged-in user is the creator of the event */}
+            {sessionUser ? <button >Delete</button> :null}
+        </div>
+    );
+};
 
-// export default EventDetails;
+export default EventDetails;

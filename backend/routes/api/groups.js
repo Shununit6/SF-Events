@@ -286,6 +286,28 @@ router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
     return res.json(group);
 });
 
+//update groupimage
+router.put("/:groupId/GroupImages/edit", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const GroupImages = await GroupImage.findAll({
+        include: {
+            model: Group,
+            attributes: [],
+        },
+        attributes: {
+            exclude: ['groupId', 'createdAt', 'updatedAt'],
+            include: ['id', 'url', 'preview'],
+        },
+        raw: true,
+        group: "GroupImage.id",
+		where: {
+            groupId: groupId,
+		},
+	});
+	return res.json(GroupImages);
+});
+//
+
 router.get("/:groupId/events", async (req, res, next) => {
     const groupId = req.params.groupId;
     const Events = await Event.findAll({

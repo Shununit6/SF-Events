@@ -26,7 +26,8 @@ const GroupIndexItem = ({ group }) => {
     // if(!groupData.events){
     //     numOfEvents = 0;
     // }else{numOfEvents = Object.values(groupData.Events).length;}
-    const imageUrl = Object.values(groupData.GroupImages)[0].url;
+    const imageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1).url;
+    // const imageUrl = Object.values(groupData.GroupImages)[0].url;
     console.log("groupData", groupData);
     if(isLoaded){
     return (

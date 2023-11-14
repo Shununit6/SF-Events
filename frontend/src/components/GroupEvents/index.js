@@ -20,30 +20,31 @@ const GroupEvents = ({ group, event }) => {
         return (<div>Loading...</div>);
     }
     const {name, id, startDate, location} = event;
-    // console.log("specificeventimages", eventData[event.id].EventImages[0].url);
-    // {Object.values(groupData.Events|| {}).length}
+
     let imageUrl="";
     if(eventData[event.id].EventImages.length > 0){
-        imageUrl = eventData[event.id].EventImages[0].url;
+        imageUrl = Object.values(eventData[event.id].EventImages).find((image) => image.preview == 1).url;
     }
-    // console.log("imageerror", eventData[event.id].EventImages);
+    // console.log("eventData.EventImages.length", Object.values(eventData[event.id].EventImages).find((image) => image.preview == 1).url);
+    // let imageUrl="";
+    // if(eventData.EventImages.length > 0){
+    //     imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
+    // }
+
+
     if(isLoaded){
     return (
-        <li>
             <div className="li-contents-flex">
                 <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
                 <section>
-                    {/* <img id = "eventImage" src={eventData[event.id].EventImages[0].url || {}} alt="event"/> */}
                     <img id = "eventImage" src={imageUrl} alt="event"/>
-                    {/* <img src={`https://picsum.photos/200/300?random=${id}`}/> */}
-                    <p>{name}</p>
-                    <p>{id}</p>
                     <p>{startDate.slice(0,10)}</p>
+                    <h1>{name}</h1>
                     <p>{location}</p>
+
                 </section>
                 </Link>
             </div>
-        </li>
     );}
 };
 

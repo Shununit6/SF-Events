@@ -10,19 +10,39 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await EventImage.bulkCreate([
       {
-        url: 'https://fastly.picsum.photos/id/305/4928/3264.jpg?hmac=s2FLjeAIyYH0CZl3xuyOShFAtL8yEGiYk31URLDxQCI',
+        url: 'https://fastly.picsum.photos/id/250/4928/3264.jpg?hmac=4oIwzXlpK4KU3wySTnATICCa4H6xwbSGifrxv7GafWU',
+        preview: false,
+        eventId: 1
+      },
+      {
+        url: 'https://cdn.shopify.com/s/files/1/3026/6974/files/night-landscape-stars-water-tree_1024x1024.jpg',
         preview: true,
         eventId: 1
       },
       {
-        url: 'https://fastly.picsum.photos/id/392/5000/3333.jpg?hmac=vCaGuB6rQAiaofdQHatQL4DHgkyR2l-Ms9GWAL63CBQ',
-        preview: false,
+        url: 'https://cdn.shopify.com/static/sample-images/shoes.jpeg',
+        preview: true,
         eventId: 2
       },
       {
-        url: 'https://fastly.picsum.photos/id/431/5000/3334.jpg?hmac=T2rL_gBDyJYpcr1Xm8Kv7L6bhwvmZS8nKT5w3ok58kA',
+        url: 'https://i.imgur.com/5zGtPJV.jpeg',
         preview: true,
         eventId: 3
+      },
+      {
+        url: 'https://i.imgur.com/4uV6LGh.jpeg',
+        preview: true,
+        eventId: 4
+      },
+      {
+        url: 'https://i.imgur.com/Kp4SAvW.jpeg',
+        preview: true,
+        eventId: 5
+      },
+      {
+        url: 'https://i.imgur.com/eTaY1qP.jpeg',
+        preview: true,
+        eventId: 6
       }
     ], { validate:true});
   },
@@ -31,8 +51,14 @@ module.exports = {
     options.tableName = 'EventImages';
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
-      url: {[Op.in]: ['https://fastly.picsum.photos/id/305/4928/3264.jpg?hmac=s2FLjeAIyYH0CZl3xuyOShFAtL8yEGiYk31URLDxQCI',
-      'https://fastly.picsum.photos/id/392/5000/3333.jpg?hmac=vCaGuB6rQAiaofdQHatQL4DHgkyR2l-Ms9GWAL63CBQ', 'https://fastly.picsum.photos/id/431/5000/3334.jpg?hmac=T2rL_gBDyJYpcr1Xm8Kv7L6bhwvmZS8nKT5w3ok58kA']}
+      url: {[Op.in]: ['https://cdn.shopify.com/s/files/1/3026/6974/files/night-landscape-stars-water-tree_1024x1024.jpg',
+      'https://cdn.shopify.com/static/sample-images/shoes.jpeg',
+      'https://i.imgur.com/5zGtPJV.jpeg',
+      'https://i.imgur.com/4uV6LGh.jpeg',
+      'https://i.imgur.com/Kp4SAvW.jpeg',
+      'https://i.imgur.com/eTaY1qP.jpeg',
+      'https://fastly.picsum.photos/id/250/4928/3264.jpg?hmac=4oIwzXlpK4KU3wySTnATICCa4H6xwbSGifrxv7GafWU',
+    ]}
     }, {});
   }
 };

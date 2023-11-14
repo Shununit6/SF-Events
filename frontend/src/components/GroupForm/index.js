@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useHistory, useParams, } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { createGroup, createGroupImage, updateGroup, updateGroupImages } from "../../store/groups";
-// import { groupDetails } from "../../store/groups";
+import { useHistory,} from "react-router-dom"; //useParams,
+import { useDispatch, } from "react-redux"; //useSelector
+import { createGroup, createGroupImage, updateGroup,} from "../../store/groups";//groupDetails, updateGroupImages
 
 
 const GroupForm = ({ group, formType }) => {
@@ -22,17 +21,21 @@ const GroupForm = ({ group, formType }) => {
     let [about, setAbout] = useState(group?.about);
     let [type, setType] = useState(group?.type);
     let privateState;
-    if(group?.private == 1){
+    if(group?.private === 1){
         privateState="Private";
-    }else if(group?.private == 0){
+    }else if(group?.private === 0){
         privateState="Public";
     }else{
         privateState="";
     }
     let [isPrivate, setIsPrivate] = useState(privateState);
     let imageState;
-    if(formType === "Update Group" && group.GroupImages[0].url){
-        imageState = group.GroupImages[0].url;
+    let groupImageUrl = "";
+    if(formType === "Update Group"){
+        if(group.GroupImages.length){
+            groupImageUrl = Object.values(group.GroupImages).find((image) => image.preview == 1).url;
+        }
+        imageState = groupImageUrl;
     }else{
         imageState ="";
     }
@@ -41,9 +44,8 @@ const GroupForm = ({ group, formType }) => {
     console.log("update/create", group);
     console.log("update/create", group.GroupImages);
     if(formType === "Update Group"){
-    console.log("update/create", group.GroupImages[0].url);}
-    // const [imageUrl, setImageUrl] = useState(Object.values(group?.GroupImages)[0].url);
-    // const imageUrl = Object.values(groupData.GroupImages)[0].url;
+    console.log("update/create", groupImageUrl, group.GroupImages[0].url);}
+
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -69,18 +71,14 @@ const GroupForm = ({ group, formType }) => {
         console.log(location);
         city = location.split(",")[0];
         state = location.split(",")[1];
-        // console.log(Object.values(groupData.GroupImages)[0].url;);
+
         if(isPrivate === "Private"){
             isPrivate = 1;
         }else{
             isPrivate = 0;
         }
-        // group.GroupImages.url = imageUrl;
         group = { ...group, city, state, name, about, type, private:isPrivate,};
-        // group.GroupImages = {["url":imageUrl]};
-        console.log("62group", group);
-        // GroupImages:{...GroupImages, url: imageUrl}
-        // Object.values(groupData.GroupImages)[0].url
+        console.log("78group", group);
         let newGroup;
         let errorCount = validationErrors.location.length + validationErrors.name.length
         + validationErrors.about.length + validationErrors.type.length + validationErrors.isPrivate.length
@@ -92,7 +90,9 @@ const GroupForm = ({ group, formType }) => {
                 console.log("no errors");
                 if (formType === "Update Group") {
                     console.log("updateimageurl",imageUrl);
-                    newGroup = await dispatch(updateGroup(group, imageUrl));
+                    group.imageUrl = imageUrl;
+                    console.log(group);
+                    newGroup = await dispatch(updateGroup(group));
                     //uncomment to edit groupimages
                     // newGroup = await dispatch(updateGroupImages(group, imageUrl));
                 } else {

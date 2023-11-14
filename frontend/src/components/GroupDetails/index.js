@@ -8,11 +8,9 @@ import GroupEvents from "../GroupEvents";
 const GroupDetails = () => {
     const dispatch = useDispatch();
     let { groupId } = useParams();
-    // groupId = parseInt(groupId);
     const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     const groupData = useSelector((state) => state.groups[groupId]);
-    // return ()=>{setIsLoaded(false)}
 
     useEffect(() => {
         dispatch(groupDetails(groupId)).then(()=>dispatch(getGroupIdEvents(groupId))).then(()=>setIsLoaded(true))
@@ -22,15 +20,17 @@ const GroupDetails = () => {
         return (<div>Loading...</div>);
     }
     // const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupData;
-    const { name, about, city, state } = groupData;
+    const { name, about, city, state, } = groupData;
+    const {firstName, lastName } = groupData.Organizer;
+    // firstName(pin):"Callie"
     let isPrivate;
     if(groupData.private){
         isPrivate = "Private";
     }else{
         isPrivate = "Public";
     }
-
-    const imageUrl = Object.values(groupData.GroupImages)[0].url;
+    const imageUrl = Object.values(groupData.GroupImages).find((image) => image.preview === 1).url;
+    // console.log("Object.values(groupData.GroupImages)", Object.values(groupData.GroupImages));
     const handleDelete = (e) => {
         e.preventDefault();
         dispatch(deleteGroup(groupId));
@@ -62,52 +62,50 @@ const GroupDetails = () => {
     // console.log(Object.values(nomalizedPastEvents).forEach((pastEvent)=>{
     //     console.log(pastEvent.startDate);
     // }));
+    const alertJoinThisGroup = () =>{
+            return alert("Feature Coming Soon...");
+    }
 
     if(isLoaded){
         return(
-            <div>
-                {/* <Link to={`/groups/${groupId}`}></Link> */}
-                <img id="images" src={imageUrl} alt="group"/>
-                {/* <img alt="random group"src={`https://picsum.photos/200/300?random=${groupId}`}/> */}
-                <p>{name}</p>
-                <p>{city}, {state}</p>
-                {console.log(groupData.Events)}
-                <p>{Object.values(groupData.Events|| {}).length} events</p>
-                <p>{isPrivate}</p>
-                <p>organized by firstName lastName</p>
-                {/* {items.length
-          ? items.map((item) => <li key={item.id}>{item.name}</li>)
-          : null} */}
-                <div className="one-button-container">
-                    {!sessionUser ? <button >Join this group</button> : null}
-                    {/* <button >Join this group</button> */}
+            <div id="items">
+                {/* <div id="items-2"></div> */}
+                <div id="item1">
+                    <Link to={"/groups"}> <p>Groups</p> </Link>
                 </div>
-                {sessionUser ?
-                    <div className="buttons-container">
-                    <button >Create event</button>
-                    <Link to={`/groups/${groupId}/edit`}>
-                        <button >Update</button>
-                    </Link>
-                    <button >Delete</button>
+                <div id="item2">
+                    <img id="images" src={imageUrl} alt="group"/>
+                </div>
+                <div id="item3">
+                    <h1>{name}</h1>
+                    <p>{city}, {state}</p>
+                    <p>{Object.values(groupData.Events|| {}).length} events {isPrivate}</p>
+                    <p>Organized by {firstName} {lastName}</p>
+                    <div className="one-button-container">
+                        {!sessionUser ? <button onClick={alertJoinThisGroup}>Join this group</button> : null}
                     </div>
-                    : null}
-
+                    {sessionUser ?
+                        <div className="buttons-container">
+                        <button >Create event</button>
+                        <Link to={`/groups/${groupId}/edit`}>
+                            <button >Update</button>
+                        </Link>
+                        <button >Delete</button>
+                        </div>
+                        : null}
+                </div>
+                <div id="items5">
                 <h1>Organizer</h1>
+                <p>{firstName} {lastName}</p>
                 <h1>What we're about</h1>
                 <p>{about}</p>
                 {upcomingEvents.length ?
                 <div>
                 <h1>Upcoming Events({upcomingEvents.length})</h1>
                 <section>
-                <ul>
-
                     {upcomingEvents.map((upcomingEvent)=>{
                         return <GroupEvents group={groupData} event={upcomingEvent} key={upcomingEvent.id}/>
                     })}
-                         {/* <p>{upcomingEvents[0].startDate}</p>
-                         <p>{upcomingEvents[0].name}</p>
-                         <p>{upcomingEvents[0].location}</p> */}
-                </ul>
                 </section>
                 </div>
                 : null}
@@ -115,14 +113,13 @@ const GroupDetails = () => {
                 <div>
                     <h1>Past Events({pastEvents.length})</h1>
                     <section>
-                    <ul>
                         {pastEvents.map((pastEvent)=>{
                             return <GroupEvents group={groupData} event={pastEvent} key={pastEvent.id}/>
                         })}
-                    </ul>
                     </section>
                 </div>
                 : null}
+                </div>
             </div>
         );
     }

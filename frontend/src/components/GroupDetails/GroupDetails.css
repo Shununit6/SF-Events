@@ -2,3 +2,34 @@
     width:300px;
     height: 200px;
 }
+#items {
+    display: grid;
+    width: 100%;
+    height: 250px;
+    grid-template-areas:
+      "item1 item1"
+      "item2 item3"
+      "item5 item5";
+    grid-template-rows: 35px 1fr 30px;
+    grid-template-columns: 350px 1fr;
+  }
+
+  #item1{
+    grid-area: item1;
+    /* background-color: #8ca0ff; */
+  }
+
+  #item2 {
+    grid-area: item2;
+    /* background-color: #ffa08c; */
+  }
+
+  #item3 {
+    grid-area: item3;
+    /* background-color: #ffff64; */
+  }
+
+  #item5 {
+    grid-area: item5;
+    /* background-color: #ffff64; */
+  }

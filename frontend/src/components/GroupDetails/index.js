@@ -21,7 +21,10 @@ const GroupDetails = () => {
     }
     // const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupData;
     const { name, about, city, state, } = groupData;
-    const {firstName, lastName } = groupData.Organizer;
+    let firstName=" ", lastName=" ";
+    if(groupData.Organizer){
+        ({firstName, lastName} = groupData.Organizer);
+    }
     // firstName(pin):"Callie"
     let isPrivate;
     if(groupData.private){
@@ -62,8 +65,12 @@ const GroupDetails = () => {
     // console.log(Object.values(nomalizedPastEvents).forEach((pastEvent)=>{
     //     console.log(pastEvent.startDate);
     // }));
+    // const alertDeleteGroup = () =>{
+
+    //     return alert("Feature Coming Soon...");
+    // }
     const alertJoinThisGroup = () =>{
-            return alert("Feature Coming Soon...");
+        return alert("Feature Coming Soon...");
     }
 
     if(isLoaded){
@@ -91,7 +98,7 @@ const GroupDetails = () => {
                         <Link to={`/groups/${groupId}/edit`}>
                             <button >Update</button>
                         </Link>
-                        <button >Delete</button>
+                        <button onClick={handleDelete}>Delete</button>
                         </div>
                         : null}
                 <div id="item5">

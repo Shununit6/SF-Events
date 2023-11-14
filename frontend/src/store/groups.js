@@ -11,18 +11,6 @@ export const UPDATE_GROUP_IMAGES = "groups/UPDATE_GROUP_IMAGES";
 export const RECEIVE_GROUP_IMAGE = "groups/RECEIVE_GROUP_IMAGE";
 export const RECEIVE_GROUP_EVENT = "groups/RECEIVE_GROUP_EVENT";
 
-// export const LOAD_EVENTS = "events/LOAD_EVENTS";
-// export const LOAD_EVENT_DETAILS = "events/LOAD_EVENT_DETAILS";
-/**  Action Creators: */
-// export const loadEvents = (events) => ({
-//     type: LOAD_EVENTS,
-//     events,
-// });
-
-// export const loadEventDetails = (events) => ({
-//     type: LOAD_EVENT_DETAILS,
-//     events,
-// });
 
 /**  Action Creators: */
 export const loadGroups = (groups) => ({
@@ -70,31 +58,6 @@ export const receiveGroupEvent = (groupEvent) => ({
     type: RECEIVE_GROUP_EVENT,
     groupEvent,
 });
-
-/** Thunk Action Creators: */
-// export const getAllEvents = () => async (dispatch) => {
-//     const res = await fetch("/api/events");
-
-//     if (res.ok) {
-//         const data = await res.json();
-//         console.log("data", data);
-//         dispatch(loadEvents(data));
-//         return data;
-//     }
-//     return res;
-// };
-
-// export const eventDetails = (eventId) => async dispatch => {
-//     const res = await csrfFetch(`/api/events/${eventId}`)
-
-//     if (res.ok) {
-//         const data = await res.json();
-//         dispatch(loadEventDetails(data));
-//         console.log("hey there",data);
-//         return data;
-//     }
-//     return res;
-// }
 
 /** Thunk Action Creators: */
 export const createGroup = (payload) => async (dispatch) => {
@@ -241,20 +204,6 @@ const groupsReducer = (state = { }, action) => {
             groupState[action.groups.id] = action.groups;
             return groupState;
         };
-        // case LOAD_EVENTS:
-        //     const eventsState = {...state};
-        //     action.events.Events.forEach((event) => {
-        //         if(!eventsState[event.id]) {eventsState[event.id] = event;}
-        //     });
-        //     return {...eventsState};
-        // case LOAD_EVENT_DETAILS: {
-        //     const eventState = {...state};
-        //     console.log(eventState);
-        //     // console.log(eventState.groups);
-        //     console.log("action.events", action.events);
-        //     // eventState[action.events.id] = action.events;
-        //     return eventState;
-        // }
         case GET_GROUP_EVENTS: {
             // const groupState = { ...state };
             const eventsObj = {};
@@ -272,11 +221,7 @@ const groupsReducer = (state = { }, action) => {
         };
         case RECEIVE_GROUP_IMAGE: {
             const groupState = { ...state };
-            console.log("actionreceivegroupimage", action);
-            // console.log("actiongroupsid",action.groupImage);
-            // console.log(groupState);
             return groupState;
-            // return {...state, [action.groupId]: {...state[action.groupId], events: {}} };
         };
         case RECEIVE_GROUP_EVENT: {
             const groupState = { ...state };

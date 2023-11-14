@@ -97,13 +97,11 @@ const GroupForm = ({ group, formType }) => {
                     // newGroup = await dispatch(updateGroupImages(group, imageUrl));
                 } else {
                     newGroup = await dispatch(createGroup(group));
-                    console.log(newGroup);
                     let GroupImages={url: imageUrl, preview: 1};
-                    console.log(GroupImages.url);
-                    console.log(GroupImages.preview);
-                    newGroup = await dispatch(createGroupImage(GroupImages, newGroup.id));
+                    await dispatch(createGroupImage(GroupImages, newGroup.id));
                 }
                 if (newGroup.id) {
+                    console.log("newGroup.id", newGroup.id);
                     history.push(`/groups/${newGroup.id}`);
                 } else {
                     const { validationErrors } = await newGroup.json();

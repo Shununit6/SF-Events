@@ -22,30 +22,26 @@ const GroupIndexItem = ({ group }) => {
     }else{
         isPrivate = "Public";
     }
-    // let numOfEvents;
-    // if(!groupData.events){
-    //     numOfEvents = 0;
-    // }else{numOfEvents = Object.values(groupData.Events).length;}
+
     const imageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1).url;
-    // const imageUrl = Object.values(groupData.GroupImages)[0].url;
     console.log("groupData", groupData);
     if(isLoaded){
     return (
-        <li>
-            <div className="li-contents-flex">
-            <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>
-                <section>
-                    <img id = "groupImage" src={imageUrl} alt="group"/>
-                    {/* <img src={`https://picsum.photos/200/300?random=${id}`}/> */}
-                    <p>{name}</p>
-                    <p>{city}, {state}</p>
-                    <p>{about}</p>
-                    <p>{isPrivate}</p>
-                    <p>{Object.values(groupData.Events|| {}).length} events</p>
-                </section>
-            </Link>
+        <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>
+        <div id="grid-1">
+            <div id="item-1">
+                <img id = "groupImage" src={imageUrl} alt="group"/>
             </div>
-        </li>
+            <div id ="item-2">
+            <h1>{name}</h1>
+                <p>{city}, {state}</p>
+                <p>{about}</p>
+                <p>{Object.values(groupData.Events|| {}).length} events ·  {isPrivate}</p>
+            </div>
+        </div>
+        </Link>
+
+
     );
     }
 };

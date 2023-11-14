@@ -79,13 +79,14 @@ const GroupDetails = () => {
                 <div id="item3">
                     <h1>{name}</h1>
                     <p>{city}, {state}</p>
-                    <p>{Object.values(groupData.Events|| {}).length} events {isPrivate}</p>
+                    <p>{Object.values(groupData.Events|| {}).length} events · {isPrivate}</p>
                     <p>Organized by {firstName} {lastName}</p>
-                    <div className="one-button-container">
+                </div>
+                    <div id="item4" className="one-button-container">
                         {!sessionUser ? <button onClick={alertJoinThisGroup}>Join this group</button> : null}
                     </div>
                     {sessionUser ?
-                        <div className="buttons-container">
+                        <div id="item4" className="buttons-container">
                         <button >Create event</button>
                         <Link to={`/groups/${groupId}/edit`}>
                             <button >Update</button>
@@ -93,8 +94,7 @@ const GroupDetails = () => {
                         <button >Delete</button>
                         </div>
                         : null}
-                </div>
-                <div id="items5">
+                <div id="item5">
                 <h1>Organizer</h1>
                 <p>{firstName} {lastName}</p>
                 <h1>What we're about</h1>

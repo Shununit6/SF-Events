@@ -36,13 +36,21 @@ const GroupEvents = ({ group, event }) => {
     return (
             <div className="li-contents-flex">
                 <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
-                <section>
-                    <img id = "eventImage" src={imageUrl} alt="event"/>
-                    <p>{startDate.slice(0,10)}</p>
-                    <h1>{name}</h1>
-                    <p>{location}</p>
-
-                </section>
+                <div id="grid">
+                    <div id="item6">
+                        <img id = "eventImage" src={imageUrl} alt="event"/>
+                    </div>
+                    <div id="item7">
+                        <p>{startDate.slice(0,10)}</p>
+                        <h1>{name}</h1>
+                        <p>{location}</p>
+                    </div>
+                    <div id="item8">
+                        <p>{startDate.slice(0,10)}</p>
+                        <h1>{name}</h1>
+                        <p>{location}</p>
+                    </div>
+                </div>
                 </Link>
             </div>
     );}

@@ -12,7 +12,8 @@ const GroupEvents = ({ group, event }) => {
     console.log("group", group.Events);
     console.log("eventdata", eventData);
     useEffect(() => {
-        dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
+        // dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
+        dispatch(eventDetails(event.id)).then(()=>setIsLoaded(true))
     }, [dispatch, event.id])
     // console.log("eventData", eventData);
     if(!isLoaded) {
@@ -20,13 +21,19 @@ const GroupEvents = ({ group, event }) => {
     }
     const {name, id, startDate, location} = event;
     // console.log("specificeventimages", eventData[event.id].EventImages[0].url);
-    const imageUrl = eventData[event.id].EventImages[0].url;
+    // {Object.values(groupData.Events|| {}).length}
+    let imageUrl="";
+    if(eventData[event.id].EventImages.length > 0){
+        imageUrl = eventData[event.id].EventImages[0].url;
+    }
+    // console.log("imageerror", eventData[event.id].EventImages);
     if(isLoaded){
     return (
         <li>
             <div className="li-contents-flex">
                 <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
                 <section>
+                    {/* <img id = "eventImage" src={eventData[event.id].EventImages[0].url || {}} alt="event"/> */}
                     <img id = "eventImage" src={imageUrl} alt="event"/>
                     {/* <img src={`https://picsum.photos/200/300?random=${id}`}/> */}
                     <p>{name}</p>

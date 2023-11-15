@@ -9,7 +9,7 @@ input {
   display: inline-block;
 }
 
-button {
+/* button {
   margin: 0 auto;
   background-color: #24a5eb;
   color: white;
@@ -19,4 +19,4 @@ button {
 
 button:hover {
     opacity: 0.86;
-}
+} */

@@ -3,14 +3,13 @@ import { csrfFetch } from "./csrf";
 /** Action Type Constants: */
 export const LOAD_GROUPS = "groups/LOAD_GROUPS";
 export const LOAD_GROUP_DETAILS = "groups/LOAD_GROUP_DETAILS";
-export const REMOVE_GROUP = "groups/REMOVE_GROUP";
 export const GET_GROUP_EVENTS = "groups/GET_GROUP_EVENTS";
 export const RECEIVE_GROUP = "groups/RECEIVE_GROUP";
 export const UPDATE_GROUP = "groups/UPDATE_GROUP";
 export const UPDATE_GROUP_IMAGES = "groups/UPDATE_GROUP_IMAGES";
 export const RECEIVE_GROUP_IMAGE = "groups/RECEIVE_GROUP_IMAGE";
 export const RECEIVE_GROUP_EVENT = "groups/RECEIVE_GROUP_EVENT";
-
+export const REMOVE_GROUP = "groups/REMOVE_GROUP";
 
 /**  Action Creators: */
 export const loadGroups = (groups) => ({
@@ -216,7 +215,9 @@ const groupsReducer = (state = { }, action) => {
         };
         case REMOVE_GROUP:{
             const groupState = { ...state };
-            delete groupState[action.groups.id];
+            delete groupState[action.groups];
+            console.log("whatotkeyinto", action.groups)
+            console.log(groupState);
             return groupState;
         };
         case RECEIVE_GROUP_IMAGE: {

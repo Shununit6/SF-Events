@@ -12,8 +12,8 @@ const GroupEvents = ({ group, event }) => {
     console.log("group", group.Events);
     console.log("eventdata", eventData);
     useEffect(() => {
-        // dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
-        dispatch(eventDetails(event.id)).then(()=>setIsLoaded(true))
+        dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
+        // dispatch(eventDetails(event.id)).then(()=>setIsLoaded(true))
     }, [dispatch, event.id])
     // console.log("eventData", eventData);
     if(!isLoaded) {

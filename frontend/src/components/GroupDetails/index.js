@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams, Link} from "react-router-dom"
+import { useParams, Link, Redirect } from "react-router-dom"
 import { useSelector, useDispatch} from "react-redux"
 import { groupDetails, getGroupIdEvents } from "../../store/groups";
 import { deleteGroup } from "../../store/groups";
 import "./GroupDetails.css";
 import GroupEvents from "../GroupEvents";
+import DeleteModal from '../Navigation/DeleteModel';
+import DeleteGroupModal from "../DeleteGroupModal";
 const GroupDetails = () => {
     const dispatch = useDispatch();
     let { groupId } = useParams();
@@ -15,7 +17,9 @@ const GroupDetails = () => {
     useEffect(() => {
         dispatch(groupDetails(groupId)).then(()=>dispatch(getGroupIdEvents(groupId))).then(()=>setIsLoaded(true))
     }, [dispatch, groupId])
-
+    if(isLoaded && !groupData){
+        return (<Redirect to="/groups"/>);
+    }
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }
@@ -101,6 +105,12 @@ const GroupDetails = () => {
                         <button onClick={handleDelete}>Delete</button>
                         </div>
                         : null}
+                <button>
+                <DeleteModal
+                        itemText="Delete"
+                        modalComponent={<DeleteGroupModal group={groupData}/>}
+                        />
+                </button>
                 <div id="item5">
                 <h1>Organizer</h1>
                 <p>{firstName} {lastName}</p>

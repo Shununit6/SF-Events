@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 export const LOAD_EVENTS = "events/LOAD_EVENTS";
 export const LOAD_EVENT_DETAILS = "events/LOAD_EVENT_DETAILS";
 // export const REMOVE_EVENT = "events/REMOVE_EVENT";
+export const REMOVE_GROUP_EVENTS = "events/REMOVE_EVENT";
 // /**  Action Creators: */
 export const loadEvents = (events) => ({
     type: LOAD_EVENTS,
@@ -18,6 +19,12 @@ export const loadEventDetails = (events) => ({
 //     type: REMOVE_EVENT,
 //     events,
 // });
+
+export const removeGroupEvents = (groupId) => ({
+    type: REMOVE_GROUP_EVENTS,
+    groupId,
+});
+
 
 // /** Thunk Action Creators: */
 export const getAllEvents = () => async (dispatch) => {
@@ -38,11 +45,13 @@ export const eventDetails = (eventId) => async dispatch => {
     if (res.ok) {
         const data = await res.json();
         dispatch(loadEventDetails(data));
-        console.log("hey there",data);
+        // console.log("hey there",data);
         return data;
     }
     return res;
 }
+
+
 
 // export const deleteEvent = (eventId) => async (dispatch) => {
 //     const res = await fetch(`/api/events/${eventId}`, {
@@ -67,7 +76,7 @@ const eventsReducer = (state = { }, action) => {
             return {...eventsState};
         case LOAD_EVENT_DETAILS: {
             const eventState = {...state};
-            console.log("action.events", action.events);
+            // console.log("action.events", action.events);
             eventState[action.events.id] = action.events;
             return eventState;
         }
@@ -76,6 +85,15 @@ const eventsReducer = (state = { }, action) => {
         //     delete eventState[action.events.id];
         //     return eventState;
         // }
+        case REMOVE_GROUP_EVENTS:{
+            const events = {};
+            Object.values(state.events).forEach((event)=>{
+                if(event.groupId !== action.groupId){
+                    events[event.id] = event;
+                }
+            });
+            return events;
+        }
         default:
             return state;
     }

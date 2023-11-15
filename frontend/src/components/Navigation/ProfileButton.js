@@ -19,7 +19,11 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
+      e.stopPropagation();
+      console.log(ulRef);
+      console.log(e.target);
       if (!ulRef.current.contains(e.target)) {
+        console.log("maybeworks");
         setShowMenu(false);
       }
     };

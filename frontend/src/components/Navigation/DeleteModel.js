@@ -16,8 +16,7 @@ function DeleteModal({
   };
 
   return (
-    // <button onClick={onClick}>{itemText}</button>
-    <ul onClick={onClick}>{itemText}</ul>
+    <button onClick={onClick}>{itemText}</button>
   );
 }
 

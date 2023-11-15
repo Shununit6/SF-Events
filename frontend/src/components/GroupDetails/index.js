@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, Link, Redirect } from "react-router-dom"
 import { useSelector, useDispatch} from "react-redux"
 import { groupDetails, getGroupIdEvents } from "../../store/groups";
-import { deleteGroup } from "../../store/groups";
 import "./GroupDetails.css";
 import GroupEvents from "../GroupEvents";
 import DeleteModal from '../Navigation/DeleteModel';
@@ -38,10 +37,6 @@ const GroupDetails = () => {
     }
     const imageUrl = Object.values(groupData.GroupImages).find((image) => image.preview === 1).url;
     // console.log("Object.values(groupData.GroupImages)", Object.values(groupData.GroupImages));
-    const handleDelete = (e) => {
-        e.preventDefault();
-        dispatch(deleteGroup(groupId));
-    };
 
     let pastEvents = [], upcomingEvents = [];
     if(groupData.Events){
@@ -98,19 +93,18 @@ const GroupDetails = () => {
                     </div>
                     {sessionUser ?
                         <div id="item4" className="buttons-container">
-                        <button >Create event</button>
+                        <button>Create event</button>
                         <Link to={`/groups/${groupId}/edit`}>
                             <button >Update</button>
                         </Link>
-                        <button onClick={handleDelete}>Delete</button>
+
+                        <DeleteModal
+                                itemText="Delete"
+                                modalComponent={<DeleteGroupModal group={groupData}/>}
+                                />
+
                         </div>
                         : null}
-                <button>
-                <DeleteModal
-                        itemText="Delete"
-                        modalComponent={<DeleteGroupModal group={groupData}/>}
-                        />
-                </button>
                 <div id="item5">
                 <h1>Organizer</h1>
                 <p>{firstName} {lastName}</p>

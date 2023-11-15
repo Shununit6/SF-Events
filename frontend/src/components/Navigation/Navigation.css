@@ -10,11 +10,11 @@ form {
   grid-gap: 15px;
   font-family: Georgia, serif, cursive;
 }
-
+/*
 input {
   width: 50%;
   display: inline-block;
-}
+} */
 
 button {
   margin: 0 auto;
@@ -22,12 +22,12 @@ button {
   color: white;
   width: 30%;
   height: 30px;
-} */
+}
 
 button:hover {
     opacity: 0.86;
 }
 
-.hidden{
+/* .hidden{
   display: none;
-}
+} */

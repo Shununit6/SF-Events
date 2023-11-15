@@ -21,9 +21,7 @@ function Groups() {
   return (
     <div>
          <Link to="/events" > Events </Link>
-         <section>
-                <Link to="/groups" > Groups </Link>
-         </section>
+         <Link to="/groups" > Groups </Link>
          <section>
              <ul>
                  {Object.values(groups).map((group) => (

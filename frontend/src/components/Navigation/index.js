@@ -9,8 +9,6 @@ function Navigation({ isLoaded }){
 
   return (
     <nav>
-
-
           <NavLink exact to="/">San Francisco Events</NavLink>
       {isLoaded && (
           <ProfileButton user={sessionUser} />

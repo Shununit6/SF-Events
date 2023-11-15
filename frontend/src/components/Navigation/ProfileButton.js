@@ -5,13 +5,13 @@ import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
   const openMenu = (e) => {
-    //openMenu error fixed by e.stopPropagation();
     e.stopPropagation();
     if (showMenu) return;
     setShowMenu(true);
@@ -21,11 +21,7 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      e.stopPropagation();
-      console.log(ulRef);
-      console.log(e.target);
       if (!ulRef.current.contains(e.target)) {
-        // console.log("maybeworks");
         setShowMenu(false);
       }
     };
@@ -50,6 +46,10 @@ function ProfileButton({ user }) {
       <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
+      {/* <button onClick={closeMenu}>
+        closeMenu
+      </button> */}
+      { showMenu &&
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
@@ -74,7 +74,7 @@ function ProfileButton({ user }) {
             />
           </>
         )}
-      </ul>
+      </ul>}
     </>
   );
 }

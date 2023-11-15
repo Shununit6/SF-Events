@@ -24,7 +24,7 @@ const GroupIndexItem = ({ group }) => {
     }
 
     const imageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1).url;
-    console.log("groupData", groupData);
+    // console.log("groupData", groupData);
     if(isLoaded){
     return (
         <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>

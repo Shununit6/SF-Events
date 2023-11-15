@@ -16,7 +16,7 @@ input {
   display: inline-block;
 }
 
-/* button {
+button {
   margin: 0 auto;
   background-color: #24a5eb;
   color: white;
@@ -24,9 +24,9 @@ input {
   height: 30px;
 } */
 
-/* button:hover {
+button:hover {
     opacity: 0.86;
-} */
+}
 
 .hidden{
   display: none;

@@ -10,7 +10,9 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  const openMenu = () => {
+  const openMenu = (e) => {
+    //openMenu error fixed by e.stopPropagation();
+    e.stopPropagation();
     if (showMenu) return;
     setShowMenu(true);
   };
@@ -23,7 +25,7 @@ function ProfileButton({ user }) {
       console.log(ulRef);
       console.log(e.target);
       if (!ulRef.current.contains(e.target)) {
-        console.log("maybeworks");
+        // console.log("maybeworks");
         setShowMenu(false);
       }
     };

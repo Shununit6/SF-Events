@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getAllGroups} from '../../store/groups';
 import GroupIndexItem from '../GroupIndexItem';
+
 import "./groups.css";
 function Groups() {
     const dispatch = useDispatch();
@@ -18,6 +20,10 @@ function Groups() {
   if(isLoaded){
   return (
     <div>
+         <Link to="/events" > Events </Link>
+         <section>
+                <Link to="/groups" > Groups </Link>
+         </section>
          <section>
              <ul>
                  {Object.values(groups).map((group) => (
@@ -25,19 +31,6 @@ function Groups() {
                 ))}
             </ul>
          </section>
-        {/*
-            <Link className="back-button new" to="/reports/new">
-                New Report
-            </Link>
-            <button onClick={resetDatabase}>Reset the Database</button>
-        </section>
-      <ul>
-        <li>
-          <Route path="/groups/new" component={CreateGroupForm} />
-          <Route exact path="/groups/:groupId" component={GroupShow} />
-          <Route path="/groups/:groupId/edit" component={EditGroupForm} />
-        </li> */}
-      {/* </ul> */}
     </div>
   );}
 }

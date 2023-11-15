@@ -8,7 +8,7 @@ import GroupDetails from "./components/GroupDetails";
 import Home from "./components/Home";
 import CreateGroupForm from "./components/GreateGroupForm";
 import EditGroupForm from "./components/EditGroupForm";
-// import Events from "./components/Events";
+import Events from "./components/Events";
 import EventDetails from "./components/EventDetails";
 // import CreateEventForm from "./components/GreateEventForm";
 
@@ -43,9 +43,9 @@ function App() {
           {/* <Route path="/groups/:groupId/events">
             <GroupDetails />
           </Route> */}
-          {/* <Route exact path="/events">
+          <Route exact path="/events">
             <Events/>
-          </Route>*/}
+          </Route>
           <Route path="/events/:eventId">
             <EventDetails />
           </Route>

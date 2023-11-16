@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 // /** Action Type Constants: */
 export const LOAD_EVENTS = "events/LOAD_EVENTS";
 export const LOAD_EVENT_DETAILS = "events/LOAD_EVENT_DETAILS";
-// export const REMOVE_EVENT = "events/REMOVE_EVENT";
+export const REMOVE_EVENT = "events/REMOVE_EVENT";
 export const REMOVE_GROUP_EVENTS = "events/REMOVE_EVENT";
 export const RECEIVE_EVENT_IMAGE = "events/RECEIVE_EVENT_IMAGE";
 // /**  Action Creators: */
@@ -16,10 +16,10 @@ export const loadEventDetails = (events) => ({
     events,
 });
 
-// export const removeEvent = (events) => ({
-//     type: REMOVE_EVENT,
-//     events,
-// });
+export const removeEvent = (events) => ({
+    type: REMOVE_EVENT,
+    events,
+});
 
 export const removeGroupEvents = (groupId) => ({
     type: REMOVE_GROUP_EVENTS,
@@ -72,18 +72,18 @@ export const createEventImage = (eventImage, eventId) => async (dispatch) => {
     return res;
 };
 
-// export const deleteEvent = (eventId) => async (dispatch) => {
-//     const res = await fetch(`/api/events/${eventId}`, {
-//         method: "DELETE",
-//     });
+export const deleteEvent = (eventId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/events/${eventId}`, {
+        method: "DELETE",
+    });
 
-//     if (res.ok) {
-//         const data = await res.json();
-//         dispatch(removeEvent(eventId));
-//         return data;
-//     }
-//     return res;
-// };
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(removeEvent(eventId));
+        return data;
+    }
+    return res;
+};
 
 const eventsReducer = (state = { }, action) => {
     switch (action.type) {
@@ -103,11 +103,12 @@ const eventsReducer = (state = { }, action) => {
             const eventState = { ...state };
             return eventState;
         };
-        // case REMOVE_EVENT:{
-        //     const eventState = { ...state };
-        //     delete eventState[action.events.id];
-        //     return eventState;
-        // }
+        case REMOVE_EVENT:{
+            const eventState = { ...state };
+            console.log(action.events)
+            delete eventState[action.events];
+            return eventState;
+        }
         case REMOVE_GROUP_EVENTS:{
             const events = {};
             Object.values(state.events).forEach((event)=>{

@@ -41,8 +41,8 @@ const EventForm = ({ group, formType }) => {
 //     //     // if (price < 0) errors["price"].push("Minimum Price is 0");
         if (!startDate.length) errors["startDate"].push("Event start is required");
         if (new Date(`${new Date()}`).getTime() > new Date(startDate).getTime()) errors["startDate"].push("Start date must be in the future");
-
-//     //     if (!endDate.length) errors["endDate"].push("Event end is required");
+        if (!endDate.length) errors["endDate"].push("Event end is required");
+        if (new Date(`${endDate}`).getTime() < new Date(startDate).getTime()) errors["endDate"].push("End date is less than start date");
 //     //     // .png, .jpg, or .jpeg
 //     //     if(!imageUrl.endsWith('.png') && !imageUrl.endsWith('.jpg') && !imageUrl.endsWith('.jpeg'))
 //     //     errors["imageUrl"].push("Image URL must end in .png, .jpg, or .jpeg");
@@ -168,10 +168,7 @@ const EventForm = ({ group, formType }) => {
                         placeholder="0"
                         onChange={(e) => setPrice(e.target.value)}
                         value={price}
-                        // min={`${new Date()}`}
-                        // max={`${new Date()}`}
-                        // min="2017-06-01T08:30"
-                        // max="2017-06-30T16:30"
+                        min={0}
                     />
                     {hasSubmitted &&
                         validationErrors.price.length > 0 &&
@@ -186,12 +183,12 @@ const EventForm = ({ group, formType }) => {
              <div>
                 <label>
                      <input
-                         id='startDate'
-                         type="datetime-local"
-                         name="startDate"
-                         placeholder="MM/DD/YYYY, HH/mm AM"
+                        id='startDate'
+                        type="datetime-local"
+                        name="startDate"
+                        placeholder="MM/DD/YYYY, HH/mm AM"
                         onChange={(e) => setStartDate(e.target.value)}
-                         value={startDate}
+                        value={startDate}
                         min={Date()}
                      />
                      {hasSubmitted &&
@@ -203,61 +200,62 @@ const EventForm = ({ group, formType }) => {
                          ))}
                  </label>
              </div>
-{/*
-//             <div>
-//                 <label>
-//                     <input
-//                         id='endDate'
-//                         type="datetime-local"
-//                         name="endDate"
-//                         placeholder="MM/DD/YYYY, HH/mm AM"
-//                         onChange={(e) => setName(e.target.value)}
-//                         value={endDate}
-//                         min={startDate}
-//                     />
-//                     {hasSubmitted &&
-//                         validationErrors.endDate.length > 0 &&
-//                         validationErrors.endDate.map((error, idx) => (
-//                             <div key={idx}>
-//                                 <p className="error">{error}</p>
-//                             </div>
-//                         ))}
-//                 </label>
-//             </div>
-//             <div>
-//                 <label>Please add in image url for your group below:
-//                     <textarea
-//                         id='imageUrl'
-//                         value={imageUrl}
-//                         placeholder="image url"
-//                         onChange={(e) => setImageUrl(e.target.value)}
-//                     />
-//                     {hasSubmitted &&
-//                         validationErrors.imageUrl.length > 0 &&
-//                         validationErrors.imageUrl.map((error, idx) => (
-//                             <div key={idx}>
-//                                 <p className="error">{error}</p>
-//                             </div>
-//                         ))}
-//                 </label>
-//             </div>
-//             <div>
-//                 <label>
-//                     <textarea
-//                         id='description'
-//                         value={description}
-//                         placeholder="Please write at least 30 characters"
-//                         onChange={(e) => setDescription(e.target.value)}
-//                     />
-//                     {hasSubmitted &&
-//                         validationErrors.description.length > 0 &&
-//                         validationErrors.description.map((error, idx) => (
-//                             <div key={idx}>
-//                                 <p className="error">{error}</p>
-//                             </div>
-//                         ))}
-//                 </label>
-//             </div>*/}
+
+            <div>
+                <label>
+                    <input
+                        id='endDate'
+                        type="datetime-local"
+                        name="endDate"
+                        placeholder="MM/DD/YYYY, HH/mm AM"
+                        onChange={(e) => setEndDate(e.target.value)}
+                        value={endDate}
+                        min={startDate}
+                    />
+                    {hasSubmitted &&
+                        validationErrors.endDate.length > 0 &&
+                        validationErrors.endDate.map((error, idx) => (
+                            <div key={idx}>
+                                <p className="error">{error}</p>
+                            </div>
+                        ))}
+                </label>
+            </div>
+            {/*
+            <div>
+                <label>Please add in image url for your group below:
+                    <textarea
+                        id='imageUrl'
+                        value={imageUrl}
+                        placeholder="image url"
+                        onChange={(e) => setImageUrl(e.target.value)}
+                    />
+                    {hasSubmitted &&
+                        validationErrors.imageUrl.length > 0 &&
+                        validationErrors.imageUrl.map((error, idx) => (
+                            <div key={idx}>
+                                <p className="error">{error}</p>
+                            </div>
+                        ))}
+                </label>
+            </div>
+            <div>
+                <label>
+                    <textarea
+                        id='description'
+                        value={description}
+                        placeholder="Please write at least 30 characters"
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                    {hasSubmitted &&
+                        validationErrors.description.length > 0 &&
+                        validationErrors.description.map((error, idx) => (
+                            <div key={idx}>
+                                <p className="error">{error}</p>
+                            </div>
+                        ))}
+                </label>
+            </div>*/}
             <button type="submit" id="EventFormButton" >{formType}</button>
         </form>
      )

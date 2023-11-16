@@ -40,7 +40,7 @@ const EventForm = ({ group, formType }) => {
         if (!price.length) errors["price"].push("Price is required");
 //     //     // if (price < 0) errors["price"].push("Minimum Price is 0");
         if (!startDate.length) errors["startDate"].push("Event start is required");
-        if (startDate < (Date()) ) errors["startDate"].push("Start date must be in the future");
+        if (new Date(`${new Date()}`).getTime() > new Date(startDate).getTime()) errors["startDate"].push("Start date must be in the future");
 
 //     //     if (!endDate.length) errors["endDate"].push("Event end is required");
 //     //     // .png, .jpg, or .jpeg
@@ -168,7 +168,10 @@ const EventForm = ({ group, formType }) => {
                         placeholder="0"
                         onChange={(e) => setPrice(e.target.value)}
                         value={price}
-                        min="0"
+                        // min={`${new Date()}`}
+                        // max={`${new Date()}`}
+                        // min="2017-06-01T08:30"
+                        // max="2017-06-30T16:30"
                     />
                     {hasSubmitted &&
                         validationErrors.price.length > 0 &&

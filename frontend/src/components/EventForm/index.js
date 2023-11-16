@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import { useHistory,} from "react-router-dom"; //useParams,
-import { useDispatch, useSelector } from "react-redux"; //useSelector
-import { createGroupEvent, groupDetails } from "../../store/groups";
+import { useHistory, useParams} from "react-router-dom"; //useParams,
+import { useDispatch, } from "react-redux"; //useSelector
+import { createGroupEvent, createGroupVenue } from "../../store/groups";
 
 
 const EventForm = ({ group, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
-
+    const { groupId } = useParams();
+    console.log(groupId);
     let [name, setName] = useState("");
     let [type, setType] = useState("");
     let [capacity, setCapacity] = useState("");
@@ -18,21 +19,13 @@ const EventForm = ({ group, formType }) => {
     let [description, setDescription] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
-
-    // check('startDate').exists({ checkFalsy: true }).isAfter(`${new Date()}`)
-    //     .withMessage('Start date must be in the future'),
-    // check('endDate').custom((endDate, { req }) => {
-    //         const startDate = req.body.startDate;
-    //         if (startDate >= endDate) {
-    //             return false
-    //         }
-    //         return true
-    //     }).withMessage('End date is less than start date'),
+    // let groups = useSelector((state) => state.groups[groupId]);
 
     useEffect(() => {
         const errors = { name: [], type:[], capacity:[], price:[], startDate:[],
             endDate:[], imageUrl:[], description:[] };
         if (!name.length) errors["name"].push("Name is required");
+        if (name.length < 5) errors["name"].push("Name must be at least 5 characters");
         if (!type.length) errors["type"].push("Event Type is required");
         if (!capacity.length) errors["capacity"].push("Event Capacity is required");
         // if (typeof(capacity)!=="number") errors["capacity"].push("Event Capacity is a number");
@@ -44,19 +37,21 @@ const EventForm = ({ group, formType }) => {
         if (!endDate.length) errors["endDate"].push("Event end is required");
         if (new Date(`${endDate}`).getTime() < new Date(startDate).getTime()) errors["endDate"].push("End date is less than start date");
 //     //     // .png, .jpg, or .jpeg
-//     //     if(!imageUrl.endsWith('.png') && !imageUrl.endsWith('.jpg') && !imageUrl.endsWith('.jpeg'))
-//     //     errors["imageUrl"].push("Image URL must end in .png, .jpg, or .jpeg");
-//     //     if (description.length < 30) errors["about"].push("Description needs 30 or more characters");
+        if(!imageUrl.endsWith('.png') && !imageUrl.endsWith('.jpg') && !imageUrl.endsWith('.jpeg'))
+        errors["imageUrl"].push("Image URL must end in .png, .jpg, or .jpeg");
+        if (description.length < 30) errors["description"].push("Description needs 30 or more characters");
         setValidationErrors(errors);
 }, [name, type, capacity, price, startDate, endDate, imageUrl, description]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
-        let groupId = 1;
+        // console.log(groups);
+        // let groupsvenueId = groups.Venues.length ? groups.Venues[0].id : 0;
+        // console.log(groupsvenueId);
         let event = [];
         console.log(validationErrors);
+        // let venueId = 4;
         event = { ...event, name, type, capacity, price, startDate, endDate, description};
         console.log("formEvent", event);
         let newEvent;
@@ -69,10 +64,23 @@ const EventForm = ({ group, formType }) => {
             console.log("has errors");
             }else{
                 console.log("no errors");
-                if (formType === "Create Group") {
-                    newEvent = await dispatch(createGroupEvent(group.id, event));
+
+                if (formType === "Create Event") {
+                    //added this to prevent venueId not found error when later create event
+                    let Venue={"address": "123 Should Exist Street",
+                    "city": "San Frangoodtogo",
+                    "state": "CA",
+                    "lat": 37.7645358,
+                    "lng": -122.4730327};
+                    console.log(Venue.address);
+                    let newVenue = await dispatch(createGroupVenue(Venue, groupId));
+                    console.log(event,groupId, newVenue);
+                    event.venueId = newVenue.id;
+                    newEvent = await dispatch(createGroupEvent(event, groupId));
                     // let EventImages={url: imageUrl};
+                    //groupId,
                     // await dispatch(createEventImage(EventImages, event.id));
+                    console.log(newEvent);
                 }
                 if (newEvent.id) {
                     console.log("/events/${newEvent.id}", newEvent.id);
@@ -182,6 +190,7 @@ const EventForm = ({ group, formType }) => {
 
              <div>
                 <label>
+                     When does your event start?
                      <input
                         id='startDate'
                         type="datetime-local"
@@ -203,11 +212,12 @@ const EventForm = ({ group, formType }) => {
 
             <div>
                 <label>
+                    When does your event end?
                     <input
                         id='endDate'
                         type="datetime-local"
                         name="endDate"
-                        placeholder="MM/DD/YYYY, HH/mm AM"
+                        placeholder="MM/DD/YYYY, HH/mm PM"
                         onChange={(e) => setEndDate(e.target.value)}
                         value={endDate}
                         min={startDate}
@@ -221,13 +231,13 @@ const EventForm = ({ group, formType }) => {
                         ))}
                 </label>
             </div>
-            {/*
+
             <div>
-                <label>Please add in image url for your group below:
+                <label>Please add an image url for your event below:
                     <textarea
                         id='imageUrl'
                         value={imageUrl}
-                        placeholder="image url"
+                        placeholder="Image URL"
                         onChange={(e) => setImageUrl(e.target.value)}
                     />
                     {hasSubmitted &&
@@ -241,10 +251,11 @@ const EventForm = ({ group, formType }) => {
             </div>
             <div>
                 <label>
+                    Please describe your event
                     <textarea
                         id='description'
                         value={description}
-                        placeholder="Please write at least 30 characters"
+                        placeholder="Please include at least 30 characters."
                         onChange={(e) => setDescription(e.target.value)}
                     />
                     {hasSubmitted &&
@@ -255,7 +266,7 @@ const EventForm = ({ group, formType }) => {
                             </div>
                         ))}
                 </label>
-            </div>*/}
+            </div>
             <button type="submit" id="EventFormButton" >{formType}</button>
         </form>
      )

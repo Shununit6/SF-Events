@@ -10,6 +10,7 @@ export const UPDATE_GROUP_IMAGES = "groups/UPDATE_GROUP_IMAGES";
 export const RECEIVE_GROUP_IMAGE = "groups/RECEIVE_GROUP_IMAGE";
 export const RECEIVE_GROUP_EVENT = "groups/RECEIVE_GROUP_EVENT";
 export const REMOVE_GROUP = "groups/REMOVE_GROUP";
+export const RECEIVE_GROUP_VENUE = "groups/RECEIVE_GROUP_VENUE";
 
 /**  Action Creators: */
 export const loadGroups = (groups) => ({
@@ -58,7 +59,27 @@ export const receiveGroupEvent = (groupEvent) => ({
     groupEvent,
 });
 
+export const receiveGroupVenue = (groupVenue) => ({
+    type: RECEIVE_GROUP_VENUE,
+    groupVenue,
+});
+
 /** Thunk Action Creators: */
+export const createGroupVenue = (groupVenue, groupId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/venues`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(groupVenue),
+    });
+
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(receiveGroupEvent(data));
+        return data;
+    }
+    return res;
+};
+
 export const createGroup = (payload) => async (dispatch) => {
     console.log("createGroup         run");
     console.log(payload);
@@ -227,6 +248,11 @@ const groupsReducer = (state = { }, action) => {
         case RECEIVE_GROUP_EVENT: {
             const groupState = { ...state };
             console.log("actionreveive_group_event", action.groupEvent);
+            return groupState;
+        };
+        case RECEIVE_GROUP_VENUE: {
+            const groupState = { ...state };
+            console.log("actionreveive_group_event", action.groupVenue);
             return groupState;
         };
         case RECEIVE_GROUP:

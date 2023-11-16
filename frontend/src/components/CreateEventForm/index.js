@@ -9,7 +9,8 @@ const CreateEventForm = () => {
     startDate: '',
     endDate: '',
     imageUrl: '',
-    description: ''
+    description: '',
+    venueId:'',
     };
 
 

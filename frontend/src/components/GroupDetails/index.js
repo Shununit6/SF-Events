@@ -93,7 +93,9 @@ const GroupDetails = () => {
                     </div>
                     {sessionUser ?
                         <div id="item4" className="buttons-container">
-                        <button>Create event</button>
+                        <Link to={`/groups/${groupId}/events/new`}>
+                            <button>Create event</button>
+                        </Link>
                         <Link to={`/groups/${groupId}/edit`}>
                             <button >Update</button>
                         </Link>

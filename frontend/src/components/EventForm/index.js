@@ -19,6 +19,16 @@ const EventForm = ({ group, formType }) => {
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
+    // check('startDate').exists({ checkFalsy: true }).isAfter(`${new Date()}`)
+    //     .withMessage('Start date must be in the future'),
+    // check('endDate').custom((endDate, { req }) => {
+    //         const startDate = req.body.startDate;
+    //         if (startDate >= endDate) {
+    //             return false
+    //         }
+    //         return true
+    //     }).withMessage('End date is less than start date'),
+
     useEffect(() => {
         const errors = { name: [], type:[], capacity:[], price:[], startDate:[],
             endDate:[], imageUrl:[], description:[] };
@@ -30,6 +40,8 @@ const EventForm = ({ group, formType }) => {
         if (!price.length) errors["price"].push("Price is required");
 //     //     // if (price < 0) errors["price"].push("Minimum Price is 0");
         if (!startDate.length) errors["startDate"].push("Event start is required");
+        if (startDate < (Date()) ) errors["startDate"].push("Start date must be in the future");
+
 //     //     if (!endDate.length) errors["endDate"].push("Event end is required");
 //     //     // .png, .jpg, or .jpeg
 //     //     if(!imageUrl.endsWith('.png') && !imageUrl.endsWith('.jpg') && !imageUrl.endsWith('.jpeg'))
@@ -44,9 +56,9 @@ const EventForm = ({ group, formType }) => {
         setHasSubmitted(true);
         let groupId = 1;
         let event = [];
-//         // console.log(validationErrors);
+        console.log(validationErrors);
         event = { ...event, name, type, capacity, price, startDate, endDate, description};
-//         console.log("78group", group);
+        console.log("formEvent", event);
         let newEvent;
         let errorCount = validationErrors.name.length + validationErrors.type.length
         + validationErrors.capacity.length + validationErrors.price.length

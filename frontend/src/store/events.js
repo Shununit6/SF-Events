@@ -4,6 +4,7 @@ export const LOAD_EVENTS = "events/LOAD_EVENTS";
 export const LOAD_EVENT_DETAILS = "events/LOAD_EVENT_DETAILS";
 // export const REMOVE_EVENT = "events/REMOVE_EVENT";
 export const REMOVE_GROUP_EVENTS = "events/REMOVE_EVENT";
+export const RECEIVE_EVENT_IMAGE = "events/RECEIVE_EVENT_IMAGE";
 // /**  Action Creators: */
 export const loadEvents = (events) => ({
     type: LOAD_EVENTS,
@@ -23,6 +24,11 @@ export const loadEventDetails = (events) => ({
 export const removeGroupEvents = (groupId) => ({
     type: REMOVE_GROUP_EVENTS,
     groupId,
+});
+
+export const receiveEventImage = (eventImage) => ({
+    type: RECEIVE_EVENT_IMAGE,
+    eventImage,
 });
 
 
@@ -51,7 +57,20 @@ export const eventDetails = (eventId) => async dispatch => {
     return res;
 }
 
+export const createEventImage = (eventImage, eventId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/events/${eventId}/images`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(eventImage),
+    });
 
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(receiveEventImage(data));
+        return data;
+    }
+    return res;
+};
 
 // export const deleteEvent = (eventId) => async (dispatch) => {
 //     const res = await fetch(`/api/events/${eventId}`, {
@@ -80,6 +99,10 @@ const eventsReducer = (state = { }, action) => {
             eventState[action.events.id] = action.events;
             return eventState;
         }
+        case RECEIVE_EVENT_IMAGE: {
+            const eventState = { ...state };
+            return eventState;
+        };
         // case REMOVE_EVENT:{
         //     const eventState = { ...state };
         //     delete eventState[action.events.id];

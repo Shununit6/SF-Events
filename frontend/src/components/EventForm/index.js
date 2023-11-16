@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory, useParams} from "react-router-dom"; //useParams,
 import { useDispatch, } from "react-redux"; //useSelector
 import { createGroupEvent, createGroupVenue } from "../../store/groups";
-
+import { createEventImage } from "../../store/events";
 
 const EventForm = ({ group, formType }) => {
     const dispatch = useDispatch();
@@ -77,9 +77,9 @@ const EventForm = ({ group, formType }) => {
                     console.log(event,groupId, newVenue);
                     event.venueId = newVenue.id;
                     newEvent = await dispatch(createGroupEvent(event, groupId));
-                    // let EventImages={url: imageUrl};
-                    //groupId,
-                    // await dispatch(createEventImage(EventImages, event.id));
+                    let EventImages={url: imageUrl, preview: 1};
+                    // //groupId,
+                    await dispatch(createEventImage(EventImages, newEvent.id));
                     console.log(newEvent);
                 }
                 if (newEvent.id) {

@@ -28,6 +28,10 @@ const GroupDetails = () => {
     if(groupData.Organizer){
         ({firstName, lastName} = groupData.Organizer);
     }
+    let isGroupCreator=false;
+    if(sessionUser && groupData.Organizer === sessionUser.id){
+        isGroupCreator=true;
+    }
     // firstName(pin):"Callie"
     let isPrivate;
     if(groupData.private){
@@ -89,9 +93,9 @@ const GroupDetails = () => {
                     <p>Organized by {firstName} {lastName}</p>
                 </div>
                     <div id="item4" className="one-button-container">
-                        {!sessionUser ? <button onClick={alertJoinThisGroup}>Join this group</button> : null}
+                        {sessionUser && !isGroupCreator ? <button onClick={alertJoinThisGroup}>Join this group</button> : null}
                     </div>
-                    {sessionUser ?
+                    {sessionUser && isGroupCreator ?
                         <div id="item4" className="buttons-container">
                         <Link to={`/groups/${groupId}/events/new`}>
                             <button>Create event</button>

@@ -12,7 +12,6 @@ function Navigation({ isLoaded }){
           <NavLink exact to="/">San Francisco Events</NavLink>
       {isLoaded && (
           <ProfileButton user={sessionUser} />
-
         )}
     </nav>
   );

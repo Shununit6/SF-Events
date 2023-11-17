@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-
+import "./ProfileButton.css";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -43,21 +44,24 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
+    {!showMenu &&
+        <button id="closeMenuNavButton" onClick={openMenu}>
+          <i className="fas fa-user-circle" />
+          <i className="fas fa-sort-up"></i>
+        </button>}
+        {showMenu &&
+        <button id="closeMenuNavButton" onClick={closeMenu}>
         <i className="fas fa-user-circle" />
-      </button>
-      {/* <button onClick={closeMenu}>
-        closeMenu
-      </button> */}
-      { showMenu &&
-      <ul className={ulClassName} ref={ulRef}>
+        <i className="fas fa-sort-down"></i>
+        </button>}
+      {showMenu &&
+      <section className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
+            <li>Hello, {user.firstname}</li>
             <li>{user.email}</li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button onClick={logout}><Link to="/" >Log Out</Link></button>
             </li>
           </>
         ) : (
@@ -74,7 +78,7 @@ function ProfileButton({ user }) {
             />
           </>
         )}
-      </ul>}
+      </section>}
     </>
   );
 }

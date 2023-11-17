@@ -26,7 +26,6 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Home />
-            <h1>San Francisco Event</h1>
           </Route>
           <Route exact path="/groups">
             <Groups/>

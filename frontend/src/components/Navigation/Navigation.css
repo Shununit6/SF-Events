@@ -2,15 +2,15 @@ nav {
   font-family: Georgia, serif, cursive;
   color:black;
   display:flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
-form {
+/* form {
   display: grid;
   grid-gap: 15px;
   font-family: Georgia, serif, cursive;
 }
-/*
+
 input {
   width: 50%;
   display: inline-block;
@@ -18,10 +18,10 @@ input {
 
 button {
   margin: 0 auto;
-  background-color: #24a5eb;
-  color: white;
-  width: 30%;
-  height: 30px;
+  background-color: white;
+  color: #24a5eb;;
+  /* width: 30%;
+  height: 30px; */
 }
 
 button:hover {

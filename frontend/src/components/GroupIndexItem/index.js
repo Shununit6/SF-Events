@@ -28,6 +28,7 @@ const GroupIndexItem = ({ group }) => {
     if(isLoaded){
     return (
         <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>
+        <hr />
         <div id="grid-1">
             <div id="item-1">
                 <img id = "groupImage" src={imageUrl} alt="group"/>

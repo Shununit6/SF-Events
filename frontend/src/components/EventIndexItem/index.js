@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { eventDetails, getAllEvents } from "../../store/events";
-
+import "./EventIndexItem.css";
 const GroupEvents = ({ event }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -19,7 +19,12 @@ const GroupEvents = ({ event }) => {
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }
-    const {name, id, startDate, location} = event;
+    const {name, id, startDate, Venue, description} = event;
+    let city = Venue.city;
+    let state = Venue.state;
+    console.log(city, state);
+    let location = city + ', ' + state;
+    // let location = {`${event.Venue.city}`, `${event.Venue.state}`};
 
     let imageUrl="";
     if(eventData[event.id].EventImages.length > 0){
@@ -35,6 +40,7 @@ const GroupEvents = ({ event }) => {
     return (
             <div className="li-contents-flex">
                 <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
+                <hr />
                 <div id="grid">
                     <div id="item6">
                         <img id = "eventImage" src={imageUrl} alt="event"/>
@@ -45,9 +51,7 @@ const GroupEvents = ({ event }) => {
                         <p>{location}</p>
                     </div>
                     <div id="item8">
-                        <p>{startDate.slice(0,10)}</p>
-                        <h1>{name}</h1>
-                        <p>{location}</p>
+                        <p>{description}</p>
                     </div>
                 </div>
                 </Link>

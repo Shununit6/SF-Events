@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getAllEvents } from '../../store/events';
 import EventIndexItem from '../EventIndexItem';
 import "./events.css";
@@ -18,6 +19,9 @@ function Events() {
   if(isLoaded){
   return (
     <div>
+         <Link to="/events" > Events </Link>
+         <Link to="/groups" > Groups </Link>
+         <h2>Events in Meetup</h2>
          <section>
              <ul>
                  {Object.values(events).map((event) => (

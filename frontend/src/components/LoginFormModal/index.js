@@ -33,15 +33,17 @@ const LoginFormModal = () => {
                         type="text"
                         value={credential}
                         onChange={(e) => setCredential(e.target.value)}
+                        minLength={4}
                         required
                     />
                 </label>
                 <label>
-                    Password
+                    Password<br></br>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        minLength={6}
                         required
                     />
                 </label>

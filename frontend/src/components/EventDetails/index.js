@@ -36,11 +36,10 @@ const EventDetails = () => {
             <p>startDate {startDate.slice(0, 10)}</p>
             <p>endDate  {endDate.slice(0, 10)}</p>
             {/* Action button shows if logged-in user is the creator of the event */}
-            {sessionUser ? <button >Delete</button> :null}
-            <DeleteModal
+            {sessionUser ? <DeleteModal
                                 itemText="Delete"
                                 modalComponent={<DeleteEventModal event={eventData}/>}
-                                />
+                                /> :null}
         </div>
     );
 };

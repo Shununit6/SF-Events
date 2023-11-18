@@ -25,14 +25,16 @@ const GroupDetails = () => {
     // const {id, organizerId, name, about, type, city, state, createdAt, updatedAt} = groupData;
     const { name, about, city, state, } = groupData;
     let firstName=" ", lastName=" ";
+    let isGroupCreator=false;
     if(groupData.Organizer){
         ({firstName, lastName} = groupData.Organizer);
-    }
-    let isGroupCreator=false;
-    if(sessionUser && groupData.Organizer.id === sessionUser.id){
+    }else if(sessionUser && groupData && groupData.organizerId === sessionUser.id){
         isGroupCreator=true;
+        ({firstName, lastName} = sessionUser);
     }
-    console.log(groupData.Organizer)
+    console.log(groupData.Organizer);
+    console.log(groupData.organizerId);
+    console.log(sessionUser.firstName, sessionUser.lastName)
     // firstName(pin):"Callie"
     let isPrivate;
     if(groupData.private){

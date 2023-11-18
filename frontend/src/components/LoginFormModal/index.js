@@ -11,10 +11,10 @@ const LoginFormModal = () => {
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
-        return dispatch(sessionActions.login( { credential, password} ))
+        return await dispatch(sessionActions.login( { credential, password} ))
             .then(closeModal)
             .catch(
                 async (res) => {

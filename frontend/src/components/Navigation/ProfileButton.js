@@ -11,8 +11,6 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
-  const [credential, setCredential] = useState("");
-  const [password, setPassword] = useState("");
 
   const openMenu = (e) => {
     e.stopPropagation();
@@ -42,15 +40,15 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
-  const logInDemo = (e) => {
+  const logInDemo = async (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    await dispatch(sessionActions.logout());
     closeMenu();
     // logout();
     // Hello, Demo-lition demo@user.io
     const credential = "demo@user.io";
     const password ="password"
-    return dispatch(sessionActions.login( { credential, password} ))
+    return await dispatch(sessionActions.login( { credential, password} ))
     // return dispatch(sessionActions.login( { demoUser, demoUserPass} ));
   };
 

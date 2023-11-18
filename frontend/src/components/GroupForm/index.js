@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useHistory,} from "react-router-dom"; //useParams,
-import { useDispatch, } from "react-redux"; //useSelector
+import { useDispatch, useSelector} from "react-redux"; //useSelector
 import { createGroup, createGroupImage, updateGroup,} from "../../store/groups";//groupDetails, updateGroupImages
 
 
 const GroupForm = ({ group, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const sessionUser = useSelector(state => state.session.user);
     let [city, setCity] = useState(group?.city);
     let [state, setState] = useState(group?.state);
     let locationState;
@@ -21,6 +22,7 @@ const GroupForm = ({ group, formType }) => {
     let [about, setAbout] = useState(group?.about);
     let [type, setType] = useState(group?.type);
     let privateState;
+    let organizerId = sessionUser.id;
     if(group?.private === 1){
         privateState="Private";
     }else if(group?.private === 0){
@@ -87,7 +89,7 @@ const GroupForm = ({ group, formType }) => {
         }else{
             isPrivate = 0;
         }
-        group = { ...group, city, state, name, about, type, private:isPrivate,};
+        group = { ...group, city, state, name, about, type, private:isPrivate, organizerId};
         console.log("78group", group);
         let newGroup;
         let errorCount = validationErrors.location.length + validationErrors.name.length

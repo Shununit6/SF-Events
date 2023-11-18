@@ -28,9 +28,10 @@ const GroupDetails = () => {
     let isGroupCreator=false;
     if(groupData.Organizer){
         ({firstName, lastName} = groupData.Organizer);
-    }else if(sessionUser && groupData && groupData.organizerId === sessionUser.id){
+    }
+    if(sessionUser && groupData && groupData.organizerId === sessionUser.id){
         isGroupCreator=true;
-        ({firstName, lastName} = sessionUser);
+        // ({firstName, lastName} = sessionUser);
     }
     // console.log(groupData.Organizer);
     // console.log(groupData.organizerId);

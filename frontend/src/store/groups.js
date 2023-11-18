@@ -81,8 +81,6 @@ export const createGroupVenue = (groupVenue, groupId) => async (dispatch) => {
 };
 
 export const createGroup = (payload) => async (dispatch) => {
-    console.log("createGroup         run");
-    console.log(payload);
     const res = await csrfFetch("/api/groups", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -256,7 +254,9 @@ const groupsReducer = (state = { }, action) => {
             return groupState;
         };
         case RECEIVE_GROUP:
-            console.log(action);
+            console.log("RECEIVE_GROUP",action);
+            console.log("RECEIVE_GROUP", action.group);
+            console.log("stategroup", state);
             return { ...state, [action.group.id]: action.group };
         case UPDATE_GROUP:
             console.log("action.imageUrl", action.imageUrl);

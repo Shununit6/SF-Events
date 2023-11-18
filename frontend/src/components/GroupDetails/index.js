@@ -32,9 +32,9 @@ const GroupDetails = () => {
         isGroupCreator=true;
         ({firstName, lastName} = sessionUser);
     }
-    console.log(groupData.Organizer);
-    console.log(groupData.organizerId);
-    console.log(sessionUser.firstName, sessionUser.lastName)
+    // console.log(groupData.Organizer);
+    // console.log(groupData.organizerId);
+    // console.log(sessionUser.firstName, sessionUser.lastName)
     // firstName(pin):"Callie"
     let isPrivate;
     if(groupData.private){

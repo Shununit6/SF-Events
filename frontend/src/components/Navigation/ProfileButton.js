@@ -11,6 +11,8 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const [credential, setCredential] = useState("");
+  const [password, setPassword] = useState("");
 
   const openMenu = (e) => {
     e.stopPropagation();
@@ -40,12 +42,24 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
+  const logInDemo = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.logout());
+    closeMenu();
+    // logout();
+    // Hello, Demo-lition demo@user.io
+    const credential = "demo@user.io";
+    const password ="password"
+    return dispatch(sessionActions.login( { credential, password} ))
+    // return dispatch(sessionActions.login( { demoUser, demoUserPass} ));
+  };
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <>
-    {!showMenu &&
-        <button id="closeMenuNavButton" onClick={openMenu}>
+    <div id="profileNavButtonMenuItem">
+        {!showMenu &&
+        <button id="openMenuNavButton" onClick={openMenu}>
           <i className="fas fa-user-circle" />
           <i className="fas fa-sort-up"></i>
         </button>}
@@ -54,12 +68,16 @@ function ProfileButton({ user }) {
         <i className="fas fa-user-circle" />
         <i className="fas fa-sort-down"></i>
         </button>}
-      {showMenu &&
       <section className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Hello, {user.firstname}</li>
+            <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
+            <li>
+              <button onClick={logInDemo}>
+                <Link to="/" >Log in as Demo User</Link>
+              </button>
+            </li>
             <li>
               <button onClick={logout}><Link to="/" >Log Out</Link></button>
             </li>
@@ -78,8 +96,8 @@ function ProfileButton({ user }) {
             />
           </>
         )}
-      </section>}
-    </>
+      </section>
+    </div>
   );
 }
 

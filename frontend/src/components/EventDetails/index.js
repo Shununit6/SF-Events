@@ -31,11 +31,11 @@ const EventDetails = () => {
     if(eventData.EventImages.length > 0){
         imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
     }
-    let isGroupCreator=false;
-    // console.log("groupData36",groupData[eventData.groupId].organizerId);
+    let isEventCreator=false;
+    console.log("groupData36",groupData[eventData.groupId].organizerId, sessionUser.id);
     let organizerId = groupData[eventData.groupId].organizerId;
     if(sessionUser && organizerId === sessionUser.id){
-        isGroupCreator=true;
+        isEventCreator=true;
     }
     return(
         <div>
@@ -45,7 +45,7 @@ const EventDetails = () => {
             <p>endDate  {endDate.slice(0, 10)}</p>
             {/* <p>{groupData}</p> */}
             {/* Action button shows if logged-in user is the creator of the event */}
-            {sessionUser && isGroupCreator ? <DeleteModal
+            {sessionUser && isEventCreator ? <DeleteModal
                                 itemText="Delete"
                                 modalComponent={<DeleteEventModal event={eventData}/>}
                                 /> :null}

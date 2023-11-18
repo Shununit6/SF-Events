@@ -2,3 +2,13 @@
     width:fit-content;
     height:fit-content;
 }
+
+#profileNavButtonMenuItem {
+    /* position:absolute; */
+    float: inline-end;
+}
+
+
+.hidden{
+    display:none;
+}

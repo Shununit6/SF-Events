@@ -29,9 +29,10 @@ const GroupDetails = () => {
         ({firstName, lastName} = groupData.Organizer);
     }
     let isGroupCreator=false;
-    if(sessionUser && groupData.Organizer === sessionUser.id){
+    if(sessionUser && groupData.Organizer.id === sessionUser.id){
         isGroupCreator=true;
     }
+    console.log(groupData.Organizer)
     // firstName(pin):"Callie"
     let isPrivate;
     if(groupData.private){
@@ -45,11 +46,11 @@ const GroupDetails = () => {
     let pastEvents = [], upcomingEvents = [];
     if(groupData.Events){
     let array = Object.values(groupData.Events);
-    console.log("array", array);
+    // console.log("array", array);
     array.sort(function(a,b){
     return new Date(b.startDate) - new Date(a.startDate);
     });
-    console.log("array", array);
+    // console.log("array", array);
     let currDate = new Date();
     array.forEach((ele, index)=>{
         console.log(new Date(ele.startDate)-new Date(currDate));

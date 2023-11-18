@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { eventDetails } from "../../store/events";
-import { groupDetails, getGroupIdEvents} from "../../store/groups";
+import { getAllGroups} from "../../store/groups";
 import DeleteModal from '../Navigation/DeleteModel';
 import DeleteEventModal from "../DeleteEventModal";
 const EventDetails = () => {
@@ -11,10 +11,10 @@ const EventDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const [isLoading, setIsLoading] = useState(true);
     const eventData = useSelector((state) => state.events[eventId]);
+    const groupData = useSelector((state) => state.groups);
 
-    // dispatch(groupDetails(groupId)).then(()=>dispatch(getGroupIdEvents(groupId))).then(()=>setIsLoaded(true))
     useEffect(() => {
-        dispatch(eventDetails(eventId)).then(()=>setIsLoading(false))
+        dispatch(getAllGroups()).then(dispatch(eventDetails(eventId))).then(()=>setIsLoading(false))
     }, [dispatch, eventId])
 
     if(!isLoading && !eventData){
@@ -32,11 +32,11 @@ const EventDetails = () => {
         imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
     }
     let isGroupCreator=false;
-    // console.log("groupData36",groupData);
-    // let organizerId = groupData.organizerId;
-    // if(sessionUser && organizerId === sessionUser.id){
-    //     isGroupCreator=true;
-    // }
+    // console.log("groupData36",groupData[eventData.groupId].organizerId);
+    let organizerId = groupData[eventData.groupId].organizerId;
+    if(sessionUser && organizerId === sessionUser.id){
+        isGroupCreator=true;
+    }
     return(
         <div>
             <img id="images" src={imageUrl} alt="event"/>

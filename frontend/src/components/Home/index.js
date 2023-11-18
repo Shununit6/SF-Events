@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
 const Home = () => {
+    const sessionUser = useSelector((state) => state.session.user);
     return(
         <div>
-            <section>
+            <div>
                 <Link to="/groups" > See all groups </Link>
-            </section>
-            <section>
+            </div>
+            <div>
                 <Link to="/events" > Find an event </Link>
-            </section>
-            <section>
+            </div>
+            {sessionUser &&
+            <div>
                 <Link to="/groups/new" > Start a new group </Link>
-            </section>
+            </div>}
         </div>
     );
 };

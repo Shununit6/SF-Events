@@ -160,9 +160,10 @@ router.get("/:groupId", async (req, res, next) => {
             include: ['id', 'firstName', 'lastName',],
         },
 		where: {
-            id: groupId,
+            // id: groupId,
+            id: group.organizerId
 		},
-        group: "User.id",
+        // group: "User.id",
 	});
     //added to find all events with a specific groupId
     let Events = await Event.findAll({
@@ -423,6 +424,15 @@ router.get("/:groupId/members", async (req, res, next) => {
 router.post("/", requireAuth, validateGroup, async (req, res) => {
     const organizerId = req.user.id;
     const { name, about, type, private, city, state } = req.body;
+    const Organizer = await User.findOne({
+        attributes: {
+            exclude: [ 'email', 'username', 'hashedPassword', 'createdAt', 'updatedAt'],
+            include: ['id', 'firstName', 'lastName',],
+        },
+		where: {
+            id: organizerId,
+		},
+	});
     const group = await Group.create({ organizerId, name, about, type, private, city, state });
     const safeGroup = {
         id: group.id,

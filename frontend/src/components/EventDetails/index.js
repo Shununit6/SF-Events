@@ -32,7 +32,7 @@ const EventDetails = () => {
         imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
     }
     let isEventCreator=false;
-    console.log("groupData36",groupData[eventData.groupId].organizerId, sessionUser.id);
+    // console.log("groupData36",groupData[eventData.groupId].organizerId, sessionUser.id);
     let organizerId = groupData[eventData.groupId].organizerId;
     if(sessionUser && organizerId === sessionUser.id){
         isEventCreator=true;

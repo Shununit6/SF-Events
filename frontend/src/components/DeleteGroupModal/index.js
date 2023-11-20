@@ -8,7 +8,7 @@ import { deleteGroup } from "../../store/groups";
 
 const DeleteGroupModal = ({group}) => {
     const groupId = group.id;
-    console.log("deletemodal", groupId);
+    // console.log("deletemodal", groupId);
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();

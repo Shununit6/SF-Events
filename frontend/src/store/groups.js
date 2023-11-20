@@ -86,7 +86,7 @@ export const createGroup = (payload) => async (dispatch) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-    console.log("res", res);
+    // console.log("res", res);
     if (res.ok) {
         const data = await res.json();
         dispatch(receiveGroup(data));
@@ -96,16 +96,16 @@ export const createGroup = (payload) => async (dispatch) => {
 };
 
 export const updateGroup = (group) => async (dispatch) => {
-    console.log("functionupdateGroup", group);
+    // console.log("functionupdateGroup", group);
     const res = await csrfFetch(`/api/groups/${group.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(group),
     });
-    console.log("functionupdateGroup", res);
+    // console.log("functionupdateGroup", res);
     if (res.ok) {
         const data = await res.json();
-        console.log("functionupdateGroup", data);
+        // console.log("functionupdateGroup", data);
         dispatch(editGroup(data));
         return data;
     }
@@ -113,16 +113,16 @@ export const updateGroup = (group) => async (dispatch) => {
 };
 
 export const updateGroupImages = (group) => async (dispatch) => {
-    console.log("functionupdateGroupImages", group);
+    // console.log("functionupdateGroupImages", group);
     const res = await csrfFetch(`/api/groups/${group.id}/GroupImages/edit`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(group),
     });
-    console.log("functionupdateGroupImages", res);
+    // console.log("functionupdateGroupImages", res);
     if (res.ok) {
         const data = await res.json();
-        console.log("functionupdateGroupImages", data);
+        // console.log("functionupdateGroupImages", data);
         dispatch(editGroup(data));
         return data;
     }
@@ -212,6 +212,7 @@ const groupsReducer = (state = { }, action) => {
     switch (action.type) {
         case LOAD_GROUPS:{
             const groupsState = { ...state };
+            // console.log("actiongroups", action.groups);
             action.groups.Groups.forEach((group) => {
                 if(!groupsState[group.id]) {groupsState[group.id] = group;}
             });
@@ -219,7 +220,7 @@ const groupsReducer = (state = { }, action) => {
         };
         case LOAD_GROUP_DETAILS: {
             const groupState = { ...state };
-            console.log("loadgroupdetails",action);
+            // console.log("loadgroupdetails",action);
             groupState[action.groups.id] = action.groups;
             return groupState;
         };
@@ -236,8 +237,8 @@ const groupsReducer = (state = { }, action) => {
         case REMOVE_GROUP:{
             const groupState = { ...state };
             delete groupState[action.groups];
-            console.log("whatotkeyinto", action.groups)
-            console.log(groupState);
+            // console.log("whatotkeyinto", action.groups)
+            // console.log(groupState);
             return groupState;
         };
         case RECEIVE_GROUP_IMAGE: {
@@ -246,25 +247,25 @@ const groupsReducer = (state = { }, action) => {
         };
         case RECEIVE_GROUP_EVENT: {
             const groupState = { ...state };
-            console.log("actionreveive_group_event", action.groupEvent);
+            // console.log("actionreveive_group_event", action.groupEvent);
             return groupState;
         };
         case RECEIVE_GROUP_VENUE: {
             const groupState = { ...state };
-            console.log("actionreveive_group_event", action.groupVenue);
+            // console.log("actionreveive_group_event", action.groupVenue);
             return groupState;
         };
         case RECEIVE_GROUP:
-            console.log("RECEIVE_GROUP",action);
-            console.log("RECEIVE_GROUP", action.group);
-            console.log("stategroup", state);
+            // console.log("RECEIVE_GROUP",action);
+            // console.log("RECEIVE_GROUP", action.group);
+            // console.log("stategroup", state);
             return { ...state, [action.group.id]: action.group };
         case UPDATE_GROUP:
-            console.log("action.imageUrl", action.imageUrl);
+            // console.log("action.imageUrl", action.imageUrl);
             return {...state};
             // return { ...state, [action.group.id]: action.group };
         case UPDATE_GROUP_IMAGES:
-            console.log("action.imageUrl", action.imageUrl);
+            // console.log("action.imageUrl", action.imageUrl);
             return {...state};
         default:
             return state;

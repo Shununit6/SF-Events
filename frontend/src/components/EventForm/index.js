@@ -8,7 +8,7 @@ const EventForm = ({ group, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { groupId } = useParams();
-    console.log(groupId);
+    // console.log(groupId);
     let [name, setName] = useState("");
     let [type, setType] = useState("");
     let [capacity, setCapacity] = useState("");
@@ -50,10 +50,10 @@ const EventForm = ({ group, formType }) => {
         // let groupsvenueId = groups.Venues.length ? groups.Venues[0].id : 0;
         // console.log(groupsvenueId);
         let event = [];
-        console.log(validationErrors);
+        // console.log(validationErrors);
         // let venueId = 4;
         event = { ...event, name, type, capacity, price, startDate, endDate, description};
-        console.log("formEvent", event);
+        // console.log("formEvent", event);
         let newEvent;
         let errorCount = validationErrors.name.length + validationErrors.type.length
         + validationErrors.capacity.length + validationErrors.price.length
@@ -61,9 +61,9 @@ const EventForm = ({ group, formType }) => {
         + validationErrors.description.length + validationErrors.imageUrl.length;
 //         console.log(errorCount);
         if (errorCount > 0){
-            console.log("has errors");
+            // console.log("has errors");
             }else{
-                console.log("no errors");
+                // console.log("no errors");
 
                 if (formType === "Create Event") {
                     //added this to prevent venueId not found error when later create event
@@ -72,24 +72,24 @@ const EventForm = ({ group, formType }) => {
                     "state": "CA",
                     "lat": 37.7645358,
                     "lng": -122.4730327};
-                    console.log(Venue.address);
+                    // console.log(Venue.address);
                     let newVenue = await dispatch(createGroupVenue(Venue, groupId));
-                    console.log(event,groupId, newVenue);
+                    // console.log(event,groupId, newVenue);
                     event.venueId = newVenue.id;
                     newEvent = await dispatch(createGroupEvent(event, groupId));
                     let EventImages={url: imageUrl, preview: 1};
                     // //groupId,
                     await dispatch(createEventImage(EventImages, newEvent.id));
-                    console.log(newEvent);
+                    // console.log(newEvent);
                 }
                 if (newEvent.id) {
-                    console.log("/events/${newEvent.id}", newEvent.id);
+                    // console.log("/events/${newEvent.id}", newEvent.id);
                     history.push(`/events/${newEvent.id}`);
                 } else {
                     const { validationErrors } = await newEvent.json();
                     setValidationErrors(validationErrors);
                 }
-                console.log(newEvent);
+                // console.log(newEvent);
 
                 setName('');
                 setType('');

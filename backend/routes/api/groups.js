@@ -755,7 +755,7 @@ router.delete("/:groupId", requireAuth, async (req, res, next) => {
         return next(err);
     }
     const cohost = await Membership.findOne({ where: { userId: userId, groupId: groupId,status:"co-host" }});
-    if(group.organizerId !== userId || cohost){
+    if(group.organizerId !== userId && cohost){
         const err = new Error("Forbidden");
         err.status = 403;
         err.title = 'Require proper authorization';

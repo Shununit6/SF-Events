@@ -43,10 +43,8 @@ const GroupForm = ({ group, formType }) => {
     }
     let [imageUrl, setImageUrl] = useState(imageState);
 
-    console.log("update/create", group);
-    console.log("update/create", group.GroupImages);
-    if(formType === "Update Group"){
-    console.log("update/create", groupImageUrl, group.GroupImages[0].url);}
+    // console.log("update/create", group);
+    // console.log("update/create", group.GroupImages);
 
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -90,20 +88,20 @@ const GroupForm = ({ group, formType }) => {
             isPrivate = 0;
         }
         group = { ...group, city, state, name, about, type, private:isPrivate, organizerId};
-        console.log("78group", group);
+        // console.log("78group", group);
         let newGroup;
         let errorCount = validationErrors.location.length + validationErrors.name.length
         + validationErrors.about.length + validationErrors.type.length + validationErrors.isPrivate.length
         + validationErrors.imageUrl.length;
-        console.log(errorCount);
+        // console.log(errorCount);
         if (errorCount > 0){
-            console.log("has errors");
+            // console.log("has errors");
             }else{
-                console.log("no errors");
+                // console.log("no errors");
                 if (formType === "Update Group") {
-                    console.log("updateimageurl",imageUrl);
+                    // console.log("updateimageurl",imageUrl);
                     group.imageUrl = imageUrl;
-                    console.log(group);
+                    // console.log(group);
                     newGroup = await dispatch(updateGroup(group));
                     //uncomment to edit groupimages
                     // newGroup = await dispatch(updateGroupImages(group, imageUrl));
@@ -113,13 +111,13 @@ const GroupForm = ({ group, formType }) => {
                     await dispatch(createGroupImage(GroupImages, newGroup.id));
                 }
                 if (newGroup.id) {
-                    console.log("newGroup.id", newGroup.id);
+                    // console.log("newGroup.id", newGroup.id);
                     history.push(`/groups/${newGroup.id}`);
                 } else {
                     const { validationErrors } = await newGroup.json();
                     setValidationErrors(validationErrors);
                 }
-                console.log(newGroup);
+                // console.log(newGroup);
 
                 setCity('');
                 setState('');

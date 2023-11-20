@@ -38,7 +38,7 @@ export const getAllEvents = () => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        console.log("data", data);
+        // console.log("data", data);
         dispatch(loadEvents(data));
         return data;
     }
@@ -79,7 +79,7 @@ export const deleteEvent = (eventId) => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        dispatch(removeEvent(eventId));
+        await dispatch(removeEvent(eventId));
         return data;
     }
     return res;
@@ -105,7 +105,7 @@ const eventsReducer = (state = { }, action) => {
         };
         case REMOVE_EVENT:{
             const eventState = { ...state };
-            console.log(action.events)
+            // console.log(action.events)
             delete eventState[action.events];
             return eventState;
         }

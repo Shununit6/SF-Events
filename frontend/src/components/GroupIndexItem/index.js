@@ -11,6 +11,8 @@ const GroupIndexItem = ({ group }) => {
         dispatch(groupDetails(group.id)).then(()=>dispatch(getGroupIdEvents(group.id))).then(()=>setIsLoaded(true))
     }, [dispatch, group.id])
 
+
+
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }

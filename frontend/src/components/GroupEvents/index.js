@@ -6,11 +6,11 @@ import "./GroupEvents.css";
 const GroupEvents = ({ group, event }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
-    console.log("event", event);
-    console.log("event", event.id);
+    // console.log("event", event);
+    // console.log("event", event.id);
     const eventData = useSelector((state) => state.events);
-    console.log("group", group.Events);
-    console.log("eventdata", eventData);
+    // console.log("group", group.Events);
+    // console.log("eventdata", eventData);
     useEffect(() => {
         dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
         // dispatch(eventDetails(event.id)).then(()=>setIsLoaded(true))
@@ -31,7 +31,7 @@ const GroupEvents = ({ group, event }) => {
     //     imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
     // }
 
-    console.log("event", event);
+    // console.log("event", event);
     if(isLoaded){
     return (
             <div className="li-contents-flex">

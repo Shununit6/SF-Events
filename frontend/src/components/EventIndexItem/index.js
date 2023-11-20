@@ -6,11 +6,11 @@ import "./EventIndexItem.css";
 const EventIndexItem = ({ event }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
-    console.log("event", event);
-    console.log("event", event.id);
+    // console.log("event", event);
+    // console.log("event", event.id);
     const eventData = useSelector((state) => state.events);
 
-    console.log("eventdata", eventData);
+    // console.log("eventdata", eventData);
     useEffect(() => {
         dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
         // dispatch(eventDetails(event.id)).then(()=>setIsLoaded(true))
@@ -22,7 +22,7 @@ const EventIndexItem = ({ event }) => {
     const {name, id, startDate, Venue, description} = event;
     let city = Venue.city;
     let state = Venue.state;
-    console.log(city, state);
+    // console.log(city, state);
     let location = city + ', ' + state;
     // let location = {`${event.Venue.city}`, `${event.Venue.state}`};
 

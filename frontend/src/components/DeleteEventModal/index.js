@@ -9,7 +9,7 @@ import { deleteEvent } from "../../store/events";
 const DeleteEventModal = ({event}) => {
     const eventId = event.id;
     const groupId = event.groupId;
-    console.log("deletemodal", eventId);
+    // console.log("deletemodal", eventId);
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();

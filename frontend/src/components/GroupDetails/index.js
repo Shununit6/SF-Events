@@ -56,26 +56,13 @@ const GroupDetails = () => {
     // console.log("array", array);
     let currDate = new Date();
     array.forEach((ele, index)=>{
-        console.log(new Date(ele.startDate)-new Date(currDate));
+        // console.log(new Date(ele.startDate)-new Date(currDate));
         if((new Date(ele.startDate)-new Date(currDate)) < 0){
             pastEvents.push(ele);
         }else{
             upcomingEvents.unshift(ele);
         }});}
 
-    // let nomalizedPastEvents = {};
-    // pastEvents.forEach((ele, index)=>{nomalizedPastEvents[index]=ele});
-    // let nomalizedUpComingEvents = {};
-    // upcomingEvents.forEach((ele, index)=>{nomalizedUpComingEvents[index+1]=ele});
-    // console.log("pastEvents", pastEvents[0], pastEvents.name);
-    // console.log(upcomingEvents);
-    // console.log(Object.values(nomalizedPastEvents).forEach((pastEvent)=>{
-    //     console.log(pastEvent.startDate);
-    // }));
-    // const alertDeleteGroup = () =>{
-
-    //     return alert("Feature Coming Soon...");
-    // }
     const alertJoinThisGroup = () =>{
         return alert("Feature Coming Soon...");
     }

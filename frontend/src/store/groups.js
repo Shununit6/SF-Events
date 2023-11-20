@@ -219,6 +219,7 @@ const groupsReducer = (state = { }, action) => {
         };
         case LOAD_GROUP_DETAILS: {
             const groupState = { ...state };
+            console.log("loadgroupdetails",action);
             groupState[action.groups.id] = action.groups;
             return groupState;
         };

@@ -31,12 +31,12 @@ const GroupEvents = ({ group, event }) => {
     //     imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
     // }
 
-
+    console.log("event", event);
     if(isLoaded){
     return (
             <div className="li-contents-flex">
                 <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
-                <div id="grid">
+                <div id="grid11">
                     <div id="item6">
                         <img id = "eventImage" src={imageUrl} alt="event"/>
                     </div>
@@ -46,9 +46,7 @@ const GroupEvents = ({ group, event }) => {
                         <p>{location}</p>
                     </div>
                     <div id="item8">
-                        <p>{startDate.slice(0,10)}</p>
-                        <h1>{name}</h1>
-                        <p>{location}</p>
+                        <p>{eventData[id].description}</p>
                     </div>
                 </div>
                 </Link>

@@ -4,7 +4,7 @@
 }
 
 
-#grid{
+#grid11{
   display: grid;
   grid-template-areas:
     "item6 item7"

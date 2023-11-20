@@ -1,0 +1,29 @@
+#eventImage {
+    width: 300px;
+    height: 200px;
+  }
+
+
+  #grid{
+    display: grid;
+    grid-template-areas:
+      "item9 item10"
+      "item11 item11";
+    grid-template-rows:  220px 1fr;
+    grid-template-columns: 320px 1fr;
+    /* background-color: #ffff64; */
+  }
+
+  #item9{
+    grid-area: item9;
+    /* background-color: #8ca0ff; */
+  }
+
+  #item10 {
+    grid-area: item10;
+    /* background-color: #ffa08c; */
+  }
+
+  #item11 {
+    grid-area: item11;
+  }

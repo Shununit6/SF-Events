@@ -8,7 +8,13 @@ NavLink {
   position: relative;
   float:inline-start;
 }
-/* form {
+
+/* #logoImage {
+
+
+} */
+
+form {
   display: grid;
   grid-gap: 15px;
   font-family: Georgia, serif, cursive;
@@ -17,12 +23,12 @@ NavLink {
 input {
   width: 50%;
   display: inline-block;
-} */
+}
 
 button {
   margin: 0 auto;
   background-color: white;
-  color: #24a5eb;;
+  /* color: #24a5eb;; */
   /* width: 30%;
   height: 30px; */
 }

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { eventDetails, getAllEvents } from "../../store/events";
 import "./EventIndexItem.css";
-const GroupEvents = ({ event }) => {
+const EventIndexItem = ({ event }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     console.log("event", event);
@@ -42,15 +42,15 @@ const GroupEvents = ({ event }) => {
                 <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
                 <hr />
                 <div id="grid">
-                    <div id="item6">
+                    <div id="item9">
                         <img id = "eventImage" src={imageUrl} alt="event"/>
                     </div>
-                    <div id="item7">
+                    <div id="item10">
                         <p>{startDate.slice(0,10)}</p>
                         <h1>{name}</h1>
                         <p>{location}</p>
                     </div>
-                    <div id="item8">
+                    <div id="item11">
                         <p>{description}</p>
                     </div>
                 </div>
@@ -59,4 +59,4 @@ const GroupEvents = ({ event }) => {
     );}
 };
 
-export default GroupEvents;
+export default EventIndexItem;

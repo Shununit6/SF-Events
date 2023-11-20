@@ -16,7 +16,7 @@ function Groups() {
   if (!isLoaded) {
     return (<div>Loading...</div>);
   }
-
+  console.log(groups);
   if(isLoaded){
   return (
     <div>
@@ -24,8 +24,8 @@ function Groups() {
          <Link to="/groups" > Groups </Link>
          <section>
              <ul>
-                 {Object.values(groups).map((group) => (
-                  <GroupIndexItem group={group} key={group.id}/>
+                 {Object.values(groups).map((group, index) => (
+                  <GroupIndexItem group={group} key={index}/>
                 ))}
             </ul>
          </section>

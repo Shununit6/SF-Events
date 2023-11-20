@@ -96,7 +96,10 @@ const eventsReducer = (state = { }, action) => {
         case LOAD_EVENT_DETAILS: {
             const eventState = {...state};
             // console.log("action.events", action.events);
-            eventState[action.events.id] = action.events;
+            if(action.events){
+                eventState[action.events.id] = action.events;
+            }
+            // eventState[action.events.id] = action.events;
             return eventState;
         }
         case RECEIVE_EVENT_IMAGE: {
@@ -111,11 +114,13 @@ const eventsReducer = (state = { }, action) => {
         }
         case REMOVE_GROUP_EVENTS:{
             const events = {};
+            console.log("actionremovegroupevent", action);
             Object.values(state.events).forEach((event)=>{
                 if(event.groupId !== action.groupId){
                     events[event.id] = event;
                 }
             });
+            console.log("removeGroupEvents", events);
             return events;
         }
         default:

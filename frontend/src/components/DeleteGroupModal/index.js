@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./DeleteGroup.css";
 import { deleteGroup } from "../../store/groups";
+import {removeGroupEvents} from "../../store/events";
 
 const DeleteGroupModal = ({group}) => {
     const groupId = group.id;
@@ -17,6 +18,9 @@ const DeleteGroupModal = ({group}) => {
     const handleDelete = async (e) => {
         e.preventDefault();
         await dispatch(deleteGroup(groupId));
+        console.log("removeGroupEvents(groupId)");
+        removeGroupEvents(groupId);
+        console.log("removeGroupEvents");
         closeModal();
         history.push(`/groups`);
     };

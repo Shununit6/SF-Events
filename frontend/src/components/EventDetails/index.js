@@ -12,7 +12,7 @@ const EventDetails = () => {
     const sessionUser = useSelector(state => state.session.user);
     const [isLoading, setIsLoading] = useState(true);
     const eventData = useSelector((state) => state.events[eventId]);
-    let groupId = "";
+    let groupId = 3;
     if(eventData){
         groupId = eventData.groupId;
     }

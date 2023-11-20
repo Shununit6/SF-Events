@@ -4,7 +4,7 @@ import { useHistory,} from "react-router-dom"; //useParams,
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./DeleteEvent.css";
-import { deleteEvent } from "../../store/events";
+import { deleteEvent, removeGroupEvents } from "../../store/events";
 
 const DeleteEventModal = ({event}) => {
     const eventId = event.id;
@@ -18,6 +18,8 @@ const DeleteEventModal = ({event}) => {
     const handleEventDelete = async (e) => {
         e.preventDefault();
         await dispatch(deleteEvent(eventId));
+        removeGroupEvents(event.groupId);
+        console.log("removeGroupEvents");
         closeModal();
         history.push(`/groups/${groupId}`);
     };

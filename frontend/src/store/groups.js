@@ -212,7 +212,7 @@ const groupsReducer = (state = { }, action) => {
     switch (action.type) {
         case LOAD_GROUPS:{
             const groupsState = { ...state };
-            // console.log("actiongroups", action.groups);
+            console.log("actiongroups", action.groups);
             action.groups.Groups.forEach((group) => {
                 if(!groupsState[group.id]) {groupsState[group.id] = group;}
             });
@@ -267,6 +267,16 @@ const groupsReducer = (state = { }, action) => {
         case UPDATE_GROUP_IMAGES:
             // console.log("action.imageUrl", action.imageUrl);
             return {...state};
+        // case REMOVE_GROUP_EVENTS:{
+        //     const events = {};
+        //     Object.values(state.events).forEach((event)=>{
+        //         if(event.groupId !== action.groupId){
+        //             events[event.id] = event;
+        //         }
+        //     });
+        //     return events;
+        // return {...state, [action.groupId]: {...state[action.groupId], Events: eventsObj} };
+        // }
         default:
             return state;
     }

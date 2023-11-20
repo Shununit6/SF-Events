@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { eventDetails, getAllEvents } from "../../store/events";
 import "./GroupEvents.css";
-const GroupEvents = ({ group, event }) => {
+const GroupEvents = ({ event }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     // console.log("event", event);

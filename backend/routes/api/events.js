@@ -160,13 +160,13 @@ router.get('/', validateQuery, async (req, res) => {
 
 router.get('/:eventId', async (req, res, next) => {
     const eventId = req.params.eventId;
-    const notFound = await Event.findByPk(eventId);
-    if(!notFound){
-        const err = new Error("Event couldn't be found");
-        err.title = "Event couldn't be found";
-        err.status = 404;
-        return next(err);
-    }
+    // const notFound = await Event.findByPk(eventId);
+    // if(!notFound){
+    //     const err = new Error("Event couldn't be found");
+    //     err.title = "Event couldn't be found";
+    //     err.status = 404;
+    //     return next(err);
+    // }
     const event = await Event.findOne(
         {
             include: [

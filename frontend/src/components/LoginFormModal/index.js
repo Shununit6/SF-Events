@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { Link } from 'react-router-dom';
 import "./LoginForm.css";
 
 const LoginFormModal = () => {
@@ -23,7 +24,17 @@ const LoginFormModal = () => {
                 }
             );
         }
-
+    const logInDemo = async (e) => {
+        e.preventDefault();
+        await dispatch(sessionActions.logout());
+        closeModal();
+        // logout();
+        // Hello, Demo-lition demo@user.io
+        const credential = "demo@user.io";
+        const password ="password"
+        return await dispatch(sessionActions.login( { credential, password} ))
+            // return dispatch(sessionActions.login( { demoUser, demoUserPass} ));
+        };
     return (
         <div>
             <h1>Log In</h1>
@@ -48,7 +59,14 @@ const LoginFormModal = () => {
                     />
                 </label>
                 {errors.credential && <p>{errors.credential}</p>}
-                <button type="submit">Log In</button>
+                <button type="submit">
+                    <Link to="/" >Log In</Link>
+                </button>
+                <div>
+                <button onClick={logInDemo}>
+                    <Link to="/" > Demo User</Link>
+                </button>
+                </div>
             </form>
         </div>
     );

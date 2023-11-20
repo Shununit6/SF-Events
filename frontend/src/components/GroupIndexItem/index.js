@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { groupDetails, getGroupIdEvents } from '../../store/groups';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import "./GroupIndexItem.css";
 const GroupIndexItem = ({ group }) => {
     const dispatch = useDispatch();
@@ -11,7 +11,9 @@ const GroupIndexItem = ({ group }) => {
         dispatch(groupDetails(group.id)).then(()=>dispatch(getGroupIdEvents(group.id))).then(()=>setIsLoaded(true))
     }, [dispatch, group.id])
 
-
+    if(isLoaded && !groupData){
+        return (<Redirect to="/groups"/>);
+    }
 
     if(!isLoaded) {
         return (<div>Loading...</div>);
@@ -24,8 +26,10 @@ const GroupIndexItem = ({ group }) => {
     }else{
         isPrivate = "Public";
     }
-
-    const imageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1).url;
+    let imageUrl ="";
+    if(Object.values(group.GroupImages)){
+        imageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1).url;
+    }
     // console.log("groupData", groupData);
     if(isLoaded){
     return (

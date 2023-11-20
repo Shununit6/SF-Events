@@ -9,12 +9,12 @@ const EventIndexItem = ({ event }) => {
     // console.log("event", event);
     // console.log("event", event.id);
     const eventData = useSelector((state) => state.events);
+    const groupData = useSelector((state) => state.groups);
 
-    // console.log("eventdata", eventData);
     useEffect(() => {
-        dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
-        // dispatch(eventDetails(event.id)).then(()=>setIsLoaded(true))
-    }, [dispatch, event.id])
+        // dispatch(getAllEvents()).then(()=>dispatch(eventDetails(event.id))).then(()=>setIsLoaded(true))
+        dispatch(eventDetails(event.id)).then(()=>setIsLoaded(true))
+    }, [dispatch, event.id, groupData])
     // console.log("eventData", eventData);
     if(!isLoaded) {
         return (<div>Loading...</div>);
@@ -35,6 +35,12 @@ const EventIndexItem = ({ event }) => {
     // if(eventData.EventImages.length > 0){
     //     imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
     // }
+    console.log("groupdata", eventData);
+    console.log("groupdataobjval", (Object.values(groupData)));
+    // let g = Object.values(groupData);
+    // let e = {};
+    // let each = g.map((g)=>g.Events);
+    // console.log(e);
 
     if(isLoaded){
     return (

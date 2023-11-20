@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
@@ -15,9 +15,14 @@ function Navigation({ isLoaded }){
           <NavLink exact to="/" src="../../../public/images/navlogo.png">
             <img id="logoImage" src={logosrc} alt="logoimage"/>
           </NavLink>
-      {isLoaded && (
-          <ProfileButton user={sessionUser} />
-        )}
+      <div id="navusergroup">
+          {sessionUser &&
+                <Link to="/groups/new" > Start a new group </Link>
+            }
+          {isLoaded && (
+              <ProfileButton user={sessionUser} />
+            )}
+      </div>
     </nav>
   );
 }

@@ -134,8 +134,8 @@ router.get("/:groupId", async (req, res, next) => {
             exclude: ['groupId', 'createdAt', 'updatedAt'],
             include: ['id', 'url', 'preview'],
         },
-        raw: true,
-        group: "GroupImage.id",
+        // raw: true,
+        // group: "GroupImage.id",
 		where: {
             groupId: groupId,
 		},

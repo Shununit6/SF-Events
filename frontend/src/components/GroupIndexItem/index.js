@@ -11,9 +11,9 @@ const GroupIndexItem = ({ group }) => {
         dispatch(groupDetails(group.id)).then(()=>dispatch(getGroupIdEvents(group.id))).then(()=>setIsLoaded(true))
     }, [dispatch, group.id])
 
-    if(isLoaded && !groupData){
-        return (<Redirect to="/groups"/>);
-    }
+    // if(isLoaded && !groupData){
+    //     return (<Redirect to="/groups"/>);
+    // }
 
     if(!isLoaded) {
         return (<div>Loading...</div>);

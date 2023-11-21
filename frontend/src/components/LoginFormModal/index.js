@@ -22,7 +22,7 @@ const LoginFormModal = () => {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 }
-            ).then();
+            );
         }
     const logInDemo = async (e) => {
         e.preventDefault();

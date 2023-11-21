@@ -43,12 +43,12 @@ const EventDetails = () => {
 
     let imageUrl="";
     if(eventData.EventImages.length > 0){
-        imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
+        imageUrl = eventData.EventImages.find((image) => image.preview === 1).url;
     }
 
     let groupImageUrl="";
     if(groupData && groupData[groupId].GroupImages && groupData[groupId].GroupImages.length > 0){
-        groupImageUrl = groupData[groupId].GroupImages.find((image) => image.preview == 1).url;
+        groupImageUrl = groupData[groupId].GroupImages.find((image) => image.preview === 1).url;
     }
 
     let isEventCreator=false;

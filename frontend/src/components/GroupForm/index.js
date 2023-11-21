@@ -35,7 +35,7 @@ const GroupForm = ({ group, formType }) => {
     let groupImageUrl = "";
     if(formType === "Update Group"){
         if(group.GroupImages.length){
-            groupImageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1).url;
+            groupImageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1 || image.preview === true).url;
         }
         imageState = groupImageUrl;
     }else{

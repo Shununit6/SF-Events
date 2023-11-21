@@ -43,7 +43,7 @@ const GroupDetails = () => {
     }else{
         isPrivate = "Public";
     }
-    const imageUrl = Object.values(groupData.GroupImages).find((image) => image.preview === 1).url;
+    const imageUrl = Object.values(groupData.GroupImages).find((image) => image.preview === 1 || image.preview === true).url;
     // console.log("Object.values(groupData.GroupImages)", Object.values(groupData.GroupImages));
 
     let pastEvents = [], upcomingEvents = [];

@@ -28,7 +28,7 @@ const EventIndexItem = ({ event }) => {
 
     let imageUrl="";
     if(eventData[event.id].EventImages.length > 0){
-        imageUrl = Object.values(eventData[event.id].EventImages).find((image) => image.preview === 1).url;
+        imageUrl = Object.values(eventData[event.id].EventImages).find((image) => image.preview === 1 || image.preview === true).url;
     }
     // console.log("eventData.EventImages.length", Object.values(eventData[event.id].EventImages).find((image) => image.preview == 1).url);
     // let imageUrl="";

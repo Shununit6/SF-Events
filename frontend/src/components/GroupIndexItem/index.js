@@ -28,7 +28,7 @@ const GroupIndexItem = ({ group }) => {
     }
     let imageUrl ="";
     if(Object.values(group.GroupImages)){
-        imageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1).url;
+        imageUrl = Object.values(group.GroupImages).find((image) => image.preview === 1 || image.preview === true).url;
     }
     // console.log("groupData", groupData);
     if(isLoaded){

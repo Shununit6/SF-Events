@@ -35,8 +35,8 @@ const EventIndexItem = ({ event }) => {
     // if(eventData.EventImages.length > 0){
     //     imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
     // }
-    console.log("groupdata", eventData);
-    console.log("groupdataobjval", (Object.values(groupData)));
+    // console.log("groupdata", eventData);
+    // console.log("groupdataobjval", (Object.values(groupData)));
     // let g = Object.values(groupData);
     // let e = {};
     // let each = g.map((g)=>g.Events);

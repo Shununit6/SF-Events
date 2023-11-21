@@ -114,13 +114,13 @@ const eventsReducer = (state = { }, action) => {
         }
         case REMOVE_GROUP_EVENTS:{
             const events = {};
-            console.log("actionremovegroupevent", action);
+            // console.log("actionremovegroupevent", action);
             Object.values(state.events).forEach((event)=>{
                 if(event.groupId !== action.groupId){
                     events[event.id] = event;
                 }
             });
-            console.log("removeGroupEvents", events);
+            // console.log("removeGroupEvents", events);
             return events;
         }
         default:

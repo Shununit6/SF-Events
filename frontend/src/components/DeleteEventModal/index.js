@@ -19,7 +19,7 @@ const DeleteEventModal = ({event}) => {
         e.preventDefault();
         await dispatch(deleteEvent(eventId));
         removeGroupEvents(event.groupId);
-        console.log("removeGroupEvents");
+        // console.log("removeGroupEvents");
         closeModal();
         history.push(`/groups/${groupId}`);
     };

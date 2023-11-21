@@ -18,9 +18,9 @@ const DeleteGroupModal = ({group}) => {
     const handleDelete = async (e) => {
         e.preventDefault();
         await dispatch(deleteGroup(groupId));
-        console.log("removeGroupEvents(groupId)");
+        // console.log("removeGroupEvents(groupId)");
         removeGroupEvents(groupId);
-        console.log("removeGroupEvents");
+        // console.log("removeGroupEvents");
         closeModal();
         history.push(`/groups`);
     };

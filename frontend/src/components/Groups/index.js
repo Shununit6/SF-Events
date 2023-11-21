@@ -16,7 +16,7 @@ function Groups() {
   if (!isLoaded) {
     return (<div>Loading...</div>);
   }
-  console.log(groups);
+  // console.log(groups);
   if(isLoaded){
   return (
     <div>

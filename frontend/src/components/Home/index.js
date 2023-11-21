@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import landinglogo from "../../projectimages/landinglogo.png";
 import logofindanevent from "../../projectimages/logofindanevent.png";
 import logoseeallgroups from "../../projectimages/logoseeallgroups.png";
 import logostartanewgroup from "../../projectimages/logostartanewgroup.png";
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import SignupFormModal from '../SignupFormModal';
+import "./Home.css";
 const Home = () => {
     const sessionUser = useSelector((state) => state.session.user);
     const [showMenu, setShowMenu] = useState(false);
@@ -29,44 +30,48 @@ const Home = () => {
       const closeMenu = () => setShowMenu(false);
 
     return(
-        <div>
-            <h1>The people platform— <br></br>Where interests <br></br>become friendships</h1>
-            <p>What's more fun than getting together with whoever we adore,<br></br> whenever we prefer, and however we want to...
-                This is the place <br></br> to discover more things with others (including but not limited to <br></br>meeting with strangers,
-                friends, and neighbors online, in person, <br></br> or however you decide upon) and encounter others with surprise,<br></br> joy, tears,
-                and many more new ways of doing things, creating<br></br> things, redefining what's norm and yet to be created by us.  </p>
-            <img src={landinglogo} alt="landinglogo"/>
-            <h3>How SanFranciscoEvents works</h3>
-            <p> Discover something new, taste something fresh,<br></br>  and meet something unexpected </p>
-            <div>
-                <img src={logoseeallgroups} alt="logoseeallgroups"/>
-                <button>
-                    <Link to="/groups" > See all groups </Link>
-                </button>
-                <p>View groups that are created by others and you</p>
+        <div id="landingpage">
+            <div id="landingpagetopsection">
+                <h1>The people platform— <br></br>Where interests <br></br>become friendships</h1>
+                <p>What's more fun than getting together with whoever we adore,<br></br> whenever we prefer, and however we want to...
+                    This is the place <br></br> to discover more things with others (including but not limited to <br></br>meeting with strangers,
+                    friends, and neighbors online, in person, <br></br> or however you decide upon) and encounter others with surprise,<br></br> joy, tears,
+                    and many more new ways of doing things, creating<br></br> things, redefining what's norm and yet to be created by us.  </p>
             </div>
-            <div>
+            <img id="landinglogopng" src={landinglogo} alt="landinglogo"/>
+            <div id="landingpagemidsection">
+                <h3>How SanFranciscoEvents works</h3>
+                <p> Discover something new, taste something fresh,<br></br>  and meet something unexpected </p>
+            </div>
+            <div id="sectionseeallgroups">
+                <img src={logoseeallgroups} alt="logoseeallgroups"/>
+                <div>
+                    <Link to="/groups" > See all groups </Link>
+                </div>
+                <p>View groups that are <br></br> created by others and you</p>
+            </div>
+            <div id="sectionfindanevent">
                 <img src={logofindanevent} alt="logofindanevent"/>
-                <button>
+                <div>
                     <Link to="/events" > Find an event </Link>
-                </button>
-                <p>Looking for some fun events around to join</p>
+                </div>
+                <p>Looking for some fun <br></br> events around to join</p>
             </div>
             {sessionUser &&
-            <div>
+            <div id="sectionstartanewgroup">
                 <img src={logostartanewgroup} alt="logostartanewgroup"/>
-                <button>
+                <div>
                     <Link to="/groups/new" > Start a new group </Link>
-                </button>
-                <p>Going for the creation page for new group in mind</p>
+                </div>
+                <p>Going for the creation <br></br> page for new group in mind</p>
             </div>}
             {!sessionUser &&
-            <div>
+            <div id="sectionstartanewgroup">
                 <img src={logostartanewgroup} alt="logostartanewgroup"/>
-                <button>Start a new group</button>
-                <p>Going for the creation page for new group in mind</p>
+                <div>Start a new group</div>
+                <p>Going for the creation<br></br> page for new group in mind</p>
             </div>}
-            <div>
+            <div id="sectionsjoinsfe">
                 <button>
                 <OpenModalMenuItem
                 itemText="Join SanFranciscoEvents"

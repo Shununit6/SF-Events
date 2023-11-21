@@ -126,10 +126,10 @@ router.get("/:groupId", async (req, res, next) => {
 		// },
 	});
     const GroupImages = await GroupImage.findAll({
-        include: {
-            model: Group,
-            attributes: [],
-        },
+        // include: {
+        //     model: Group,
+        //     attributes: [],
+        // },
         attributes: {
             exclude: ['groupId', 'createdAt', 'updatedAt'],
             include: ['id', 'url', 'preview'],

@@ -106,7 +106,8 @@ router.get("/current", requireAuth, async (req, res) => {
 
 router.get("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
-    const group = await Group.findOne({
+    // .findByPk(eventId, {})
+    const group = await Group.findByPk(groupId,{
         group: ["Members.id", "Group.id"],
         include: {
             model: User,
@@ -120,9 +121,9 @@ router.get("/:groupId", async (req, res, next) => {
                 [sequelize.fn('COUNT', sequelize.col('Members.id')), 'numMembers']],
         },
         raw: true,
-		where: {
-			id: groupId,
-		},
+		// where: {
+		// 	id: groupId,
+		// },
 	});
     const GroupImages = await GroupImage.findAll({
         include: {

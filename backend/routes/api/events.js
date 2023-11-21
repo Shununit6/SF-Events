@@ -167,7 +167,9 @@ router.get('/:eventId', async (req, res, next) => {
     //     err.status = 404;
     //     return next(err);
     // }
-    const event = await Event.findOne(
+    // const event = await Event.findOne(
+    // .findByPk(eventId,
+    const event = await Event.findByPk(eventId,
         {
             include: [
                 {
@@ -205,9 +207,9 @@ router.get('/:eventId', async (req, res, next) => {
                 [sequelize.fn('COUNT', sequelize.col('Attendees.id')), 'numAttending']
                 ]
             },
-            where: {
-                id: eventId,
-            },
+            // where: {
+            //     id: eventId,
+            // },
             group: ["Event.id", "Group.id", "Venue.id", "Attendees.id", "EventImages.id"],
         });
     return res.json(event);

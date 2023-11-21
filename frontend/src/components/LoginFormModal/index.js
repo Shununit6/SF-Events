@@ -22,7 +22,7 @@ const LoginFormModal = () => {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 }
-            );
+            ).then();
         }
     const logInDemo = async (e) => {
         e.preventDefault();
@@ -60,7 +60,7 @@ const LoginFormModal = () => {
                 </label>
                 {errors.credential && <p>{errors.credential}</p>}
                 <button type="submit">
-                    <Link to="/" >Log In</Link>
+                    Log In
                 </button>
                 <div>
                 <button onClick={logInDemo}>

@@ -9,12 +9,10 @@ NavLink {
   float:inline-start;
 }
 
-/* #logoImage {
-
-
-} */
-
-
+#logoImage {
+  width: 80%;
+  height: 80%;
+}
 
 form {
   display: grid;

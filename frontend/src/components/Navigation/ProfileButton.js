@@ -58,27 +58,27 @@ function ProfileButton({ user }) {
     <div id="profileNavButtonMenuItem">
         {!showMenu &&
         <button id="openMenuNavButton" onClick={openMenu}>
-          <i className="fas fa-user-circle"/>
-          <i className="fas fa-sort-up"></i>
+          <i className="fas fa-user-circle fa-2x"/>
+          <i className="fas fa-sort-up fa-2x"></i>
         </button>}
         {showMenu &&
         <button id="closeMenuNavButton" onClick={closeMenu}>
-        <i className="fas fa-user-circle"/>
-        <i className="fas fa-sort-down"></i>
+        <i className="fas fa-user-circle fa-2x"/>
+        <i className="fas fa-sort-down fa-2x"></i>
         </button>}
       <section className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Hello, {user.firstName}</li>
-            <li>{user.email}</li>
-            <li>
+            <div>Hello, {user.firstName}</div>
+            <div>{user.email}</div>
+            {/* <div>
               <button onClick={logInDemo}>
                 <Link to="/" >Log in as Demo User</Link>
               </button>
-            </li>
-            <li>
+            </div> */}
+            <div>
               <button onClick={logout}><Link to="/" >Log Out</Link></button>
-            </li>
+            </div>
           </>
         ) : (
           <>

@@ -1,13 +1,12 @@
 #openMenuNavButton, #closeMenuNavButton {
-    width:fit-content;
-    height:fit-content;
+    color: #ff0088;
+    border-color: white;
 }
 
 #profileNavButtonMenuItem {
     /* position:absolute; */
     float: inline-end;
 }
-
 
 .hidden{
     display:none;

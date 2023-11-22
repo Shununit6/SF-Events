@@ -17,6 +17,7 @@ button {
 }
 #groupformimageUrl{
   height:40px;
+  height:90px;
 }
 #groupformisPrivate, #groupformtype{
   width: 95px;

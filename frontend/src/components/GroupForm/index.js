@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory,} from "react-router-dom"; //useParams,
 import { useDispatch, useSelector} from "react-redux"; //useSelector
 import { createGroup, createGroupImage, updateGroup,} from "../../store/groups";//groupDetails, updateGroupImages
-
+import "./GroupForm.css";
 
 const GroupForm = ({ group, formType }) => {
     const dispatch = useDispatch();
@@ -43,8 +43,10 @@ const GroupForm = ({ group, formType }) => {
     }
     let [imageUrl, setImageUrl] = useState(imageState);
 
-    // console.log("update/create", group);
-    // console.log("update/create", group.GroupImages);
+    let isUpdate = false;
+    if(formType === "Update Group"){
+        isUpdate = true;
+    }
 
     const [validationErrors, setValidationErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -142,7 +144,9 @@ const GroupForm = ({ group, formType }) => {
     return (
         <form onSubmit={handleSubmit}>
             {/* {console.log(validationErrors)} */}
-            <h2>{formType}</h2>
+            <div id="groupformcreateupdate">
+            {!isUpdate && <h2>Start a New Group</h2>}
+            {isUpdate && <h2>Update your Group</h2>}
             <h2>We'll walk you through a few steps to build your local community</h2>
             <h2>First, set your group's location.</h2>
             <p>Meetup groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</p>
@@ -249,8 +253,9 @@ const GroupForm = ({ group, formType }) => {
                         ))}
                 </label>
             </div>
-            {/* disabled */}
-            <button type="submit" id="GroupButton" >{formType}</button>
+
+            <button type="submit" id="GroupCreateUpdateButton" >{formType}</button>
+            </div>
         </form>
     );
 };

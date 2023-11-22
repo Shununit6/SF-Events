@@ -4,11 +4,13 @@ import { useDispatch, } from "react-redux"; //useSelector
 import { createGroupEvent, createGroupVenue } from "../../store/groups";
 import { createEventImage } from "../../store/events";
 
-const EventForm = ({ group, formType }) => {
+const EventForm = ({ groups, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { groupId } = useParams();
-    // console.log(groupId);
+    console.log(groups);
+    let eventGroup = groups.find((group)=>groupId == group.id);
+    const eventGroupName = eventGroup.name;
     let [name, setName] = useState("");
     let [type, setType] = useState("");
     let [capacity, setCapacity] = useState("");
@@ -108,7 +110,7 @@ const EventForm = ({ group, formType }) => {
     return (
          <form onSubmit={handleSubmit}>
              {/* {console.log(validationErrors)} {group.name}*/}
-             <h2>Create a new event for </h2>
+             <h2>Create a new event for {eventGroupName}</h2>
              <div>
                  <label>
                      What is the name of your event?

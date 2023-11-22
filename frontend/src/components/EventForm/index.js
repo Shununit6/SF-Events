@@ -8,7 +8,7 @@ const EventForm = ({ groups, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { groupId } = useParams();
-    console.log(groups);
+    // console.log(groups);
     let eventGroup = groups.find((group)=>groupId == group.id);
     const eventGroupName = eventGroup.name;
     let [name, setName] = useState("");
@@ -113,11 +113,11 @@ const EventForm = ({ groups, formType }) => {
              <h2>Create a new event for {eventGroupName}</h2>
              <div>
                  <label>
-                     What is the name of your event?
+                     <p>What is the name of your event?</p>
                      <input
                          id='name'
                          type="text"
-                         placeholder="Event Name?"
+                         placeholder="Event Name"
                          onChange={(e) => setName(e.target.value)}
                          value={name}
                      />
@@ -133,7 +133,7 @@ const EventForm = ({ groups, formType }) => {
 
              <div>
                  <label>
-                     Is this an in-person or online group?
+                     <p>Is this an in-person or online group?</p>
                      <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
                          <option value='' disabled>(select one)</option>
                          <option value="In person">In person</option>
@@ -151,7 +151,7 @@ const EventForm = ({ groups, formType }) => {
 
             <div>
                 <label>
-                    What is the capacity for your event?
+                    <p>What is the capacity for your event?</p>
                     <input
                         id='capacity'
                         type="number"
@@ -171,7 +171,7 @@ const EventForm = ({ groups, formType }) => {
             </div>
             <div>
                 <label>
-                    What is the price for your event?
+                    <p>What is the price for your event?</p>
                     <input
                         id='price'
                         type="number"
@@ -192,7 +192,7 @@ const EventForm = ({ groups, formType }) => {
 
              <div>
                 <label>
-                     When does your event start?
+                     <p>When does your event start?</p>
                      <input
                         id='startDate'
                         type="datetime-local"
@@ -214,7 +214,7 @@ const EventForm = ({ groups, formType }) => {
 
             <div>
                 <label>
-                    When does your event end?
+                    <p>When does your event end?</p>
                     <input
                         id='endDate'
                         type="datetime-local"
@@ -235,7 +235,8 @@ const EventForm = ({ groups, formType }) => {
             </div>
 
             <div>
-                <label>Please add an image url for your event below:
+                <label>
+                    <p>Please add an image url for your event below:</p>
                     <textarea
                         id='imageUrl'
                         value={imageUrl}
@@ -253,7 +254,7 @@ const EventForm = ({ groups, formType }) => {
             </div>
             <div>
                 <label>
-                    Please describe your event
+                    <p>Please describe your event</p>
                     <textarea
                         id='description'
                         value={description}

@@ -113,7 +113,8 @@ const EventForm = ({ groups, formType }) => {
              <h2>Create a new event for {eventGroupName}</h2>
              <div>
                  <label>
-                     <p>What is the name of your event?</p>
+                     What is the name of your event?
+                     <div>
                      <input
                          id='name'
                          type="text"
@@ -128,12 +129,14 @@ const EventForm = ({ groups, formType }) => {
                                  <p className="error">{error}</p>
                              </div>
                          ))}
+                     </div>
                  </label>
              </div>
 
              <div>
                  <label>
-                     <p>Is this an in-person or online group?</p>
+                     Is this an in-person or online group?
+                     <div>
                      <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
                          <option value='' disabled>(select one)</option>
                          <option value="In person">In person</option>
@@ -146,12 +149,14 @@ const EventForm = ({ groups, formType }) => {
                                  <p className="error">{error}</p>
                              </div>
                          ))}
+                     </div>
                  </label>
              </div>
 
             <div>
                 <label>
-                    <p>What is the capacity for your event?</p>
+                    What is the capacity for your event?
+                    <div>
                     <input
                         id='capacity'
                         type="number"
@@ -167,107 +172,118 @@ const EventForm = ({ groups, formType }) => {
                                 <p className="error">{error}</p>
                             </div>
                         ))}
+                    </div>
                 </label>
             </div>
             <div>
                 <label>
-                    <p>What is the price for your event?</p>
-                    <input
-                        id='price'
-                        type="number"
-                        placeholder="0"
-                        onChange={(e) => setPrice(e.target.value)}
-                        value={price}
-                        min={0}
-                    />
-                    {hasSubmitted &&
-                        validationErrors.price.length > 0 &&
-                        validationErrors.price.map((error, idx) => (
-                            <div key={idx}>
-                                <p className="error">{error}</p>
-                            </div>
-                        ))}
+                    What is the price for your event?
+                    <div>
+                        <input
+                            id='price'
+                            type="number"
+                            placeholder="0"
+                            onChange={(e) => setPrice(e.target.value)}
+                            value={price}
+                            min={0}
+                        />
+                        {hasSubmitted &&
+                            validationErrors.price.length > 0 &&
+                            validationErrors.price.map((error, idx) => (
+                                <div key={idx}>
+                                    <p className="error">{error}</p>
+                                </div>
+                            ))}
+                    </div>
                 </label>
             </div>
 
              <div>
                 <label>
-                     <p>When does your event start?</p>
-                     <input
-                        id='startDate'
-                        type="datetime-local"
-                        name="startDate"
-                        placeholder="MM/DD/YYYY, HH/mm AM"
-                        onChange={(e) => setStartDate(e.target.value)}
-                        value={startDate}
-                        min={Date()}
-                     />
-                     {hasSubmitted &&
-                         validationErrors.startDate.length > 0 &&
-                         validationErrors.startDate.map((error, idx) => (
-                             <div key={idx}>
-                                 <p className="error">{error}</p>
-                             </div>
-                         ))}
+                     When does your event start?
+                     <div>
+                        <input
+                            id='startDate'
+                            type="datetime-local"
+                            name="startDate"
+                            placeholder="MM/DD/YYYY, HH/mm AM"
+                            onChange={(e) => setStartDate(e.target.value)}
+                            value={startDate}
+                            min={Date()}
+                        />
+                        {hasSubmitted &&
+                            validationErrors.startDate.length > 0 &&
+                            validationErrors.startDate.map((error, idx) => (
+                                <div key={idx}>
+                                    <p className="error">{error}</p>
+                                </div>
+                            ))}
+                     </div>
                  </label>
              </div>
 
             <div>
                 <label>
-                    <p>When does your event end?</p>
-                    <input
-                        id='endDate'
-                        type="datetime-local"
-                        name="endDate"
-                        placeholder="MM/DD/YYYY, HH/mm PM"
-                        onChange={(e) => setEndDate(e.target.value)}
-                        value={endDate}
-                        min={startDate}
-                    />
-                    {hasSubmitted &&
-                        validationErrors.endDate.length > 0 &&
-                        validationErrors.endDate.map((error, idx) => (
-                            <div key={idx}>
-                                <p className="error">{error}</p>
-                            </div>
-                        ))}
+                    When does your event end?
+                    <div>
+                        <input
+                            id='endDate'
+                            type="datetime-local"
+                            name="endDate"
+                            placeholder="MM/DD/YYYY, HH/mm PM"
+                            onChange={(e) => setEndDate(e.target.value)}
+                            value={endDate}
+                            min={startDate}
+                        />
+                        {hasSubmitted &&
+                            validationErrors.endDate.length > 0 &&
+                            validationErrors.endDate.map((error, idx) => (
+                                <div key={idx}>
+                                    <p className="error">{error}</p>
+                                </div>
+                            ))}
+                    </div>
                 </label>
             </div>
 
             <div>
                 <label>
-                    <p>Please add an image url for your event below:</p>
-                    <textarea
-                        id='imageUrl'
-                        value={imageUrl}
-                        placeholder="Image URL"
-                        onChange={(e) => setImageUrl(e.target.value)}
-                    />
-                    {hasSubmitted &&
-                        validationErrors.imageUrl.length > 0 &&
-                        validationErrors.imageUrl.map((error, idx) => (
-                            <div key={idx}>
-                                <p className="error">{error}</p>
-                            </div>
-                        ))}
+                    Please add an image url for your event below:
+                    <div>
+                        <textarea
+                            id='imageUrl'
+                            value={imageUrl}
+                            placeholder="Image URL"
+                            onChange={(e) => setImageUrl(e.target.value)}
+                        />
+                        {hasSubmitted &&
+                            validationErrors.imageUrl.length > 0 &&
+                            validationErrors.imageUrl.map((error, idx) => (
+                                <div key={idx}>
+                                    <p className="error">{error}</p>
+                                </div>
+                            ))}
+                    </div>
                 </label>
             </div>
             <div>
                 <label>
-                    <p>Please describe your event</p>
-                    <textarea
-                        id='description'
-                        value={description}
-                        placeholder="Please include at least 30 characters."
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                    {hasSubmitted &&
-                        validationErrors.description.length > 0 &&
-                        validationErrors.description.map((error, idx) => (
-                            <div key={idx}>
-                                <p className="error">{error}</p>
-                            </div>
-                        ))}
+                    Please describe your event
+                    <div>
+                        <textarea
+                            id='description'
+                            value={description}
+                            placeholder="Please include at least 30 characters."
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                        {hasSubmitted &&
+                            validationErrors.description.length > 0 &&
+                            validationErrors.description.map((error, idx) => (
+                                <div key={idx}>
+                                    <p className="error">{error}</p>
+                                </div>
+                            ))}
+                    </div>
                 </label>
             </div>
             <button type="submit" id="EventFormButton" >{formType}</button>

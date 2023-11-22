@@ -197,7 +197,7 @@ const GroupForm = ({ group, formType }) => {
             </div>
             <div>
                 <hr/>
-                <h>Now describe the purpose of your group.</h>
+                <h2>Now describe the purpose of your group.</h2>
                 <p>People will see this when we promote your group, but you'll be able to add to it later, too.</p>
                 <p>
                 1. What's the purpose of the group?<br></br>

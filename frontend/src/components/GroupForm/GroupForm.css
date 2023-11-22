@@ -1,0 +1,39 @@
+#groupformcreateupdate{
+    display:grid;
+    justify-content: space-around;
+}
+
+/* input,
+textarea,
+select,
+button {
+  width: 360px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+} */
+#groupformlocation, #groupformname, #groupformabout, #groupformimageUrl{
+    width: 360px;
+}
+#groupformimageUrl{
+  height:40px;
+}
+#groupformisPrivate, #groupformtype{
+  width: 95px;
+}
+#GroupCreateUpdateButton{
+    height: 30px;
+    width: 120px;
+    font-size: 16px;
+    color:white;
+    background-color: #ff0088;
+}
+/* textarea{
+  height:90px;
+} */
+.error{
+    color:#7D0027;
+}
+/* #titlecreateupdategroupform{
+    color:#7D0027;
+} */

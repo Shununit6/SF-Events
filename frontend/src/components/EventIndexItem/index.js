@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { eventDetails, getAllEvents } from "../../store/events";
+import { eventDetails } from "../../store/events";
 import "./EventIndexItem.css";
 const EventIndexItem = ({ event }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
-    // console.log("event", event);
-    // console.log("event", event.id);
     const eventData = useSelector((state) => state.events);
     const groupData = useSelector((state) => state.groups);
 
@@ -30,17 +28,6 @@ const EventIndexItem = ({ event }) => {
     if(eventData[event.id].EventImages.length > 0){
         imageUrl = Object.values(eventData[event.id].EventImages).find((image) => image.preview === 1 || image.preview === true).url;
     }
-    // console.log("eventData.EventImages.length", Object.values(eventData[event.id].EventImages).find((image) => image.preview == 1).url);
-    // let imageUrl="";
-    // if(eventData.EventImages.length > 0){
-    //     imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
-    // }
-    // console.log("groupdata", eventData);
-    // console.log("groupdataobjval", (Object.values(groupData)));
-    // let g = Object.values(groupData);
-    // let e = {};
-    // let each = g.map((g)=>g.Events);
-    // console.log(e);
 
     if(isLoaded){
     return (

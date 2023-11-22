@@ -9,17 +9,14 @@ import { deleteEvent, removeGroupEvents } from "../../store/events";
 const DeleteEventModal = ({event}) => {
     const eventId = event.id;
     const groupId = event.groupId;
-    // console.log("deletemodal", eventId);
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();
-    // const sessionUser = useSelector(state => state.session.user);
-    // const [isLoaded, setIsLoaded] = useState(false);
+
     const handleEventDelete = async (e) => {
         e.preventDefault();
         await dispatch(deleteEvent(eventId));
         removeGroupEvents(event.groupId);
-        // console.log("removeGroupEvents");
         closeModal();
         history.push(`/groups/${groupId}`);
     };

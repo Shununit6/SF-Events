@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 export const LOAD_EVENTS = "events/LOAD_EVENTS";
 export const LOAD_EVENT_DETAILS = "events/LOAD_EVENT_DETAILS";
 export const REMOVE_EVENT = "events/REMOVE_EVENT";
-export const REMOVE_GROUP_EVENTS = "events/REMOVE_EVENT";
+export const REMOVE_GROUP_EVENTS = "events/REMOVE_GROUP_EVENTS";
 export const RECEIVE_EVENT_IMAGE = "events/RECEIVE_EVENT_IMAGE";
 // /**  Action Creators: */
 export const loadEvents = (events) => ({
@@ -114,13 +114,13 @@ const eventsReducer = (state = { }, action) => {
         }
         case REMOVE_GROUP_EVENTS:{
             const events = {};
-            // console.log("actionremovegroupevent", action);
-            Object.values(state.events).forEach((event)=>{
-                if(event.groupId !== action.groupId){
-                    events[event.id] = event;
-                }
-            });
-            // console.log("removeGroupEvents", events);
+            if(state.events){
+                Object.values(state.events).forEach((event)=>{
+                    if(event.groupId !== action.groupId){
+                        events[event.id] = event;
+                    }
+                });
+            }
             return events;
         }
         default:

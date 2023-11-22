@@ -3,7 +3,7 @@ import { useHistory, useParams} from "react-router-dom"; //useParams,
 import { useDispatch, } from "react-redux"; //useSelector
 import { createGroupEvent, createGroupVenue } from "../../store/groups";
 import { createEventImage } from "../../store/events";
-
+import "./EventForm.css";
 const EventForm = ({ groups, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -108,15 +108,15 @@ const EventForm = ({ groups, formType }) => {
 
 // //     /* **DO NOT CHANGE THE RETURN VALUE** */
     return (
-         <form onSubmit={handleSubmit}>
+         <form id="createeventform"onSubmit={handleSubmit}>
              {/* {console.log(validationErrors)} {group.name}*/}
-             <h2>Create a new event for {eventGroupName}</h2>
-             <div>
+            <div>
+            <h2>Create a new event for {eventGroupName}</h2>
                  <label>
                      What is the name of your event?
                      <div>
                      <input
-                         id='name'
+                         id='eventformname'
                          type="text"
                          placeholder="Event Name"
                          onChange={(e) => setName(e.target.value)}
@@ -132,12 +132,12 @@ const EventForm = ({ groups, formType }) => {
                      </div>
                  </label>
              </div>
-
+             <div><hr/></div>
              <div>
                  <label>
                      Is this an in-person or online group?
                      <div>
-                     <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
+                     <select id="eventformtype" value={type} onChange={(e) => setType(e.target.value)}>
                          <option value='' disabled>(select one)</option>
                          <option value="In person">In person</option>
                          <option value="Online">Online</option>
@@ -151,14 +151,13 @@ const EventForm = ({ groups, formType }) => {
                          ))}
                      </div>
                  </label>
-             </div>
-
+            </div>
             <div>
                 <label>
                     What is the capacity for your event?
                     <div>
                     <input
-                        id='capacity'
+                        id='eventformcapacity'
                         type="number"
                         placeholder="1"
                         onChange={(e) => setCapacity(e.target.value)}
@@ -180,7 +179,7 @@ const EventForm = ({ groups, formType }) => {
                     What is the price for your event?
                     <div>
                         <input
-                            id='price'
+                            id='eventformprice'
                             type="number"
                             placeholder="0"
                             onChange={(e) => setPrice(e.target.value)}
@@ -197,13 +196,13 @@ const EventForm = ({ groups, formType }) => {
                     </div>
                 </label>
             </div>
-
-             <div>
+            <div><hr/></div>
+            <div>
                 <label>
                      When does your event start?
                      <div>
                         <input
-                            id='startDate'
+                            id='eventformstartDate'
                             type="datetime-local"
                             name="startDate"
                             placeholder="MM/DD/YYYY, HH/mm AM"
@@ -220,14 +219,13 @@ const EventForm = ({ groups, formType }) => {
                             ))}
                      </div>
                  </label>
-             </div>
-
+            </div>
             <div>
                 <label>
                     When does your event end?
                     <div>
                         <input
-                            id='endDate'
+                            id='eventformendDate'
                             type="datetime-local"
                             name="endDate"
                             placeholder="MM/DD/YYYY, HH/mm PM"
@@ -245,13 +243,13 @@ const EventForm = ({ groups, formType }) => {
                     </div>
                 </label>
             </div>
-
+            <div><hr/></div>
             <div>
                 <label>
                     Please add an image url for your event below:
                     <div>
                         <textarea
-                            id='imageUrl'
+                            id='eventformimageUrl'
                             value={imageUrl}
                             placeholder="Image URL"
                             onChange={(e) => setImageUrl(e.target.value)}
@@ -266,12 +264,13 @@ const EventForm = ({ groups, formType }) => {
                     </div>
                 </label>
             </div>
+            <div><hr/></div>
             <div>
                 <label>
                     Please describe your event
                     <div>
                         <textarea
-                            id='description'
+                            id='eventformdescription'
                             value={description}
                             placeholder="Please include at least 30 characters."
                             onChange={(e) => setDescription(e.target.value)}

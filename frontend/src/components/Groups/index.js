@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllGroups} from '../../store/groups';
 import GroupIndexItem from '../GroupIndexItem';
-
 import "./groups.css";
+
 function Groups() {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -20,8 +20,10 @@ function Groups() {
   if(isLoaded){
   return (
     <div>
-         <Link to="/events" > Events </Link>
-         <Link to="/groups" > Groups </Link>
+        <h2><Link id="eventsIsNotActive" to="/events" > Events </Link>{"\t"}
+        <Link id="groupsIsActive" to="/groups" > Groups </Link>
+        </h2>
+         <p>Groups in San Francisco Events</p>
          <section>
              <ul>
                  {Object.values(groups).map((group, index) => (

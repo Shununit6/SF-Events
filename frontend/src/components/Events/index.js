@@ -13,7 +13,7 @@ function Events() {
     let groupIdsArr = Object.values(groups).map((group)=>{if(group.id){ return group.id}})
     let validEvents = Object.values(events).map((event)=>{if(groupIdsArr.includes(event.groupId)){return event}else{return 0}});
     let validEventsArr=[];
-    validEvents.forEach((event)=>{if(event){console.log(event);validEventsArr.push(event)}});
+    validEvents.forEach((event)=>{if(event){validEventsArr.push(event)}});
     useEffect(()=>{
       dispatch(getAllEvents()).then(()=>dispatch(getAllGroups())).then(()=>setIsLoaded(true))
     }, [dispatch]);
@@ -25,9 +25,9 @@ function Events() {
   if(isLoaded){
   return (
     <div>
-         <Link to="/events" > Events </Link>
-         <Link to="/groups" > Groups </Link>
-         <h2>Events in Meetup</h2>
+         <h2><Link id="eventsIsActive"to="/events" > Events </Link>{"\t"}
+         <Link id="groupsIsNotActive"to="/groups" > Groups </Link></h2>
+         <p>Events in San Francisco Events</p>
          <section>
              <ul>
                  {Object.values(validEventsArr).map((event, index) => (

@@ -25,17 +25,17 @@ const GroupEvents = ({ event }) => {
     if(eventData[event.id].EventImages.length > 0){
         imageUrl = Object.values(eventData[event.id].EventImages).find((image) => image.preview === 1 || image.preview === true).url;
     }
-    // console.log("eventData.EventImages.length", Object.values(eventData[event.id].EventImages).find((image) => image.preview == 1).url);
-    // let imageUrl="";
-    // if(eventData.EventImages.length > 0){
-    //     imageUrl = eventData.EventImages.find((image) => image.preview == 1).url;
-    // }
+    // const {name, id, startDate, Venue, description} = event;
+    // let city = Venue.city;
+    // let state = Venue.state;
+    // // console.log(city, state);
+    // let location = city + ', ' + state;
 
-    // console.log("event", event);
+    console.log("event", event.Venue);
     if(isLoaded){
     return (
-            <div className="li-contents-flex">
-                <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
+            <div className="groupeventslicontentsflex">
+                <Link id="groupeventslinkwithtext" to={`/events/${id}`}  key={`${id}`}>
                 <div id="grid11">
                     <div id="item6">
                         <img id = "eventImage" src={imageUrl} alt="event"/>

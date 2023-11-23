@@ -94,16 +94,10 @@ const GroupDetails = () => {
                         <Link to={`/groups/${groupId}/edit`}>
                             <button id="updategroupdetails" >Update</button>
                         </Link>
-                        {/* <div id="deletegroupdetails"> */}
                         <DeleteModal id="deletegroupdetails"
                                 itemText="Delete"
                                 modalComponent={<DeleteGroupModal group={groupData}/>}
                                 />
-                        {/* </div> */}
-                        {/* <DeleteModal
-                                itemText="Delete"
-                                modalComponent={<DeleteGroupModal group={groupData}/>}
-                                /> */}
                         </div>
                         : null}
                 <div id="item5">
@@ -111,6 +105,7 @@ const GroupDetails = () => {
                 <p>{firstName} {lastName}</p>
                 <h1>What we're about</h1>
                 <p>{about}</p>
+                {!upcomingEvents.length && !pastEvents.length && <h1>No Upcoming Events</h1>}
                 {upcomingEvents.length ?
                 <div>
                 <h1>Upcoming Events({upcomingEvents.length})</h1>

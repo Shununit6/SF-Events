@@ -1,18 +1,19 @@
 #groupsIsActive {
     margin-left: 0.5em;
+    color: black;
 }
 
 #eventsIsNotActive {
     text-decoration:none;
+    color: grey;
 }
 
 #groupslistgrid{
     display: grid;
     justify-content: space-around;
+    align-content: start;
 }
 
 #viewallgroups{
     text-decoration: none;
-    width: 100%;
-    justify-content: start;
 }

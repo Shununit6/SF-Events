@@ -29,3 +29,7 @@
     grid-area: item2;
     /* background-color: #ffa08c; */
 }
+
+#groupitem2 > h1{
+    margin-top: 0;
+}

@@ -1,8 +1,10 @@
 #groupsIsNotActive{
     text-decoration:none;
+    color: grey;
 }
 #eventsIsActive{
-    margin-right: 0.5em ;
+    margin-right: 0.5em;
+    color: black;
 }
 
 #eventslistgrid{

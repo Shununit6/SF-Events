@@ -84,22 +84,26 @@ const GroupDetails = () => {
                     <p>Organized by {firstName} {lastName}</p>
                 </div>
                     <div id="item4" className="one-button-container">
-                        {sessionUser && !isGroupCreator ? <button onClick={alertJoinThisGroup}>Join this group</button> : null}
+                        {sessionUser && !isGroupCreator ? <div><button id="buttonjointhisgroup"onClick={alertJoinThisGroup}>Join this group</button></div> : null}
                     </div>
                     {sessionUser && isGroupCreator ?
                         <div id="item4" className="buttons-container">
                         <Link to={`/groups/${groupId}/events/new`}>
-                            <button>Create event</button>
+                            <button id="createeventgroupdetails">Create event</button>
                         </Link>
                         <Link to={`/groups/${groupId}/edit`}>
-                            <button >Update</button>
+                            <button id="updategroupdetails" >Update</button>
                         </Link>
-
-                        <DeleteModal
+                        {/* <div id="deletegroupdetails"> */}
+                        <DeleteModal id="deletegroupdetails"
                                 itemText="Delete"
                                 modalComponent={<DeleteGroupModal group={groupData}/>}
                                 />
-
+                        {/* </div> */}
+                        {/* <DeleteModal
+                                itemText="Delete"
+                                modalComponent={<DeleteGroupModal group={groupData}/>}
+                                /> */}
                         </div>
                         : null}
                 <div id="item5">

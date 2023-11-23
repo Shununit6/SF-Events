@@ -36,7 +36,32 @@
     bottom:0;
   }
 
-  /* #item5 {
-    grid-area: item5;
-    /* background-color: #ffff64; */
-  /* } */
+  #item5 {
+    margin-top: 0.5em;
+  }
+
+  #buttonjointhisgroup{
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 1.8em;
+    padding-right: 1.8em;
+    font-size: 1em;
+    color:white;
+    background-color: red;
+  }
+
+  /* .buttons-container{
+    display: flex;
+    justify-content: flex-start;
+  } */
+
+  #createeventgroupdetails, #updategroupdetails, #item4 > button{
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 1em;
+    color: white;
+    background-color: gray;
+    margin-right: 0.6em;
+  }

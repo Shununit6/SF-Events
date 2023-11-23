@@ -33,7 +33,7 @@ const EventIndexItem = ({ event }) => {
     return (
             <div className="li-contents-flex">
                 <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
-                <hr />
+                <div><hr/></div>
                 <div id="grid">
                     <div id="item9">
                         <img id = "eventImage" src={imageUrl} alt="event"/>

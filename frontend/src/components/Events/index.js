@@ -24,17 +24,15 @@ function Events() {
 
   if(isLoaded){
   return (
-    <div>
+    <div id="eventslistgrid">
          <h2><Link id="eventsIsActive"to="/events" > Events </Link>{"\t"}
          <Link id="groupsIsNotActive"to="/groups" > Groups </Link></h2>
          <p>Events in San Francisco Events</p>
-         <section>
-             <ul>
-                 {Object.values(validEventsArr).map((event, index) => (
-                  <EventIndexItem event={event} key={index}/>
-                ))}
-            </ul>
-         </section>
+         <div id="viewallevents">
+            {Object.values(validEventsArr).map((event, index) => (
+              <EventIndexItem event={event} key={index}/>
+            ))}
+         </div>
     </div>
   );}
 }

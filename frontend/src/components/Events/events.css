@@ -2,5 +2,15 @@
     text-decoration:none;
 }
 #eventsIsActive{
+    margin-right: 0.5em ;
+}
 
+#eventslistgrid{
+    display: grid;
+    justify-content: space-around;
+}
+
+#viewallevents{
+    width:100%;
+    justify-content: start;
 }

@@ -1,9 +1,18 @@
-
 #groupsIsActive {
-
+    margin-left: 0.5em;
 }
 
 #eventsIsNotActive {
     text-decoration:none;
-    margin-right: 0.5em ;
+}
+
+#groupslistgrid{
+    display: grid;
+    justify-content: space-around;
+}
+
+#viewallgroups{
+    text-decoration: none;
+    width: 100%;
+    justify-content: start;
 }

@@ -32,7 +32,7 @@ const EventIndexItem = ({ event }) => {
     if(isLoaded){
     return (
             <div className="li-contents-flex">
-                <Link id="linkwithtext" to={`/events/${id}`}  key={`${id}`}>
+                <Link id="eventlinkwithtext" to={`/events/${id}`}  key={`${id}`}>
                 <div><hr/></div>
                 <div id="grid">
                     <div id="item9">

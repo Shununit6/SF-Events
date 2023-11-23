@@ -19,18 +19,16 @@ function Groups() {
   // console.log(groups);
   if(isLoaded){
   return (
-    <div>
-        <h2><Link id="eventsIsNotActive" to="/events" > Events </Link>{"\t"}
+    <div id="groupslistgrid">
+        <h2><Link id="eventsIsNotActive" to="/events" > Events </Link>
         <Link id="groupsIsActive" to="/groups" > Groups </Link>
         </h2>
          <p>Groups in San Francisco Events</p>
-         <section>
-             <ul>
-                 {Object.values(groups).map((group, index) => (
+         <div id="viewallgroups">
+            {Object.values(groups).map((group, index) => (
                   <GroupIndexItem group={group} key={index}/>
-                ))}
-            </ul>
-         </section>
+            ))}
+         </div>
     </div>
   );}
 }

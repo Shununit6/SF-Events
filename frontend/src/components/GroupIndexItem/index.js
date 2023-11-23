@@ -33,13 +33,13 @@ const GroupIndexItem = ({ group }) => {
     // console.log("groupData", groupData);
     if(isLoaded){
     return (
-        <Link id="linkwithtext" to={`/groups/${id}`}  key={`${id}`}>
+        <Link id="grouplinkwithtext" to={`/groups/${id}`}  key={`${id}`}>
         <hr />
-        <div id="grid-1">
-            <div id="item-1">
-                <img id = "groupImage" src={imageUrl} alt="group"/>
+        <div id="groupgrid1">
+            <div id="groupitem1">
+                <img id ="groupImage" src={imageUrl} alt="group"/>
             </div>
-            <div id ="item-2">
+            <div id ="groupitem2">
             <h1>{name}</h1>
                 <p>{city}, {state}</p>
                 <p>{about}</p>

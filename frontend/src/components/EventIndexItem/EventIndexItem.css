@@ -3,7 +3,10 @@
     height: 200px;
   }
 
-
+#eventlinkwithtext{
+  text-decoration: none;
+  color:black;
+}
   #grid{
     display: grid;
     grid-template-areas:

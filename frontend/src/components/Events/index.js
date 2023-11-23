@@ -41,7 +41,7 @@ function Events() {
   if(isLoaded){
   return (
     <div id="eventslistgrid">
-         <h2><Link id="eventsIsActive"to="/events" > Events </Link>{"\t"}
+         <h2><Link id="eventsIsActive"to="/events" > Events </Link>
          <Link id="groupsIsNotActive"to="/groups" > Groups </Link></h2>
          <p>Events in San Francisco Events</p>
          <div id="viewallevents">

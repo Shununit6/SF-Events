@@ -29,6 +29,10 @@
 
 #item8 {
   grid-area: item8;
+  width: 580px;
+  /*height: 200px;
+  text-wrap: stable;
+  justify-content: start; */
 }
 
 #formattedPstStartDate{

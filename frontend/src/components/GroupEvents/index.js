@@ -19,7 +19,7 @@ const GroupEvents = ({ event }) => {
     if(!isLoaded) {
         return (<div>Loading...</div>);
     }
-    const {name, id, startDate, Venue,} = event;
+    const {name, id, startDate, Venue } = event;
     let city = Venue.city;
     let state = Venue.state;
     // console.log(city, state);
@@ -33,9 +33,18 @@ const GroupEvents = ({ event }) => {
         year: 'numeric',
         timeZone: "America/Los_Angeles"
     });
-    // console.log(pststartDate.slice(20));
+
     const formattedPstStartDate = pststartDate.slice(6,10) +"-"+ pststartDate.slice(0,2) + "-" + pststartDate.slice(3,5)
     +" · "+pststartDate.slice(12)+" PST";
+
+    const eventDescription = eventData[id].description;
+    const totalLaneCount = Math.ceil(eventDescription.length/87);
+    let eventDescriptionArr=[];
+    for(let i = 0; i <= totalLaneCount+1; i++){
+        let j = 87;
+        eventDescriptionArr.push(eventDescription.slice(j*i, j*i+87)+"\n");
+        j += 87;
+    };
 
     let imageUrl="";
     if(eventData[event.id].EventImages.length > 0){
@@ -56,7 +65,7 @@ const GroupEvents = ({ event }) => {
                         <p>{location}</p>
                     </div>
                     <div id="item8">
-                        <p>{eventData[id].description}</p>
+                        <p>{eventDescriptionArr}</p>
                     </div>
                 </div>
                 </Link>

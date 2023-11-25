@@ -14,9 +14,9 @@
       "item5 item5";
     /* justify-content: space-around; */
     align-items: start;
-    grid-template-rows: 135px 1fr;
-    grid-template-columns: 630px 1fr;
-    /* justify-content: center; */
+    /* grid-template-rows: 135px 1fr;
+    grid-template-columns: 630px 1fr; */
+    justify-content: center;
 }
 
 #eventdetailstitle{
@@ -25,6 +25,7 @@
 }
 #eventdetailsimage{
     grid-area: item2;
+    padding-right: 1em;
     /* background-color: #8ca0ff; */
 }
 
@@ -35,10 +36,8 @@
     "item6 item7"
     "item6 item7"
     "item6 item7";
-
     grid-template-rows: 5px 1fr 3px;
     grid-template-columns: 200px 1fr;
-
 }
 
 #eventdetailsinfo{
@@ -60,4 +59,21 @@
 #eventdetailsgrouptext {
     grid-area: item7;
     /* background-color: red; */
+}
+
+#eventdetailsclockdate{
+    display: grid;
+    grid-template-areas:
+    "thefasfaclock startenddate";
+    justify-content: flex-start;
+}
+
+#eventdetailsfasfaclock{
+    grid-area:thefasfaclock;
+    padding-top: 0.5em;
+    padding-right: 0.5em;
+}
+
+#eventdetailsstartenddate{
+    grid-area: startenddate;
 }

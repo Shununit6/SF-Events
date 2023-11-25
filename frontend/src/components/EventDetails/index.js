@@ -53,7 +53,7 @@ const EventDetails = () => {
     const formattedPstStartDate = pststartDate.slice(6,10) +"-"+ pststartDate.slice(0,2) + "-" + pststartDate.slice(3,5)
     +" · "+pststartDate.slice(12)+" PST";
 
-    const pstendDate = new Date(startDate).toLocaleDateString('en-US', {
+    const pstendDate = new Date(endDate).toLocaleDateString('en-US', {
         minute: '2-digit',
         hour:'2-digit',
         day: '2-digit',
@@ -64,6 +64,14 @@ const EventDetails = () => {
 
     const formattedPstEndDate = pstendDate.slice(6,10) +"-"+ pstendDate.slice(0,2) + "-" + pstendDate.slice(3,5)
     +" · "+pstendDate.slice(12)+" PST";
+
+    const totalLaneCount = Math.ceil(description.length/87);
+    let eventDescriptionArr=[];
+    for(let i = 0; i <= totalLaneCount+1; i++){
+        let j = 87;
+        eventDescriptionArr.push(description.slice(j*i, j*i+87)+"\n");
+        j += 87;
+    };
 
     let imageUrl="";
     if(eventData.EventImages.length > 0){
@@ -119,7 +127,16 @@ const EventDetails = () => {
                     </div>
                 </div>
                 <div>
-                    <i className="fas fa-dollar-sign"/>{' '}{price}
+                    {parseInt(price)===0 &&
+                        <div id="freeevent">
+                            <i className="fas fa-dollar-sign"/>{' '}FREE
+                        </div>
+                    }
+                    {parseInt(price)!==0 &&
+                        <div>
+                            <i className="fas fa-dollar-sign"/>{' '}{price}
+                        </div>
+                    }
                 </div>
                 <div>
                     <i className="fas fa-map-pin"/>{' '}{type}
@@ -131,7 +148,7 @@ const EventDetails = () => {
                                     /> :null}
             </div>
             <div id="eventdetailsdescription">
-                <p>{description}</p>
+                <p>{eventDescriptionArr}</p>
             </div>
         </div>
     );}

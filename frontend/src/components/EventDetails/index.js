@@ -41,6 +41,30 @@ const EventDetails = () => {
         groupIsPrivate = "Public";
     }
 
+    const pststartDate = new Date(startDate).toLocaleDateString('en-US', {
+        minute: '2-digit',
+        hour:'2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: "America/Los_Angeles"
+    });
+
+    const formattedPstStartDate = pststartDate.slice(6,10) +"-"+ pststartDate.slice(0,2) + "-" + pststartDate.slice(3,5)
+    +" · "+pststartDate.slice(12)+" PST";
+
+    const pstendDate = new Date(startDate).toLocaleDateString('en-US', {
+        minute: '2-digit',
+        hour:'2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: "America/Los_Angeles"
+    });
+
+    const formattedPstEndDate = pstendDate.slice(6,10) +"-"+ pstendDate.slice(0,2) + "-" + pstendDate.slice(3,5)
+    +" · "+pstendDate.slice(12)+" PST";
+
     let imageUrl="";
     if(eventData.EventImages.length > 0){
         imageUrl = eventData.EventImages.find((image) => image.preview === 1|| image.preview === true).url;
@@ -87,10 +111,10 @@ const EventDetails = () => {
                     </div>
                     <div id="eventdetailsstartenddate">
                         <div>
-                            START {startDate.slice(0, 10)}
+                            START {formattedPstStartDate}
                         </div>
                         <div>
-                            END {endDate.slice(0, 10)}
+                            END {formattedPstEndDate}
                         </div>
                     </div>
                 </div>

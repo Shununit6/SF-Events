@@ -3,6 +3,9 @@
   height: 200px;
 }
 
+#groupeventslinkwithtext{
+  text-decoration: none;
+}
 
 #grid11{
   display: grid;
@@ -26,4 +29,8 @@
 
 #item8 {
   grid-area: item8;
+}
+
+#formattedPstStartDate{
+  margin-top: 0;
 }

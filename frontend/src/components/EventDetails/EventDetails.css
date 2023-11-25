@@ -30,14 +30,16 @@
 }
 
 #eventdetailsgroup{
+    background-color: aliceblue;
+    border-radius: 20px;
     grid-area: item3;
     display: grid;
     grid-template-areas:
     "item6 item7"
     "item6 item7"
     "item6 item7";
-    grid-template-rows: 5px 1fr 3px;
-    grid-template-columns: 200px 1fr;
+    grid-template-rows: 5px 1fr 5px;
+    grid-template-columns: 220px 1fr;
 }
 
 #eventdetailsinfo{
@@ -53,11 +55,17 @@
 
 #eventgroupimage {
     grid-area: item6;
+    padding-top: 1em;
+    padding-left: 1em;
+    height: 80%;
     /* background-color: #8ca0ff; */
 }
 
 #eventdetailsgrouptext {
     grid-area: item7;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    margin-top: 0;
     /* background-color: red; */
 }
 

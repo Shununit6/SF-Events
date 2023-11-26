@@ -37,9 +37,9 @@ const LoginFormModal = () => {
         };
     return (
         <div id="loginmodal">
-            <div>
-                <h1>Log In</h1>
-            </div>
+
+            <h1>Log In</h1>
+
             <div>
             <form id="loginform" onSubmit={handleSubmit}>
                 <div>
@@ -67,9 +67,9 @@ const LoginFormModal = () => {
                         />
                     </label>
                 </div>
-                {/* <div>
+                <div>
                     {errors.credential && <p>{errors.credential}</p>}
-                </div> */}
+                </div>
                 {/* {!handleSubmit && <button id="cannotloginbutton">Log In</button>} */}
                 {/* {console.log(credential.length)}
                 {console.log(password.length)} */}

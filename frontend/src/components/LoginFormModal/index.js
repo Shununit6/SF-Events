@@ -37,9 +37,7 @@ const LoginFormModal = () => {
         };
     return (
         <div id="loginmodal">
-
             <h1>Log In</h1>
-
             <div>
             <form id="loginform" onSubmit={handleSubmit}>
                 <div>

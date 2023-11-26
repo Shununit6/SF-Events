@@ -35,12 +35,19 @@ const SignupFormModal = () => {
         });
     };
 
+    let disabled = true;
+    if(email.length > 0 && firstName.length > 0 && lastName.length > 0
+        && confirmPassword.length > 0 && username.length >=4 && password.length >= 6){
+            disabled = false;
+    }
+
     return (
-        <div>
+        <div id="signupmodal">
             <h1>Sign Up</h1>
-            <form onSubmit={handleSubmit}>
-                <label> Email
+            <form id="signupform" onSubmit={handleSubmit}>
+                <label> Email <br></br>
                     <input
+                        className="signupinput"
                         type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -48,8 +55,9 @@ const SignupFormModal = () => {
                     />
                 </label>
                 {errors.email && <p>{errors.email}</p>}
-                <label> Username
+                <label> Username <br></br>
                     <input
+                        className="signupinput"
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -57,8 +65,9 @@ const SignupFormModal = () => {
                     />
                 </label>
                 {errors.username && <p>{errors.username}</p>}
-                <label> First Name
+                <label> First Name <br></br>
                     <input
+                        className="signupinput"
                         type="text"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
@@ -66,8 +75,9 @@ const SignupFormModal = () => {
                     />
                 </label>
                 {errors.firstName && <p>{errors.firstName}</p>}
-                <label> Last Name
+                <label> Last Name <br></br>
                     <input
+                        className="signupinput"
                         type="text"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
@@ -75,8 +85,9 @@ const SignupFormModal = () => {
                     />
                 </label>
                 {errors.lastName && <p>{errors.lastName}</p>}
-                <label> Password
+                <label> Password <br></br>
                     <input
+                        className="signupinput"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -84,8 +95,9 @@ const SignupFormModal = () => {
                     />
                 </label>
                 {errors.password && <p>{errors.password}</p>}
-                <label> Confirm Password
+                <label> Confirm Password <br></br>
                     <input
+                        className="signupinput"
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
@@ -93,9 +105,12 @@ const SignupFormModal = () => {
                     />
                 </label>
                 {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-                <button type="submit">
+                {disabled && <button id="disabledsignup">
                     Sign Up
-                </button>
+                </button>}
+                {!disabled && <button id="regularsignup" type="submit">
+                    Sign Up
+                </button>}
             </form>
         </div>
     );

@@ -1,23 +1,32 @@
-/* form {
+#signupform {
   display: grid;
-  grid-gap: 15px;
+  width:300px;
+  grid-gap: 1em;
+  justify-content: center;
   font-family: Georgia, serif, cursive;
 }
 
-input {
-  width: 80%;
-  padding: 12px 8px;
+#signupmodal > h1 {
+  text-align: center;
+}
+
+.signupinput {
+  width: 280px;
+  padding: 6px 6px;
   display: inline-block;
 }
 
-button {
-  margin: 0 auto;
-  background-color: #24a5eb;
-  color: white;
-  width: 30%;
-  height: 30px;
+#disabledsignup {
+  font-size: 1em;
+  padding: 6px 6px;
+  color:white;
+  background-color: darkgray;
 }
 
-button:hover {
-    opacity: 0.86;
-} */
+#regularsignup {
+  font-size: 1em;
+  padding: 6px 6px;
+  color:white;
+  background-color: red;
+  cursor: pointer;
+}

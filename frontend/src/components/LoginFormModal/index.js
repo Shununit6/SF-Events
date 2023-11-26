@@ -71,10 +71,10 @@ const LoginFormModal = () => {
                     {errors.credential && <p>{errors.credential}</p>}
                 </div> */}
                 {/* {!handleSubmit && <button id="cannotloginbutton">Log In</button>} */}
-                {console.log(credential.length)}
-                {console.log(password.length)}
+                {/* {console.log(credential.length)}
+                {console.log(password.length)} */}
                 {(credential.length<4 || password.length<6) &&
-                <button>Log In</button>}
+                <button disabled={true}>Log In</button>}
                 {credential.length>=4 && password.length>=6 &&
                 <button id="loginsubmitbutton" type="submit">Log In</button>}
                 <button id="logindemobutton" onClick={logInDemo}>

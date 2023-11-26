@@ -1,22 +1,22 @@
-form {
+#loginform {
   display: grid;
   grid-gap: 15px;
+  justify-content: center;
   font-family: Georgia, serif, cursive;
 }
 
-input {
-  width: 50%;
+.loginput {
+  width: 100%;
   display: inline-block;
 }
 
-/* button {
+#loginsubmitbutton, #logindemobutton{
   margin: 0 auto;
-  background-color: #24a5eb;
-  color: white;
-  width: 30%;
-  height: 30px;
+  background-color: white;
 }
 
-button:hover {
-    opacity: 0.86;
-}  */
+#logindemobutton{
+  /* text-decoration: none; */
+  justify-content: center;
+  border-color: white;
+}

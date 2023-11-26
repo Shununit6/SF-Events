@@ -36,38 +36,46 @@ const LoginFormModal = () => {
             // return dispatch(sessionActions.login( { demoUser, demoUserPass} ));
         };
     return (
-        <div>
-            <h1>Log In</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Username or Email
-                    <input
-                        type="text"
-                        value={credential}
-                        onChange={(e) => setCredential(e.target.value)}
-                        minLength={4}
-                        required
-                    />
-                </label>
-                <label>
-                    Password<br></br>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        minLength={6}
-                        required
-                    />
-                </label>
-                {errors.credential && <p>{errors.credential}</p>}
-                <button type="submit">
-                    Log In
-                </button>
+        <div id="loginmodal">
+            <div>
+                <h1>Log In</h1>
+            </div>
+            <div>
+            <form id="loginform" onSubmit={handleSubmit}>
                 <div>
-                <button onClick={logInDemo}>
-                    <Link to="/" > Demo User</Link>
-                </button>
+                    <label>Username or Email<br></br>
+                        <input
+                            className="loginput"
+                            type="text"
+                            value={credential}
+                            onChange={(e) => setCredential(e.target.value)}
+                            minLength={4}
+                            required
+                        />
+                    </label>
                 </div>
+                <div>
+                    <label>
+                        Password<br></br>
+                        <input
+                            className="loginput"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            minLength={6}
+                            required
+                        />
+                    </label>
+                </div>
+                <div>
+                    {errors.credential && <p>{errors.credential}</p>}
+                </div>
+                <button id="loginsubmitbutton" type="submit">Log In</button>
+                <button id="logindemobutton" onClick={logInDemo}>
+                        <Link to="/" > Demo User</Link>
+                </button>
             </form>
+            </div>
         </div>
     );
 };

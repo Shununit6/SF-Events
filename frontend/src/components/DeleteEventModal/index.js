@@ -22,11 +22,11 @@ const DeleteEventModal = ({event}) => {
     };
 
     return (
-        <div>
-            <h1>Confirm Delete</h1>
+        <div id="deleteeventmodal">
+            <h2>Confirm Delete</h2>
             <p>Are you sure you want to remove this event?</p>
-            <button onClick={handleEventDelete}> Yes (Delete Event) </button>
-            <button onClick={closeModal}> No (Keep Event) </button>
+            <button id="yesdeleteevent" onClick={handleEventDelete}> Yes (Delete Event) </button>
+            <button id="nokeepevent" onClick={closeModal}> No (Keep Event) </button>
         </div>
     );
 };

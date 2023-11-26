@@ -152,6 +152,7 @@ const EventDetails = () => {
                 </div>
             </div>
             <div id="eventdetailsdescription">
+                <h1>Description</h1>
                 <p>{eventDescriptionArr}</p>
             </div>
         </div>

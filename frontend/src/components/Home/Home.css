@@ -5,6 +5,7 @@
 
 
   #landingpage{
+    /* z-index: -1; */
     display: grid;
     grid-template-areas:
       "section1 section2 section2"
@@ -60,7 +61,7 @@
   }
 
   #greenseeallgroups, #greenfindanevent, #greenstartanew{
-    color:green;
+    color:darkgreen;
     cursor: pointer;
     text-decoration: none;
   }
@@ -71,6 +72,6 @@
 
   #sectionsjoinsfe > button {
     color: white;
-    background-color: green;
+    background-color: darkgreen;
     cursor: pointer;
   }

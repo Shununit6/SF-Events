@@ -11,3 +11,8 @@
 .hidden{
     display:none;
 }
+
+#menuviewgroups{
+    text-decoration: none;
+    color: black;
+}

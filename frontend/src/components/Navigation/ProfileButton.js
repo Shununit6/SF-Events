@@ -68,18 +68,16 @@ function ProfileButton({ user }) {
         </button>}
       <section className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
+          <div id="menuwithlogout">
             <div>Hello, {user.firstName}</div>
             <div>{user.email}</div>
-            {/* <div>
-              <button onClick={logInDemo}>
-                <Link to="/" >Log in as Demo User</Link>
-              </button>
-            </div> */}
+            <div>
+                 <Link id="menuviewgroups"to="/groups" > View groups </Link>
+            </div>
             <div>
               <button onClick={logout}><Link to="/" >Log Out</Link></button>
             </div>
-          </>
+          </div>
         ) : (
           <>
             <OpenModalMenuItem

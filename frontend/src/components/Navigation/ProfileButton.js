@@ -59,12 +59,12 @@ function ProfileButton({ user }) {
         {!showMenu &&
         <button id="openMenuNavButton" onClick={openMenu}>
           <i className="fas fa-user-circle fa-2x"/>
-          <i className="fas fa-sort-up fa-2x"></i>
+          <i className="fas fa-sort-down fa-2x"></i>
         </button>}
         {showMenu &&
         <button id="closeMenuNavButton" onClick={closeMenu}>
         <i className="fas fa-user-circle fa-2x"/>
-        <i className="fas fa-sort-down fa-2x"></i>
+        <i className="fas fa-sort-up fa-2x"></i>
         </button>}
       <section className={ulClassName} ref={ulRef}>
         {user ? (

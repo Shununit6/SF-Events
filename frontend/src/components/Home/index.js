@@ -46,14 +46,14 @@ const Home = () => {
             <div id="sectionseeallgroups">
                 <img src={logoseeallgroups} alt="logoseeallgroups"/>
                 <div>
-                    <Link to="/groups" > See all groups </Link>
+                    <Link to="/groups" id="greenseeallgroups"> See all groups </Link>
                 </div>
                 <p>View groups that are <br></br> created by others and you</p>
             </div>
             <div id="sectionfindanevent">
                 <img src={logofindanevent} alt="logofindanevent"/>
                 <div>
-                    <Link to="/events" > Find an event </Link>
+                    <Link to="/events" id="greenfindanevent"> Find an event </Link>
                 </div>
                 <p>Looking for some fun <br></br> events around to join</p>
             </div>
@@ -61,14 +61,14 @@ const Home = () => {
             <div id="sectionstartanewgroup">
                 <img src={logostartanewgroup} alt="logostartanewgroup"/>
                 <div>
-                    <Link to="/groups/new" > Start a new group </Link>
+                    <Link to="/groups/new" id="greenstartanew"> Start a new group </Link>
                 </div>
                 <p>Going for the creation <br></br> page for new group in mind</p>
             </div>}
             {!sessionUser &&
             <div id="sectionstartanewgroup">
                 <img src={logostartanewgroup} alt="logostartanewgroup"/>
-                <div>Start a new group</div>
+                <div id="greystartanew">Start a new group</div>
                 <p>Going for the creation<br></br> page for new group in mind</p>
             </div>}
             <div id="sectionsjoinsfe">

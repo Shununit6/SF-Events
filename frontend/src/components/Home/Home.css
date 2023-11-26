@@ -37,22 +37,34 @@
   }
 
   #sectionseeallgroups {
+    padding-left: 0.5em;
     grid-area: section4;
     justify-self: center;
   }
 
   #sectionfindanevent {
+    /* padding-right: 8em; */
     grid-area: section5;
-    justify-self: center;
+    /* justify-self: center; */
   }
 
   #sectionstartanewgroup {
     grid-area: section6;
-    justify-self: center;
+    /* justify-self: center; */
     justify-content: center;
   }
 
   #sectionsjoinsfe {
     grid-area: section7;
     justify-self: center;
+  }
+
+  #greenseeallgroups, #greenfindanevent, #greenstartanew{
+    color:green;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  #greystartanew{
+    color:grey;
   }

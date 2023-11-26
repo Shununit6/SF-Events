@@ -1,0 +1,33 @@
+#deletegroupmodal{
+    display: grid;
+}
+
+#deletegroupmodal > h2{
+    justify-self: center;
+    margin-bottom: 0.3em;
+}
+
+#deletegroupmodal > p{
+    margin-top: 0;
+}
+
+#yesdeletegroup{
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    color: white;
+    background-color: red;
+    width:98%;
+    cursor: pointer;
+}
+
+#nokeepgroup{
+    /* font-size: 1em; */
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    color: white;
+    background-color: #555555;
+    width:98%;
+    cursor: pointer;
+}

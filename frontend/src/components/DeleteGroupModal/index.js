@@ -26,11 +26,11 @@ const DeleteGroupModal = ({group}) => {
     };
 
     return (
-        <div>
-            <h1>Confirm Delete</h1>
+        <div id="deletegroupmodal">
+            <h2>Confirm Delete</h2>
             <p>Are you sure you want to remove this group?</p>
-            <button onClick={handleDelete}> Yes (Delete Group) </button>
-            <button onClick={closeModal}> No (Keep Group) </button>
+            <button id="yesdeletegroup" onClick={handleDelete}> Yes (Delete Group) </button>
+            <button id="nokeepgroup" onClick={closeModal}> No (Keep Group) </button>
         </div>
     );
 };

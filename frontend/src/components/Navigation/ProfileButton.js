@@ -40,32 +40,39 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
-  const logInDemo = async (e) => {
-    e.preventDefault();
-    await dispatch(sessionActions.logout());
-    closeMenu();
-    // logout();
-    // Hello, Demo-lition demo@user.io
-    const credential = "demo@user.io";
-    const password ="password"
-    return await dispatch(sessionActions.login( { credential, password} ))
-    // return dispatch(sessionActions.login( { demoUser, demoUserPass} ));
-  };
-
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div id="profileNavButtonMenuItem">
-        {!showMenu &&
-        <button id="openMenuNavButton" onClick={openMenu}>
+      {(!user) &&
+        <div id="menuitemlogin">
+          <OpenModalMenuItem
+          itemText="Log In"
+          onItemClick={closeMenu}
+          modalComponent={<LoginFormModal />}
+          />
+        </div>
+      }
+      {(!user) &&
+        <div id="menuitemsignup">
+        <OpenModalMenuItem
+        itemText="Sign Up"
+        onItemClick={closeMenu}
+        modalComponent={<SignupFormModal />}
+        />
+        </div>
+      }
+      <div id="iconandcloseopenmenu">
+      {user && !showMenu &&
+        <div id="openMenuNavButton" onClick={openMenu}>
           <i className="fas fa-user-circle fa-2x"/>
           <i className="fas fa-sort-down fa-2x"></i>
-        </button>}
-        {showMenu &&
-        <button id="closeMenuNavButton" onClick={closeMenu}>
+        </div>}
+      {user && showMenu &&
+        <div id="closeMenuNavButton" onClick={closeMenu}>
         <i className="fas fa-user-circle fa-2x"/>
         <i className="fas fa-sort-up fa-2x"></i>
-        </button>}
+        </div>}
       <section className={ulClassName} ref={ulRef}>
         {user ? (
           <div id="menuwithlogout">
@@ -78,23 +85,54 @@ function ProfileButton({ user }) {
               <button onClick={logout}><Link to="/" >Log Out</Link></button>
             </div>
           </div>
-        ) : (
-          <>
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
-          </>
-        )}
+        ) : null}
       </section>
+      </div>
     </div>
   );
 }
+
+  // return (
+  //   <div id="profileNavButtonMenuItem">
+  //       {!showMenu &&
+  //       <button id="openMenuNavButton" onClick={openMenu}>
+  //         <i className="fas fa-user-circle fa-2x"/>
+  //         <i className="fas fa-sort-down fa-2x"></i>
+  //       </button>}
+  //       {showMenu &&
+  //       <button id="closeMenuNavButton" onClick={closeMenu}>
+  //       <i className="fas fa-user-circle fa-2x"/>
+  //       <i className="fas fa-sort-up fa-2x"></i>
+  //       </button>}
+  //     <section className={ulClassName} ref={ulRef}>
+  //       {user ? (
+  //         <div id="menuwithlogout">
+  //           <div>Hello, {user.firstName}</div>
+  //           <div>{user.email}</div>
+  //           <div>
+  //                <Link id="menuviewgroups"to="/groups" > View groups </Link>
+  //           </div>
+  //           <div>
+  //             <button onClick={logout}><Link to="/" >Log Out</Link></button>
+  //           </div>
+  //         </div>
+  //       ) : (
+  //         <>
+  //           <OpenModalMenuItem
+  //             itemText="Log In"
+  //             onItemClick={closeMenu}
+  //             modalComponent={<LoginFormModal />}
+  //           />
+  //           <OpenModalMenuItem
+  //             itemText="Sign Up"
+  //             onItemClick={closeMenu}
+  //             modalComponent={<SignupFormModal />}
+  //           />
+  //         </>
+  //       )}
+  //     </section>
+  //   </div>
+  // );
+// }
 
 export default ProfileButton;

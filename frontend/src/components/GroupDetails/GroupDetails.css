@@ -49,6 +49,7 @@
   }
 
   #buttonjointhisgroup{
+    cursor: pointer;
     padding-top: 0.3em;
     padding-bottom: 0.3em;
     padding-left: 1.8em;
@@ -59,6 +60,7 @@
   }
 
   #createeventgroupdetails, #updategroupdetails, #item4 > button{
+    cursor: pointer;
     padding-top: 0.3em;
     padding-bottom: 0.3em;
     padding-left: 1em;

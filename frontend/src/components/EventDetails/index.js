@@ -133,19 +133,23 @@ const EventDetails = () => {
                         </div>
                     }
                     {parseInt(price)!==0 &&
-                        <div>
+                        <div id="notfreeevent">
                             <i className="fas fa-dollar-sign"/>{' '}{price}
                         </div>
                     }
                 </div>
-                <div>
-                    <i className="fas fa-map-pin"/>{' '}{type}
+                <div id="icontypeanddeletebutton">
+                    <div id="eventdetailsicontype">
+                        <i className="fas fa-map-pin"/>{' '}{type}
+                    </div>
+                    {/* Action button shows if logged-in user is the creator of the event */}
+                    <div id="eventdetailsdeletebutton">
+                    {sessionUser && isEventCreator ? <DeleteModal
+                                        itemText="Delete"
+                                        modalComponent={<DeleteEventModal event={eventData}/>}
+                                        /> :null}
+                    </div>
                 </div>
-                {/* Action button shows if logged-in user is the creator of the event */}
-                {sessionUser && isEventCreator ? <DeleteModal
-                                    itemText="Delete"
-                                    modalComponent={<DeleteEventModal event={eventData}/>}
-                                    /> :null}
             </div>
             <div id="eventdetailsdescription">
                 <p>{eventDescriptionArr}</p>

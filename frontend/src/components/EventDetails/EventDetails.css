@@ -31,7 +31,7 @@
 
 #eventdetailsgroup{
     background-color: aliceblue;
-    border-radius: 20px;
+    border-radius: 1em;
     grid-area: item3;
     display: grid;
     grid-template-areas:
@@ -44,8 +44,8 @@
 
 #eventdetailsinfo{
     grid-area: item4;
-    /* background-color: #8ca0ff; */
-    justify-content: center;
+    background-color: #8ca0ff;
+    border-radius: 1em;
 }
 
 #eventdetailsdescription{
@@ -73,15 +73,48 @@
     display: grid;
     grid-template-areas:
     "thefasfaclock startenddate";
+    padding-left: 1em;
     justify-content: flex-start;
+    /* background-color: #8ca0ff; */
 }
 
 #eventdetailsfasfaclock{
     grid-area:thefasfaclock;
-    padding-top: 0.5em;
+    padding-top: 2.5em;
     padding-right: 0.5em;
 }
 
 #eventdetailsstartenddate{
+    padding-top: 2em;
     grid-area: startenddate;
+}
+
+#freeevent{
+    padding-top: 3em;
+    padding-left: 1em;
+}
+
+#notfreeevent{
+    padding-top: 3em;
+    padding-left: 1em;
+}
+#icontypeanddeletebutton{
+    padding-left: 1em;
+    padding-bottom: 1em;
+    display: grid;
+    grid-template-areas:
+    "eventdetailsicontype eventdetailsdeletebutton";
+}
+#eventdetailsicontype{
+    padding-top: 3em;
+}
+
+#eventdetailsdeletebutton{
+    padding-top: 3em;
+    justify-self: center;
+}
+
+#eventdetailsdeletebutton > button {
+    color: white;
+    background-color: #555555;
 }

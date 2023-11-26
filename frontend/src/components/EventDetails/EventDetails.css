@@ -111,10 +111,16 @@
 
 #eventdetailsdeletebutton{
     padding-top: 3em;
+    padding-left: 5em;
     justify-self: center;
 }
 
 #eventdetailsdeletebutton > button {
     color: white;
     background-color: #555555;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+    margin-right: 0.6em;
 }

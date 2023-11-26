@@ -5,6 +5,7 @@
 
 #eventdetails {
     display: grid;
+    /* background-color: whitesmoke; */
     /* width: 100%;
     height: 250px; */
     grid-template-areas:
@@ -30,7 +31,7 @@
 }
 
 #eventdetailsgroup{
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
     border-radius: 1em;
     grid-area: item3;
     display: grid;
@@ -44,7 +45,8 @@
 
 #eventdetailsinfo{
     grid-area: item4;
-    background-color: #8ca0ff;
+    margin-top: 4em;
+    /* background-color: white; */
     border-radius: 1em;
 }
 
@@ -90,27 +92,29 @@
 }
 
 #freeevent{
-    padding-top: 3em;
+    padding-top: 1.5em;
     padding-left: 1em;
 }
 
 #notfreeevent{
-    padding-top: 3em;
+    padding-top: 1.5em;
     padding-left: 1em;
 }
+
 #icontypeanddeletebutton{
     padding-left: 1em;
-    padding-bottom: 1em;
+    padding-bottom: 1.5em;
     display: grid;
     grid-template-areas:
     "eventdetailsicontype eventdetailsdeletebutton";
 }
+
 #eventdetailsicontype{
-    padding-top: 3em;
+    padding-top: 1.5em;
 }
 
 #eventdetailsdeletebutton{
-    padding-top: 3em;
+    padding-top: 1em;
     padding-left: 5em;
     justify-self: center;
 }

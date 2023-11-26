@@ -68,3 +68,9 @@
   #greystartanew{
     color:grey;
   }
+
+  #sectionsjoinsfe > button {
+    color: white;
+    background-color: green;
+    cursor: pointer;
+  }

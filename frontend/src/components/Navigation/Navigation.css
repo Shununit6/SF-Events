@@ -14,6 +14,11 @@ NavLink {
   height: 80%;
 }
 
+#greennavstartnew{
+  color:green;
+  text-decoration: none;
+  cursor: pointer;
+}
 /* .hidden{
   display: none;
 } */

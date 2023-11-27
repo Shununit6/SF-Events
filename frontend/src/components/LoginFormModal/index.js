@@ -76,7 +76,7 @@ const LoginFormModal = () => {
                 {credential.length>=4 && password.length>=6 &&
                 <button id="loginsubmitbutton" type="submit">Log In</button>}
                 <button id="logindemobutton" onClick={logInDemo}>
-                        <Link to="/" > Demo User</Link>
+                        <Link to="/" >Log in as Demo User</Link>
                 </button>
             </form>
             </div>

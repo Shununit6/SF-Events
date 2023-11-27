@@ -13,7 +13,7 @@
       "section4 section5 section6"
       "section7 section7 section7";
     justify-content: center;
-    align-items: center;
+    align-items: end;
     /* grid-template-rows:  220px 1fr;
     grid-template-columns: 320px 1fr; */
     /* background-color: #ffff64; */
@@ -33,26 +33,37 @@
   }
 
   #landingpagemidsection {
+    margin-top: 2em;
     grid-area: section3;
     justify-self: center;
     /* background-color: aliceblue; */
   }
 
+  #midsectiondivtitle{
+    font-size: 1.5em;
+  }
+
   #sectionseeallgroups {
+    margin-top: 2em;
+    /* margin-right: 2em; */
+    margin-left: 2.5em;
     grid-area: section4;
     justify-self: center;
     /* background-color: aliceblue; */
   }
 
   #sectionfindanevent {
+    /* right: 2em; */
+    margin-top: 2em;
     grid-area: section5;
     /* justify-self: center; */
     /* background-color: aliceblue; */
   }
 
   #sectionstartanewgroup {
+    margin-top: 2em;
     grid-area: section6;
-    justify-self: center;
+    /* justify-self: center; */
     /* justify-content: center; */
     /* background-color: aliceblue; */
   }
@@ -63,6 +74,7 @@
   }
 
   #greenseeallgroups, #greenfindanevent, #greenstartanew{
+    font-size: 1.4em;
     color:darkgreen;
     cursor: pointer;
     text-decoration: none;
@@ -73,8 +85,11 @@
   }
 
   #sectionsjoinsfe > button {
+    margin-top: 1em;
     color: white;
     background-color: darkgreen;
     justify-self: center;
     cursor: pointer;
+    padding: 0em 1em;
+    margin-left: 5em;
   }

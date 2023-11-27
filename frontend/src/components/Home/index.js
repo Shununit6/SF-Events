@@ -40,8 +40,8 @@ const Home = () => {
             </div>
             <img id="landinglogopng" src={landinglogo} alt="landinglogo"/>
             <div id="landingpagemidsection">
-                <h3>How SanFranciscoEvents works</h3>
-                <p> Discover something new, taste something fresh,<br></br>  and meet something unexpected </p>
+                <div id="midsectiondivtitle">How SanFranciscoEvents works</div>
+                <div > Discover something new, taste something fresh,<br></br>  and meet something unexpected </div>
             </div>
             <div id="sectionseeallgroups">
                 <img src={logoseeallgroups} alt="logoseeallgroups"/>

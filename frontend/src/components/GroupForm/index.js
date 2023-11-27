@@ -90,7 +90,8 @@ const GroupForm = ({ group, formType }) => {
             isPrivate = 0;
         }
         group = { ...group, city, state, name, about, type, private:isPrivate, organizerId};
-        // console.log("78group", group);
+        console.log("78group", group.organizerId);
+        console.log("user.id", organizerId);
         let newGroup;
         let errorCount = validationErrors.location.length + validationErrors.name.length
         + validationErrors.about.length + validationErrors.type.length + validationErrors.isPrivate.length
@@ -101,6 +102,10 @@ const GroupForm = ({ group, formType }) => {
             }else{
                 // console.log("no errors");
                 if (formType === "Update Group") {
+                    if(group.organizerId !== organizerId){
+                        history.push(`/`);
+                        return;
+                    }
                     // console.log("updateimageurl",imageUrl);
                     group.imageUrl = imageUrl;
                     // console.log(group);

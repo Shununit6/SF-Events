@@ -276,12 +276,12 @@ router.put("/:groupId", requireAuth, validateGroup, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-    if(group.organizerId !== userId){
-        const err = new Error("Forbidden");
-        err.status = 403;
-        err.title = 'Require proper authorization';
-        return next(err);
-    }
+    // if(group.organizerId !== userId){
+    //     const err = new Error("Forbidden");
+    //     err.status = 403;
+    //     err.title = 'Require proper authorization';
+    //     return next(err);
+    // }
     await group.update(
         { name: name, about: about, type: type, private: private, city: city, state: state }
     );

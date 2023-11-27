@@ -21,6 +21,14 @@ const GroupIndexItem = ({ group }) => {
 
     const {id, name, about, city, state} = groupData;
 
+    const totalLaneCount = Math.ceil(about.length/59);
+    let groupAboutArr=[];
+    for(let i = 0; i <= totalLaneCount+1; i++){
+        let j = 59;
+        groupAboutArr.push(about.slice(j*i, j*i+59)+"\n");
+        j += 59;
+    };
+
     let isPrivate;
     if(group.private){
         isPrivate = "Private";
@@ -43,7 +51,7 @@ const GroupIndexItem = ({ group }) => {
             <div id ="groupitem2">
             <h1>{name}</h1>
                 <p>{city}, {state}</p>
-                <p>{about}</p>
+                <p>{groupAboutArr}</p>
                 <p>{Object.values(groupData.Events|| {}).length} events ·  {isPrivate}</p>
             </div>
         </div>

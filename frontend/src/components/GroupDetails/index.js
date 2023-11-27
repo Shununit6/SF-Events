@@ -37,6 +37,13 @@ const GroupDetails = () => {
     // console.log(groupData.organizerId);
     // console.log(sessionUser.firstName, sessionUser.lastName)
     // firstName(pin):"Callie"
+    const totalLaneCount = Math.ceil(about.length/138);
+    let groupAboutArr=[];
+    for(let i = 0; i <= totalLaneCount+1; i++){
+        let j = 138;
+        groupAboutArr.push(about.slice(j*i, j*i+138)+"\n");
+        j += 138;
+    };
 
     let isPrivate;
     if(groupData.private){
@@ -105,7 +112,7 @@ const GroupDetails = () => {
                 <h1>Organizer</h1>
                 <p>{firstName} {lastName}</p>
                 <h1>What we're about</h1>
-                <p>{about}</p>
+                <p>{groupAboutArr}</p>
                 {!upcomingEvents.length && !pastEvents.length && <h1>No Upcoming Events</h1>}
                 {upcomingEvents.length ?
                 <div>

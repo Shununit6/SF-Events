@@ -3,6 +3,7 @@ nav {
   color:black;
   display:flex;
   justify-content: space-between;
+  align-items: center;
 }
 NavLink {
   position: relative;
@@ -18,6 +19,7 @@ NavLink {
   color:darkgreen;
   text-decoration: none;
   cursor: pointer;
+  margin-right: 3em;
 }
 /* .hidden{
   display: none;

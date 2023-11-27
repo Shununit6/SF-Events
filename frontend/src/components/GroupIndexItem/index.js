@@ -20,6 +20,7 @@ const GroupIndexItem = ({ group }) => {
     }
 
     const {id, name, about, city, state} = groupData;
+
     let isPrivate;
     if(group.private){
         isPrivate = "Private";

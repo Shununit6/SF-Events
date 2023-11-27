@@ -9,7 +9,8 @@
     grid-template-areas:
       "item1 item1 item1"
       "item2 item3 item3"
-      "item2 item4 item4";
+      "item2 item4 item4"
+      "item5 item5 item5";
       /* "item5 item5"; */
     justify-content: center;
     /* grid-template-rows: 35px 1fr;
@@ -24,6 +25,7 @@
 
   #item2 {
     grid-area: item2;
+    width:600px;
     /* background-color: #ffa08c; */
   }
 
@@ -45,7 +47,9 @@
   }
 
   #item5 {
+    grid-area: item5;
     margin-top: 0.5em;
+    width: 990px;
   }
 
   #buttonjointhisgroup{

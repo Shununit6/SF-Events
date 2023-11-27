@@ -37,6 +37,7 @@ const GroupDetails = () => {
     // console.log(groupData.organizerId);
     // console.log(sessionUser.firstName, sessionUser.lastName)
     // firstName(pin):"Callie"
+
     let isPrivate;
     if(groupData.private){
         isPrivate = "Private";

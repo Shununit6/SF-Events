@@ -27,6 +27,7 @@
 
 #groupitem2 {
     grid-area: item2;
+    width:400px;
     /* background-color: #ffa08c; */
 }
 

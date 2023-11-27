@@ -72,7 +72,7 @@ const LoginFormModal = () => {
                 {/* {console.log(credential.length)}
                 {console.log(password.length)} */}
                 {(credential.length<4 || password.length<6) &&
-                <button disabled={true}>Log In</button>}
+                <button id="disabledlogin" disabled={true}>Log In</button>}
                 {credential.length>=4 && password.length>=6 &&
                 <button id="loginsubmitbutton" type="submit">Log In</button>}
                 <button id="logindemobutton" onClick={logInDemo}>

@@ -22,6 +22,18 @@
   cursor: pointer;
   /* width: 100%; */
 }
+#disabledlogin{
+  width:400px;
+  margin: 0 auto;
+  cursor: pointer;
+  padding: 8px 6px;
+}
+
+#loginsubmitbutton{
+  color: white;
+  background-color: red;
+  padding: 8px 6px;
+}
 
 #logindemobutton{
   width:400px;

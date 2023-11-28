@@ -82,6 +82,9 @@ function ProfileButton({ user }) {
                  <Link id="menuviewgroups"to="/groups" > View groups </Link>
             </div>
             <div>
+                 <Link id="menuviewevents"to="/events" > View events </Link>
+            </div>
+            <div>
               <hr/>
               <div onClick={logout}><Link id="menulogout" to="/" >Log Out</Link></div>
             </div>

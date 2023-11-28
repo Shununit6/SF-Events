@@ -144,6 +144,7 @@ const EventDetails = () => {
                     </div>
                     {/* Action button shows if logged-in user is the creator of the event */}
                     <div id="eventdetailsdeletebutton">
+                    {sessionUser && isEventCreator ? <button>Update</button>:null}
                     {sessionUser && isEventCreator ? <DeleteModal
                                         itemText="Delete"
                                         modalComponent={<DeleteEventModal event={eventData}/>}

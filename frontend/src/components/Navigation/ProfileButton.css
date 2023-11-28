@@ -25,6 +25,12 @@
     text-decoration: none;
     color: black;
 }
+
+#menuviewevents{
+    text-decoration: none;
+    color: black;
+}
+
 #iconandcloseopenmenu{
     display: flex;
     flex-direction: column;

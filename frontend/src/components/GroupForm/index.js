@@ -8,6 +8,7 @@ const GroupForm = ({ group, formType }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
+    const groups = useSelector(state => state.groups);
     let [city, setCity] = useState(group?.city);
     let [state, setState] = useState(group?.state);
     let locationState;
@@ -31,6 +32,7 @@ const GroupForm = ({ group, formType }) => {
         privateState="";
     }
     let [isPrivate, setIsPrivate] = useState(privateState);
+
     let imageState;
     let groupImageUrl = "";
     if(formType === "Update Group"){
@@ -90,8 +92,8 @@ const GroupForm = ({ group, formType }) => {
             isPrivate = 0;
         }
         group = { ...group, city, state, name, about, type, private:isPrivate, organizerId};
-        console.log("78group", group.organizerId);
-        console.log("user.id", organizerId);
+        // console.log("78group", group.organizerId);
+        // console.log("user.id", organizerId);
         let newGroup;
         let errorCount = validationErrors.location.length + validationErrors.name.length
         + validationErrors.about.length + validationErrors.type.length + validationErrors.isPrivate.length
@@ -102,10 +104,11 @@ const GroupForm = ({ group, formType }) => {
             }else{
                 // console.log("no errors");
                 if (formType === "Update Group") {
-                    if(group.organizerId !== organizerId){
+                    if(sessionUser && Object.values(groups)[0].organizerId !== sessionUser.id){
                         history.push(`/`);
                         return;
                     }
+                    // {console.log("isprivate", isPrivate)}
                     // console.log("updateimageurl",imageUrl);
                     group.imageUrl = imageUrl;
                     // console.log(group);

@@ -80,6 +80,10 @@
     text-decoration: none;
   }
 
+  #greenseeallgroups:hover, #greenfindanevent:hover, #greenstartanew:hover{
+    text-decoration: underline;
+  }
+
   #greystartanew{
     color:grey;
     font-size: 1.4em;

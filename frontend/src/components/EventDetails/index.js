@@ -82,7 +82,23 @@ const EventDetails = () => {
     if(groupData && groupData[groupId].GroupImages && groupData[groupId].GroupImages.length > 0){
         groupImageUrl = groupData[groupId].GroupImages.find((image) => image.preview === 1|| image.preview === true).url;
     }
-
+    // function isImgUrl(url) {
+    //     return fetch(url, {method: 'HEAD'}).then(res => {
+    //       return res.headers.get('Content-Type').startsWith('image')
+    //     })
+    // }
+    // console.log(isImgUrl(groupImageUrl))
+    // console.log(isImgUrl(imageUrl))
+    const isValidUrl = urlString => {
+        try {
+            return Boolean(new URL(urlString));
+        }
+        catch(e){
+            return false;
+        }
+    }
+    console.log(isValidUrl(groupImageUrl))
+    console.log(isValidUrl(imageUrl))
     let isEventCreator=false;
     let organizerId = groupData[groupId].organizerId;
     if(sessionUser && organizerId === sessionUser.id){
@@ -92,6 +108,8 @@ const EventDetails = () => {
     if(groupData[groupId].Organizer){
         ({firstName, lastName} = groupData[groupId].Organizer);
     }
+
+
 
     if(!isLoading){
     return(

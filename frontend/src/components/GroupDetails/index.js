@@ -51,9 +51,21 @@ const GroupDetails = () => {
     }else{
         isPrivate = "Public";
     }
-    const imageUrl = Object.values(groupData.GroupImages).find((image) => image.preview === 1 || image.preview === true).url;
+    let imageUrl = Object.values(groupData.GroupImages).find((image) => image.preview === 1 || image.preview === true).url;
     // console.log("Object.values(groupData.GroupImages)", Object.values(groupData.GroupImages));
+    const isValidUrl = urlString => {
+        try {
+            return Boolean(new URL(urlString));
+        }
+        catch(e){
+            return false;
+        }
+    }
 
+    // console.log(isValidUrl(imageUrl))
+    if(!isValidUrl(imageUrl)){
+        imageUrl="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+    }
     let pastEvents = [], upcomingEvents = [];
     if(groupData.Events){
     let array = Object.values(groupData.Events);

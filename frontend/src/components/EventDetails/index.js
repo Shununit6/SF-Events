@@ -82,13 +82,7 @@ const EventDetails = () => {
     if(groupData && groupData[groupId].GroupImages && groupData[groupId].GroupImages.length > 0){
         groupImageUrl = groupData[groupId].GroupImages.find((image) => image.preview === 1|| image.preview === true).url;
     }
-    // function isImgUrl(url) {
-    //     return fetch(url, {method: 'HEAD'}).then(res => {
-    //       return res.headers.get('Content-Type').startsWith('image')
-    //     })
-    // }
-    // console.log(isImgUrl(groupImageUrl))
-    // console.log(isImgUrl(imageUrl))
+
     const isValidUrl = urlString => {
         try {
             return Boolean(new URL(urlString));
@@ -97,8 +91,15 @@ const EventDetails = () => {
             return false;
         }
     }
-    console.log(isValidUrl(groupImageUrl))
-    console.log(isValidUrl(imageUrl))
+    // console.log(isValidUrl(groupImageUrl))
+    // console.log(isValidUrl(imageUrl))
+    if(!isValidUrl(groupImageUrl)){
+        groupImageUrl="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+    }
+    if(!isValidUrl(imageUrl)){
+        imageUrl="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+    }
+
     let isEventCreator=false;
     let organizerId = groupData[groupId].organizerId;
     if(sessionUser && organizerId === sessionUser.id){

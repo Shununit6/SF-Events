@@ -36,8 +36,8 @@ const SignupFormModal = () => {
     };
 
     let disabled = true;
-    if(email.length > 0 && firstName.length > 0 && lastName.length > 0
-        && confirmPassword.length > 0 && username.length >=4 && password.length >= 6){
+    if(email.length > 0 && email.length < 256 && firstName.length > 0 && firstName.length < 30 && lastName.length > 0 && lastName.length < 30
+        && confirmPassword.length > 0 && username.length >=4 && username.length < 30 && password.length >= 6){
             disabled = false;
     }
 

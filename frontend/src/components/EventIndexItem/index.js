@@ -48,6 +48,20 @@ const EventIndexItem = ({ event }) => {
         imageUrl = Object.values(eventData[event.id].EventImages).find((image) => image.preview === 1 || image.preview === true).url;
     }
 
+    const isValidUrl = urlString => {
+        try {
+            return Boolean(new URL(urlString));
+        }
+        catch(e){
+            return false;
+        }
+    }
+
+    // console.log(isValidUrl(imageUrl))
+    if(!isValidUrl(imageUrl)){
+        imageUrl="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+    }
+
     if(isLoaded){
     return (
             <div className="li-contents-flex">
